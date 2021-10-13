@@ -1,0 +1,2743 @@
+{% extends './forms_base.html' %}
+{% block title %}
+    Form Yönetimi
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/forms/selects/select2.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_buttons.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_select2.js' %}"></script>
+
+    <!-- Theme JS files -->
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switch.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_checkboxes_radios.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_collapsible.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_tags_input.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/tags/tagsinput.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/tags/tokenfield.min.js' %}"></script>
+    <script src="{% static '/global_assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/ui/prism.min.js' %}"></script>
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="{% url 'personal-home' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <span class="breadcrumb-item active">Form Yönetimi</span>
+                </div>
+
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h4><i class="mr-1"></i> <span class="font-weight-semibold"><a style="color: black"
+                                                                               href="{% url 'personal-home' %}"><i
+                        class="icon-arrow-left52 fa-2x mr-2"></i></a>Form Yönetimi</span>
+                </h4>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+            <div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+
+    <div class="card">
+
+        <div class="card-header header-elements-inline">
+            <div class="form-group col-md-4 " data-select2-id="265">
+                <label class="font-weight-bold">Formlar</label>
+
+            </div>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="collapse"></a>
+                    <a class="list-icons-item" data-action="reload"></a>
+                    <a class="list-icons-item" data-action="remove"></a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body" style="">
+
+
+            <div class="card">
+                <div class="card-header bg-brown header-elements-inline">
+                    <h6 class="card-title">
+                        <a class="collapsed text-white" data-toggle="collapse"
+                           href="#collapsible-styled-group5"><i class="icon-arrow-down15 mr-2"></i>
+                            Aile Öyküsü ve Hastalık Geçmişi</a>
+                    </h6>
+                    <div class="header-elements">
+                        <div class="list-icons">
+                            <a class="list-icons-item" data-action="reload"></a>
+                            <a class="list-icons-item" data-action="fullscreen"></a>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="collapsible-styled-group5" class="collapse">
+                    <div class="card-body">
+                        <form method="post" action="{% url 'personal-family-create' %}"
+                              enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="col-lg-12 my-2">
+                                <fieldset>
+                                    <legend class="font-weight-bold">Ebeveyn Biyometrik Bilgiler</legend>
+                                    <fieldset>
+                                        <legend>Baba Biyometrik Bilgiler</legend>
+                                        <div class="row">
+                                            {% for k,v in form.FAMILY.BIYOMETRIK.BABA.items %}
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12">
+                                                    <label>{{ v }}</label>
+                                                    <div class="input-group">
+                                                                <span class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        <i class="icon-pen-plus"></i>
+                                                                    </span>
+                                                                </span>
+                                                        <input type="number" name="{{ k }}"
+                                                               class="form-control"
+                                                               placeholder="{{ v }}...">
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Anne Biyometrik Bilgiler</legend>
+                                        <div class="row">
+                                            {% for k,v in form.FAMILY.BIYOMETRIK.ANNE.items %}
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12">
+                                                    <label>{{ v }}</label>
+
+                                                    <div class="input-group">
+                                                                <span class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        <i class="icon-pen-plus"></i>
+                                                                    </span>
+                                                                </span>
+                                                        <input type="number" name="{{ k }}"
+                                                               class="form-control"
+                                                               placeholder="{{ v }}...">
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-12 my-3">
+                                <fieldset>
+                                    <legend class="font-weight-bold">Ebeveyn Metabolik Uygunluk</legend>
+                                    <fieldset>
+                                        <legend>Baba Metabolik Uygunluk</legend>
+                                        <div class="row">
+                                            {% for k,v in form.FAMILY.METABOLİK.BABA.items %}
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12">
+                                                    <label>{{ v }}</label>
+
+                                                    <div class="input-group">
+                                                                <span class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        <i class="icon-pen-plus"></i>
+                                                                    </span>
+                                                                </span>
+                                                        <input type="number" name="{{ k }}"
+                                                               class="form-control"
+                                                               placeholder="{{ v }}...">
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Anne Metabolik Uygunluk</legend>
+                                        <div class="row">
+                                            {% for k,v in form.FAMILY.METABOLİK.ANNE.items %}
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12">
+                                                    <label>{{ v }}</label>
+
+                                                    <div class="input-group">
+                                                                <span class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        <i class="icon-pen-plus"></i>
+                                                                    </span>
+                                                                </span>
+                                                        <input type="number" name="{{ k }}"
+                                                               class="form-control"
+                                                               placeholder="{{ v }}...">
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-12 my-3">
+                                <fieldset>
+                                    <legend class="font-weight-bold">Kişinin Hastalık Öyküsü</legend>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-12 my-2">
+                                            <fieldset>
+                                                <legend>Daha Önce Geçirilmiş Durum</legend>
+                                                <div class="row">
+                                                    {% for k,v in form.FAMILY.DISEASE.items %}
+                                                        <div class="form-check col-lg-6">
+                                                            <label class="form-check-label">
+                                                                <input type="checkbox"
+                                                                       name="{{ k }}"
+                                                                       value="{{ v }}"
+                                                                       class="form-check-input-styled-danger"
+                                                                       data-fouc>
+                                                                {{ v }}
+                                                            </label>
+                                                        </div>
+                                                    {% endfor %}
+                                                    <a href="#alpaca-input-label-source35"
+                                                       data-toggle="collapse"
+                                                       class=""
+                                                       aria-expanded="true"><i
+                                                            class="icon-checkbox-unchecked2 text-danger mr-2"></i>
+                                                        Lütfen belirtiniz.
+                                                    </a>
+                                                </div>
+
+
+                                                <div class="collapse my-2"
+                                                     id="alpaca-input-label-source35"
+                                                     style="">
+                                                    <div class="form-group">
+                                                        <input type="text"
+                                                               name="other_status"
+                                                               class="form-control tagsinput-custom-tag-class{% if athletic_form.other_status.errors %} border-danger-800 {% endif %}"
+                                                               value="{{ athletic_form.other_status.value | default_if_none:"" }}"
+                                                               data-fouc
+                                                               placeholder="Lütfen bu durum hakkında bilgi veriniz...">
+                                                        {% if athletic_form.other_status.errors %}
+                                                            {% for error in athletic_form.other_status.errors %}
+                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12 my-2">
+                                            <fieldset>
+                                                <legend>Son Zamanlarda Aşağıdaki Belirtilerin Görülmesi</legend>
+                                                <div class="row">
+                                                    {% for k,v in form.FAMILY.SYMPTOM.items %}
+                                                        <div class="form-check col-lg-12">
+                                                            <label class="form-check-label">
+                                                                <input type="checkbox"
+                                                                       name="{{ k }}"
+                                                                       value="{{ v }}"
+                                                                       class="form-check-input-styled-primary"
+                                                                       data-fouc>
+                                                                {{ v }}
+                                                            </label>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-12 my-3">
+                                <fieldset>
+                                    <legend class="font-weight-bold">Kardiyovasküler Risk Faktörleri</legend>
+                                    <div class="row">
+                                        {% for k,v in form.FAMILY.CARDİOVASCULAR.items %}
+                                            <div class="form-check col-lg-6 col-md-12">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox"
+                                                           name="{{ k }}"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-success"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                </fieldset>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" name="_save" value="_save" class="btn bg-primary">
+                                    KAYDET
+                                    <i class="icon-paperplane ml-2"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-danger-600 header-elements-inline">
+                    <h6 class="card-title">
+                        <a data-toggle="collapse" class="text-white collapsed ml-0 "
+                           href="#collapsible-styled-group7" aria-expanded="false"><i
+                                class="icon-arrow-down15  mr-2"></i>Egzersiz Geçmişi</a>
+                    </h6>
+                    <div class="header-elements">
+                        <div class="list-icons">
+                            <a class="list-icons-item" data-action="reload"></a>
+                            <a class="list-icons-item" data-action="fullscreen"></a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="collapsible-styled-group7" class="collapse" style="">
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data"
+                              action="{% url 'personal-exercisehistory-create' %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-4 my-3">
+                                    <fieldset>
+                                        <legend>Günlük düzenli yürüyüş mesafenizi belirtiniz ?</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EXERCISEHISTORY.WALK.items %}
+                                                <div class="form-check col-lg-12 mx-3">
+                                                    <label class="form-check-label">
+                                                        <div class=" border-warning text-warning">
+                                                                        <span class="radio"><input type="radio"
+                                                                                                   class="form-check-input-styled-danger"
+                                                                                                   name="walk"
+                                                                                                   value="{{ v }}"
+                                                                                                   data-fouc=""></span>
+                                                        </div>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 my-3">
+                                    <fieldset>
+                                        <legend>Düzenli egzersiz yapar mısınız?</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EXERCISEHISTORY.REGULAREXERCISE.items %}
+                                                <div class="form-check col-lg-12 mx-2">
+                                                    <label class="form-check-label">
+                                                        <div class=" border-warning text-warning">
+                                                                        <span class="radio"><input type="radio"
+                                                                                                   class="form-check-input-styled-info"
+                                                                                                   name="regularexercise"
+                                                                                                   value="{{ v }}"
+                                                                                                   data-fouc=""></span>
+                                                        </div>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 my-3">
+                                    <fieldset>
+                                        <legend>Daha önce spor yaptınız mı?</legend>
+
+
+                                        <div>
+                                            <label>Branş türü belirtiniz</label>
+                                            <input type="text" maxlength="30" name="bransh_type"
+                                                   class="form-control"
+                                                   placeholder="Branş türü belirtiniz.">
+                                        </div>
+
+                                        <div>
+                                            <label class="mt-2">Branş süresi belirtiniz</label>
+                                            <input type="text" maxlength="30" name="bransh_peeriod"
+                                                   class="form-control"
+                                                   placeholder="Branş süresi belirtiniz.">
+                                        </div>
+                                        {% for k,v in form.EXERCISEHISTORY.SPORT1.items %}
+                                            <div class="form-check my-2">
+                                                <label class="form-check-label">
+                                                    <div class="border-indigo-400 text-indigo-400">
+                                                                        <span class="radio"><input type="radio"
+                                                                                                   class="form-check-input-styled-success"
+                                                                                                   name="sport1"
+                                                                                                   value="{{ v }}"
+                                                                                                   data-fouc=""></span>
+                                                    </div>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12 my-3 mx-3">
+                                    <fieldset>
+                                        <legend>Egzersiz yapma amaçlarınızı sıralayınız?</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EXERCISEHISTORY.EXERCISEOBJECTIVES.items %}
+                                                <div class="form-check col-lg-6">
+                                                    <label class="form-check-label">
+                                                        <div class="border-primary text-primary">
+                                                                        <span class="checkbox"><input type="checkbox"
+                                                                                                      class="form-check-input-styled-primary"
+                                                                                                      name="{{ k }}"
+                                                                                                      value="{{ v }}"
+                                                                                                      data-fouc=""></span>
+                                                        </div>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                            <a href="#alpaca-input-label-source10"
+                                               data-toggle="collapse"
+                                               class=""
+                                               aria-expanded="true"><i
+                                                    class="icon-checkbox-unchecked2 text-primary mr-2"></i>
+                                                Diğer (Belirtiniz)
+                                            </a>
+
+                                        </div>
+                                        <div class="collapse"
+                                             id="alpaca-input-label-source10"
+                                             style="">
+                                            <div class="my-1 col-lg-12 ">
+                                                <input type="text"
+                                                       name="egzersizobjectives_other"
+                                                       class="form-control col-lg-12 tagsinput-custom-tag-class{% if athletic_form.egzersizobjectives_other.errors %} border-danger-800 {% endif %}"
+                                                       value="{{ athletic_form.egzersizobjectives_other.value | default_if_none:"" }}"
+                                                       data-fouc
+                                                       placeholder="Diğer...">
+                                                {% if athletic_form.egzersizobjectives_other.errors %}
+                                                    {% for error in athletic_form.egzersizobjectives_other.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-lg-12 my-3 mx-3">
+                                    <fieldset>
+                                        <legend>Daha önce bir ticari fitness/egzersiz işletmesine kayıt oldunuz
+                                            mu?
+                                        </legend>
+                                        <div class="row">
+                                            {% for k,v in form.EXERCISEHISTORY.FITNESSREGISTRATION.items %}
+                                                <div class="form-check col-lg-3">
+                                                    <label class="form-check-label">
+                                                        <div class=" border-warning text-warning">
+                                                                        <span class="radio"><input type="radio"
+                                                                                                   class="form-check-input-styled-danger"
+                                                                                                   name="fitnessregistrration"
+                                                                                                   value="{{ v }}"
+                                                                                                   data-fouc=""></span>
+                                                        </div>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-lg-12 my-3  mx-3">
+                                    <fieldset>
+                                        <legend>Daha önce egzersiz katılımı sırasında herhangi bir yaralanma
+                                            geçirdiniz mi?
+                                        </legend>
+                                        <div class="row">
+                                            {% for k,v in form.EXERCISEHISTORY.EXERCISEPARTICIPATION.items %}
+                                                <div class="form-check col-lg-3 com-md-6 col-sm-12">
+                                                    <label class="form-check-label">
+                                                        <div class=" border-warning text-warning">
+                                                                        <span class="radio"><input type="radio"
+                                                                                                   class="form-check-input-styled-warning"
+                                                                                                   name="exerciseparticipation"
+                                                                                                   value="{{ v }}"
+                                                                                                   data-fouc=""></span>
+                                                        </div>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12 my-3 mx-3">
+                                    <fieldset>
+                                        <legend>Daha önce bir egzersiz profesyoneli ile çalıştınız mı?</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EXERCISEHISTORY.FITNESSREGISTRATION.items %}
+                                                <div class="form-check col-lg-3 col-md-6 col-sm-12">
+                                                    <label class="form-check-label">
+                                                        <div class=" border-warning text-warning">
+                                                                        <span class="radio"><input type="radio"
+                                                                                                   class="form-check-input-styled-success"
+                                                                                                   name="execiseprofessional"
+                                                                                                   value="{{ v }}"
+                                                                                                   data-fouc=""></span>
+                                                        </div>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12 my-3 mx-3">
+                                    <fieldset>
+                                        <legend>Güneş altında (güvenli saatlerde) etkinlik yapar mısınız?
+                                        </legend>
+                                        <div class="row">
+                                            {% for k,v in form.EXERCISEHISTORY.SAFE.items %}
+                                                <div class="form-check col-lg-4 col-md-12">
+                                                    <label class="form-check-label">
+                                                        <div class="border-primary text-primary">
+                                                                        <span class="radio"><input type="radio"
+                                                                                                   class="form-check-input-styled-primary"
+                                                                                                   name="safe"
+                                                                                                   value="{{ v }}"
+                                                                                                   data-fouc=""></span>
+                                                        </div>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" name="_save" value="_save" class="btn bg-primary">
+                                    KAYDET
+                                    <i class="icon-paperplane ml-2"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-success-600 header-elements-inline">
+                    <h6 class="card-title">
+                        <a class="text-white collapsed" data-toggle="collapse"
+                           href="#collapsible-styled-group9" aria-expanded="false"><i
+                                class="icon-arrow-down15 mr-2"></i>Duygu Durumu – Sosyalite – İş Koşulları Formu</a>
+                    </h6>
+                    <div class="header-elements">
+                        <div class="list-icons">
+                            <a class="list-icons-item" data-action="reload"></a>
+                            <a class="list-icons-item" data-action="fullscreen"></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="collapsible-styled-group9" class="collapse" style="">
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data"
+                              action="{% url 'personal-mood-create' %}">
+                            {% csrf_token %}
+                            <h6 class="font-weight-bold">1. Psikoloji ve Duygu Durumu</h6>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 mx-2">
+                                    <fieldset class="row">
+                                        <legend>Mutlu musunuz?</legend>
+                                        {% for k,v in form.MOOD.HAPPY.items %}
+                                            <div class="form-check col-lg-4">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="happy"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-primary"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-5 col-md-6 col-sm-12 mx-2">
+                                    <fieldset class="row">
+                                        <legend>Genel olarak kendinizi nasıl tanımlarsınız?</legend>
+                                        {% for k,v in form.MOOD.DEFINITION.items %}
+                                            <div class="form-check col-lg-4">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="definition"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-success"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 my-2 mx-2">
+                                    <fieldset>
+                                        <legend>Günlük sizi motive eden bir amacınız var mı?</legend>
+                                        <div class="row">
+                                            <a href="#alpaca-input-label-source11"
+                                               data-toggle="collapse"
+                                               class="col-lg-6"
+                                               aria-expanded="true"><i
+                                                    class="icon-radio-unchecked text-danger mr-2"></i>
+                                                Evet (Varsa Açıklayınız)
+                                            </a>
+                                            <div class="form-check col-lg-6">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="motivated_no"
+                                                           value="no"
+                                                           class="form-check-input-styled-danger"
+                                                           data-fouc>
+                                                    Yok
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="collapse col-lg-12 my-2"
+                                             id="alpaca-input-label-source11"
+                                             style="">
+                                            <div class="form-group col-lg-12 ">
+                                                <input type="text"
+                                                       name="motivated_purpose"
+                                                       class="form-control col-lg-12 tagsinput-custom-tag-class{% if athletic_form.motivated_purpose.errors %} border-danger-800 {% endif %}"
+                                                       value="{{ athletic_form.motivated_purpose.value | default_if_none:"" }}"
+                                                       data-fouc
+                                                       placeholder="Diğer...">
+                                                {% if athletic_form.motivated_purpose.errors %}
+                                                    {% for error in athletic_form.motivated_purpose.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-5 col-md-6 col-sm-12 my-2 mx-2">
+                                    <fieldset class="row">
+                                        <legend>Çevrenizde yaşanan olumsuz durumlar sizi etkiler mi?</legend>
+                                        {% for k,v in form.MOOD.POSITION.items %}
+                                            <div class="form-check col-lg-4 col-md-12">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="adverse_situations"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-warning"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-sm-12 my-2 mx-2">
+                                    <fieldset class="row">
+                                        <legend>Başarı odaklı mısınız?</legend>
+                                        {% for k,v in form.MOOD.SUCCESS.items %}
+                                            <div class="form-check col-lg-4">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="success"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-primary"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-5 col-sm-12 mx-2 my-2">
+                                    <fieldset class="row">
+                                        <legend>Yalnız vakit geçirir misiniz?</legend>
+                                        {% for k,v in form.MOOD.ALONE.items %}
+                                            <div class="form-check col-lg-4">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="alone"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-success"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-sm-12 my-2 mx-2">
+                                    <fieldset class="row">
+                                        <legend>Aileniz veya Arkadaşlarınız sizi etkiler mi?</legend>
+                                        {% for k,v in form.MOOD.FRIENDS.items %}
+                                            <div class="form-check col-lg-4">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="family_friends"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-danger"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-5 col-sm-12 my-2 mx-2">
+                                    <fieldset class="row">
+                                        <legend>Bulunduğunuz yer, zaman ve pozisyondan mutlu musunuz?</legend>
+                                        {% for k,v in form.MOOD.POSITION.items %}
+                                            <div class="form-check col-lg-4">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="position"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-info"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-md-12 my-2">
+                                    <fieldset>
+                                        <legend>Gelecekte yapmak istediğiniz bir amacınız var mı?</legend>
+                                        <div class="row">
+                                            <a href="#alpaca-input-label-source12"
+                                               data-toggle="collapse"
+                                               class="col-lg-6"
+                                               aria-expanded="true"><i
+                                                    class="icon-radio-unchecked text-danger mr-2"></i>
+                                                Evet (Varsa Açıklayınız)
+                                            </a>
+                                            <div class="form-check col-lg-6">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="future_no"
+                                                           value="no"
+                                                           class="form-check-input-styled-danger"
+                                                           data-fouc>
+                                                    Yok
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="collapse col-lg-12 my-2"
+                                             id="alpaca-input-label-source12"
+                                             style="">
+                                            <div class="form-group col-lg-12 ">
+                                                <input type="text"
+                                                       name="future_porpose"
+                                                       class="form-control col-lg-12 tagsinput-custom-tag-class{% if athletic_form.future_porpose.errors %} border-danger-800 {% endif %}"
+                                                       value="{{ athletic_form.future_porpose.value | default_if_none:"" }}"
+                                                       data-fouc
+                                                       placeholder="Amacınız...">
+                                                {% if athletic_form.future_porpose.errors %}
+                                                    {% for error in athletic_form.future_porpose.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <h6 class="font-weight-bold col-lg-12 my-3">2. Sosyal İlişkiler</h6>
+                                <div class="col-lg-6 col-sm-12 mx-2 my-2">
+                                    <fieldset class="row">
+                                        <legend>Ailenizle ile hangi sıklıkta görüşürsün?</legend>
+                                        {% for k,v in form.MOOD.ALONE.items %}
+                                            <div class="form-check col-lg-4">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="family_meet"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-danger"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-5 col-sm-12 my-2">
+                                    <fieldset class="row">
+                                        <legend>Yakın arkadaşlarınızla zaman geçirir misiniz?</legend>
+                                        {% for k,v in form.MOOD.SUCCESS.items %}
+                                            <div class="form-check col-lg-4">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="friends_near"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-primary"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-sm-12 mx-2 my-2">
+                                    <fieldset class="row">
+                                        <legend>Hafta sonu etkinliklere (kamu yararına olan kuruluşların
+                                            düzenlediği) katılır mısınız?
+                                        </legend>
+                                        {% for k,v in form.MOOD.ALONE.items %}
+                                            <div class="form-check col-lg-4">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="activity"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-primary"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-lg-5 col-sm-12 mx-2 my-2">
+                                    <fieldset class="row">
+                                        <legend>Tatil yapar mısınız?</legend>
+                                        {% for k,v in form.MOOD.SUCCESS.items %}
+                                            <div class="form-check col-lg-4">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="holiday"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-warning"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-lg-6 col-sm-12 mx-2 my-2">
+                                    <fieldset class="row">
+                                        <legend>Sosyal medya vb. platformlarda geçirdiğiniz zaman aralığı nedir
+                                            (saat bazlı olarak)?
+                                        </legend>
+                                        {% for k,v in form.MOOD.SOCIALMEDIA.items %}
+                                            <div class="form-check col-lg-4">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="socialmedia"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-primary"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-5 col-sm-12 mx-2 my-2">
+                                    <fieldset class="row">
+                                        <legend>Sinema, tiyatro, konser gibi etkinliklere katılır mısınız?
+                                        </legend>
+                                        {% for k,v in form.MOOD.SUCCESS.items %}
+                                            <div class="form-check col-lg-4">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="cinema_activity"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-success"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-sm-12 my-2 mx-2">
+                                    <fieldset class="row">
+                                        <legend>Doğa yürüyüşü yapar mısınız?</legend>
+                                        {% for k,v in form.MOOD.SUCCESS.items %}
+                                            <div class="form-check col-lg-4">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="hiking"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-warning"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                            </div>
+
+
+                            <h6 class="font-weight-bold my-3 col-lg-12">3. İş Koşulları ve Tercihler</h6>
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 mx-2 my-2">
+                                    <fieldset class="row">
+                                        <legend>Günde kaç saat oturursunuz?
+                                        </legend>
+                                        {% for k,v in form.MOOD.SITTING.items %}
+                                            <div class="form-check col-lg-2 col-md-6 col-sm-12">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="sit_time"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-danger"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12 col-sm-12 mx-2 my-2">
+                                    <fieldset class="row">
+                                        <legend>Ekran karşısında geçirdiğiniz zaman ne kadardır?
+                                        </legend>
+                                        {% for k,v in form.MOOD.SITTING.items %}
+                                            <div class="form-check col-lg-2 col-md-6 col-sm-12">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="setting"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-primary"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12 col-sm-12 my-2 mx-2">
+                                    <fieldset class="row">
+                                        <legend>Öğle arasında ne yaparsınız?
+                                        </legend>
+                                        {% for k,v in form.MOOD.NOON.items %}
+                                            <div class="form-check col-lg-3 col-md-6 col-sm-12">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="noon"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-info"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12 col-sm-12 mx-2 my-2">
+                                    <fieldset class="row">
+                                        <legend>Çalıştığınız saat dilimlerinde küçük hareketlilik araları verir
+                                            misiniz?
+                                        </legend>
+                                        {% for k,v in form.MOOD.SUCCESS.items %}
+                                            <div class="form-check col-lg-3 col-md-6 col-sm-12">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="movement"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-success"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" name="_save" value="_save" class="btn bg-primary">
+                                    KAYDET
+                                    <i class="icon-paperplane ml-2"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-primary-600 header-elements-inline">
+                    <h6 class="card-title">
+                        <a class="collapsed text-white" data-toggle="collapse"
+                           href="#collapsible-styled-group10"><i class="icon-arrow-down15 mr-2"></i>Uyku
+                            Kalitesi – Zindelik – Ağrı Durumu Formu</a>
+                    </h6>
+                    <div class="header-elements">
+                        <div class="list-icons">
+                            <a class="list-icons-item" data-action="reload"></a>
+                            <a class="list-icons-item" data-action="fullscreen"></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="collapsible-styled-group10" class="collapse">
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data"
+                              action="{% url 'personal-sleepquality-create' %}">
+                            {% csrf_token %}
+                            <h6 class="font-weight-bold">1. Uyku Kalitesi</h6>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 my-2 mx-2">
+                                    <fieldset>
+                                        <legend>Saat kaçta uyursunuz?</legend>
+                                        <div class="row">
+                                            {% for k,v in form.SLEEPQUALITY.TIME.items %}
+                                                <div class="form-check col-lg-4 col-md-6 col-sm-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="sleep_time"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-danger"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-5 col-md-6 col-sm-12 my-2 mx-2">
+                                    <fieldset>
+                                        <legend>Telefon veya tablet gibi aletleri kaça kadar kullanırsınız?
+                                        </legend>
+                                        <div class="row">
+                                            {% for k,v in form.SLEEPQUALITY.TIME.items %}
+                                                <div class="form-check col-lg-4 col-md-6 col-sm-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="phone_time"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-primary"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 my-2  mx-2">
+                                    <fieldset>
+                                        <legend>TV izleme süreniz nedir?</legend>
+                                        <div class="row">
+                                            {% for k,v in form.SLEEPQUALITY.TIME.items %}
+                                                <div class="form-check col-lg-4 col-md-6 col-sm-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="tv_time"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-success"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-5 col-md-6 col-sm-12 my-2 mx-2">
+                                    <fieldset>
+                                        <legend>Ortalama kaç saat uyursunuz (saat bazlı)?</legend>
+                                        <div class="row">
+                                            {% for k,v in form.SLEEPQUALITY.AVERAGESLEEP.items %}
+                                                <div class="form-check col-lg-4 col-md-6 col-sm-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="average_sleep_time"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-warning"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 my-2 mx-2">
+                                    <fieldset>
+                                        <legend>Uyuduğunuz oda karanlık mı?</legend>
+                                        <div class="row">
+                                            {% for k,v in form.SLEEPQUALITY.ROOMDARK.items %}
+                                                <div class="form-check col-lg-4 col-md-6 col-sm-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="sleep_room_dark"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-primary"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-5 col-md-6 col-sm-12 my-2 mx-2">
+                                    <fieldset>
+                                        <legend>Uyuduğunuz oda sessiz mi?</legend>
+                                        <div class="row">
+                                            {% for k,v in form.SLEEPQUALITY.ROOMDARK.items %}
+                                                <div class="form-check col-lg-4 col-md-6 col-sm-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="sleep_room_noice"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-danger"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12 col-md-6 col-sm-12 my-2 mx-2">
+                                    <fieldset>
+                                        <legend>Hangi Pozisyonda uyursunuz?</legend>
+                                        <div class="row">
+                                            {% for k,v in form.SLEEPQUALITY.SLEEPPOZITION.items %}
+                                                <div class="form-check col-lg-3 col-md-6 col-sm-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="sleep_pozition"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-primary"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                            <h6 class="font-weight-bold my-3">2. Zindelik ve Enerji Durumu</h6>
+                            <div class="row">
+                                <div class="col-lg-12 my-2 mx-2">
+                                    <fieldset class="row">
+                                        <legend>Sabah kalktığınızda kendinizi nasıl hissediyorsunuz?</legend>
+                                        {% for k,v in form.SLEEPQUALITY.MORNING.items %}
+                                            <div class="form-check col-lg-3 col-md-6 col-sm-12">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="morning_feel"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-warning"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12  my-2 mx-2">
+                                    <fieldset class="row">
+                                        <legend>Gün içerisinde enerji seviyeniz nasıl?</legend>
+                                        {% for k,v in form.SLEEPQUALITY.MORNING.items %}
+                                            <div class="form-check col-lg-3 col-md-6 col-sm-12">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="day_energy"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-danger"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-sm-12 my-2 mx-2">
+                                    <fieldset class="row">
+                                        <legend>Odaklanma sorunu yaşıyor musunuz?
+                                        </legend>
+                                        {% for k,v in form.SLEEPQUALITY.FOCUSING.items %}
+                                            <div class="form-check col-lg-3 col-md-6 col-sm-12">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="focus_problem"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-success"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-5 col-sm-12 my-2 mx-2">
+                                    <fieldset class="row">
+                                        <legend>Öğleden sonra saatlerinde enerjiniz düşer mi?</legend>
+                                        {% for k,v in form.SLEEPQUALITY.FOCUSING.items %}
+                                            <div class="form-check col-lg-4 col-md-6 col-sm-12">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="afternoon_energy"
+                                                           value="{{ v }}"
+                                                           class="form-check-input-styled-primary"
+                                                           data-fouc>
+                                                    {{ v }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <h6 class="font-weight-bold my-3">3. Ağrı ve şikayetler</h6>
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-12 my-2 ">
+                                    <fieldset>
+                                        <legend>Herhangi bir yeriniz ağrıyor mu?
+                                        </legend>
+                                        <div class="row mx-2">
+                                            <a href="#alpaca-input-label-source13"
+                                               data-toggle="collapse"
+                                               class="col-lg-6"
+                                               aria-expanded="true"><i
+                                                    class="icon-radio-unchecked text-danger mr-2"></i>
+                                                Evet (Varsa Açıklayınız)
+                                            </a>
+                                            <div class="form-check col-lg-6">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="pain_no"
+                                                           value="no"
+                                                           class="form-check-input-styled-danger"
+                                                           data-fouc>
+                                                    Yok
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="collapse col-lg-12 my-2"
+                                             id="alpaca-input-label-source13"
+                                             style="">
+                                            <div class="form-group col-lg-12 ">
+                                                <input type="text"
+                                                       name="pain_other"
+                                                       class="form-control col-lg-12 tagsinput-custom-tag-class{% if athletic_form.pain_other.errors %} border-danger-800 {% endif %}"
+                                                       value="{{ athletic_form.pain_other.value | default_if_none:"" }}"
+                                                       data-fouc
+                                                       placeholder="Açıklayınız...">
+                                                {% if athletic_form.pain_other.errors %}
+                                                    {% for error in athletic_form.pain_other.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend>Sabah kalktığınızda özellikle sırt-kalça veya boyun-omuz
+                                            bölgeniz
+                                            ağrıyor mu?
+                                        </legend>
+
+                                        <div class="row mx-2">
+                                            <a href="#alpaca-input-label-source14"
+                                               data-toggle="collapse"
+                                               class="col-lg-6"
+                                               aria-expanded="true"><i
+                                                    class="icon-radio-unchecked text-danger mr-2"></i>
+                                                Evet (Varsa Açıklayınız)
+                                            </a>
+                                            <div class="form-check col-lg-6">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="pain_morning_no"
+                                                           value="no"
+                                                           class="form-check-input-styled-danger"
+                                                           data-fouc>
+                                                    Yok
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="collapse col-lg-12 my-2"
+                                             id="alpaca-input-label-source14"
+                                             style="">
+                                            <div class="form-group col-lg-12 ">
+                                                <input type="text"
+                                                       name="pain_morning_other"
+                                                       class="form-control col-lg-12 tagsinput-custom-tag-class{% if athletic_form.pain_morning_other.errors %} border-danger-800 {% endif %}"
+                                                       value="{{ athletic_form.pain_morning_other.value | default_if_none:"" }}"
+                                                       data-fouc
+                                                       placeholder="Açıklayınız...">
+                                                {% if athletic_form.pain_morning_other.errors %}
+                                                    {% for error in athletic_form.pain_morning_other.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend>Gün içinde akut ağrılarınız olur mu?
+                                        </legend>
+                                        <div class="row mx-2">
+                                            <a href="#alpaca-input-label-source15"
+                                               data-toggle="collapse"
+                                               class="col-lg-6"
+                                               aria-expanded="true"><i
+                                                    class="icon-radio-unchecked text-danger mr-2"></i>
+                                                Evet (Varsa Açıklayınız)
+                                            </a>
+                                            <div class="form-check col-lg-6">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="pain_morning_no"
+                                                           value="no"
+                                                           class="form-check-input-styled-danger"
+                                                           data-fouc>
+                                                    Yok
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="collapse col-lg-12 my-2"
+                                             id="alpaca-input-label-source15"
+                                             style="">
+                                            <div class="form-group col-lg-12 ">
+                                                <input type="text"
+                                                       name="pain_day_other"
+                                                       class="form-control col-lg-12 tagsinput-custom-tag-class{% if athletic_form.pain_day_other.errors %} border-danger-800 {% endif %}"
+                                                       value="{{ athletic_form.pain_day_other.value | default_if_none:"" }}"
+                                                       data-fouc
+                                                       placeholder="Açıklayınız...">
+                                                {% if athletic_form.pain_day_other.errors %}
+                                                    {% for error in athletic_form.pain_day_other.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend>Ay veya yıl içinde belirli bir dönem 3-5 günden uzun süren bir
+                                            ağrınız olur mu?
+                                        </legend>
+                                        <div class="row mx-2">
+                                            <a href="#alpaca-input-label-source16"
+                                               data-toggle="collapse"
+                                               class="col-lg-6"
+                                               aria-expanded="true"><i
+                                                    class="icon-radio-unchecked text-danger mr-2"></i>
+                                                Evet (Varsa Açıklayınız)
+                                            </a>
+                                            <div class="form-check col-lg-6">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="pain_month_no"
+                                                           value="no"
+                                                           class="form-check-input-styled-danger"
+                                                           data-fouc>
+                                                    Yok
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="collapse col-lg-12 my-2"
+                                             id="alpaca-input-label-source16"
+                                             style="">
+                                            <div class="form-group col-lg-12 ">
+                                                <input type="text"
+                                                       name="pain_month_other"
+                                                       class="form-control col-lg-12 tagsinput-custom-tag-class{% if athletic_form.pain_month_other.errors %} border-danger-800 {% endif %}"
+                                                       value="{{ athletic_form.pain_month_other.value | default_if_none:"" }}"
+                                                       data-fouc
+                                                       placeholder="Açıklayınız...">
+                                                {% if athletic_form.pain_month_other.errors %}
+                                                    {% for error in athletic_form.pain_month_other.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend>Baş ağrısı yaşar mısınız?
+                                        </legend>
+                                        <div class="row mx-2">
+                                            <a href="#alpaca-input-label-source17"
+                                               data-toggle="collapse"
+                                               class="col-lg-6"
+                                               aria-expanded="true"><i
+                                                    class="icon-radio-unchecked text-danger mr-2"></i>
+                                                Evet (Varsa Açıklayınız)
+                                            </a>
+                                            <div class="form-check col-lg-6">
+                                                <label class="form-check-label">
+                                                    <input type="radio"
+                                                           name="pain_head_no"
+                                                           value="no"
+                                                           class="form-check-input-styled-danger"
+                                                           data-fouc>
+                                                    Yok
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="collapse col-lg-12 my-2"
+                                             id="alpaca-input-label-source17"
+                                             style="">
+                                            <div class="form-group col-lg-12 ">
+                                                <input type="text"
+                                                       name="pain_head_other"
+                                                       class="form-control col-lg-12 tagsinput-custom-tag-class{% if athletic_form.pain_head_other.errors %} border-danger-800 {% endif %}"
+                                                       value="{{ athletic_form.pain_head_other.value | default_if_none:"" }}"
+                                                       data-fouc
+                                                       placeholder="Açıklayınız...">
+                                                {% if athletic_form.pain_head_other.errors %}
+                                                    {% for error in athletic_form.pain_head_other.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" name="_save" value="_save" class="btn bg-primary">
+                                    KAYDET
+                                    <i class="icon-paperplane ml-2"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-brown header-elements-inline">
+                    <h6 class="card-title">
+                        <a class="collapsed text-white" data-toggle="collapse"
+                           href="#collapsible-styled-group12"><i class="icon-arrow-down15 mr-2"></i>
+                            Beslenme ve Tüketim Alışkanlıkları Formu</a>
+                    </h6>
+                    <div class="header-elements">
+                        <div class="list-icons">
+                            <a class="list-icons-item" data-action="reload"></a>
+                            <a class="list-icons-item" data-action="fullscreen"></a>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="collapsible-styled-group12" class="collapse">
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data"
+                              action="{% url 'personal-nutrition-create' %}">
+                            {% csrf_token %}
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-6 col-sm-12  my-2">
+                                        <fieldset>
+                                            <legend>Sabah kahvaltısı yapar mısınız?</legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check col-lg-12 ">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="breakfast"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-danger"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Kaç ana öğün beslenirsiniz?</legend>
+                                            {% for k,v in form.NUTRITIONFORM.MEAL.items %}
+                                                <div class="form-check  col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="meal"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-primary"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Kaç ara öğün beslenirsiniz?</legend>
+                                            {% for k,v in  form.NUTRITIONFORM.MEAL2.items %}
+                                                <div class="form-check col-lg-3 col-md-6 col-sm-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="snacks"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-success"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Kola, fanta benzeri içecek tüketir misiniz?</legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="drinks"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-warning"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Hazır meyve suları benzeri içecek tüketir misiniz?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check  col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="juice"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-primary"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Paketlenmiş işlenmiş gıda tüketim sıklığınız nedir?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check  col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="food"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-success"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Protein tüketim tercihleriniz nelerdir?</legend>
+                                            {% for k,v in form.NUTRITIONFORM.PROTEIN.items %}
+                                                <div class="form-check  col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="protein_choice"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-danger"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Haftalık protein tüketim sıklığınız nedir?</legend>
+                                            {% for k,v in form.NUTRITIONFORM.PROTEINCONSUMPTION.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="protein_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-primary"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Vejetaryen mısınız?</legend>
+                                            <div class="col-lg-12">
+
+                                                <a href="#alpaca-input-label-source31"
+                                                   data-toggle="collapse"
+                                                   class=""
+                                                   aria-expanded="true"><i
+                                                        class="icon-radio-unchecked text-warning mr-2"></i>
+                                                    Evet
+                                                </a>
+
+                                                <div class="mt-2 collapse"
+                                                     id="alpaca-input-label-source31"
+                                                     style="">
+                                                    <label>1. Lütfen vejetaryenlik türünü
+                                                        belirtiniz?</label>
+                                                    {% for k,v in form.NUTRITIONFORM.VEGETARIAN.items %}
+                                                        <div class="form-check col-lg-12">
+                                                            <label class="form-check-label">
+                                                                <input type="radio"
+                                                                       name="vegetarian"
+                                                                       value="{{ v }}"
+                                                                       class="form-check-input-styled-danger"
+                                                                       data-fouc>
+                                                                {{ v }}
+                                                            </label>
+                                                        </div>
+                                                    {% endfor %}
+                                                    <label>2. Ne kadar süredir vejetaryensiniz?</label>
+                                                    {% for k,v in form.NUTRITIONFORM.VEGETARYTIME.items %}
+                                                        <div class="form-check col-lg-12">
+                                                            <label class="form-check-label">
+                                                                <input type="radio"
+                                                                       name="vegetarian_time"
+                                                                       value="{{ v }}"
+                                                                       class="form-check-input-styled-success"
+                                                                       data-fouc>
+                                                                {{ v }}
+                                                            </label>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="form-check col-lg-12 my-2">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="vegetarian"
+                                                               value="no"
+                                                               class="form-check-input-styled-warning"
+                                                               data-fouc>
+                                                        Hayır
+                                                    </label>
+                                                </div>
+
+                                            </div>
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Günde kaç porsiyon sebze tüketirsiniz?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.PROTEINCONSUMPTION.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="vegetable_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-warning"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset class="row">
+                                            <legend>Günde kaç porsiyon meyve tüketirsiniz?</legend>
+                                            {% for k,v in form.NUTRITIONFORM.PROTEINCONSUMPTION.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="fruid_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-primary"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Mevsiminde olmayan meyve–sebze tüketirmisiniz?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="fruid_vegetables"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-success"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Günde ne kadar su içersiniz?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.WATERCONSUMPTION.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="water_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-danger"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Süt tüketir misiniz?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="milk_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-info"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Yoğurt tüketir misiniz?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="yoghurt_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-success"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Peynir tüketir misiniz?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="cheese_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-danger"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12  my-2">
+                                        <fieldset>
+                                            <legend>Tahıl ve gruplarını tüketir
+                                                misiniz?
+
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="grain_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-primary"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Ekmek tüketir misiniz?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="bread_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-success"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Tatlı tüketim sıklığınız nedir?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="dessert_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-danger"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Akşam yeme – içme sonlandırma saati?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.DINNER.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="dinner"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-primary"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Tuz Tüketim sıklığınız nedir?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="salt_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-success"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Tuz Tüketim tercihiniz nedir?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.TABLESALT.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="table_salt"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-danger"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Alkol tüketim sıklığınız nedir?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="alkhol_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-success"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Yağ Tüketim tercihiniz hangisidir?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.OILCONSUMPTION.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="oil_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-danger"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Kuruyemiş tüketimini ne tür tercih edersiniz?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.NUTSCONSUMPTION.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="nuts_consumption"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-primary"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-12 my-2">
+                                        <fieldset>
+                                            <legend>Kuruyemiş tüketiminiz sıklık ve türünü belirtiniz?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.BREAKFAST.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="nuts_type"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-success"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12 my-2 mx-2">
+                                        <fieldset>
+                                            <legend> Sıcak içecek tercihiniz hangisidir? Birden fazla
+                                                seçenek
+                                                belirtebilirsiniz?
+                                            </legend>
+
+                                            <fieldset class="col-lg-12">
+                                                <legend><a
+                                                        href="#alpaca-input-label-source41"
+                                                        data-toggle="collapse"
+                                                        class=""
+                                                        aria-expanded="true"><i
+                                                        class="icon-radio-unchecked mr-2"></i>
+                                                    Kahve (lütfen tüketim miktarını
+                                                    belirtiniz)
+                                                </a></legend>
+                                                <div class="mt-2 collapse"
+                                                     id="alpaca-input-label-source41"
+                                                     style="">
+                                                    <div class=" row my-2 mx-2">
+
+                                                        {% for k,v in form.NUTRITIONFORM.COFFEECONSUMPTION.items %}
+                                                            <div class="form-check col-lg-2">
+                                                                <label class="form-check-label">
+                                                                    <input type="radio"
+                                                                           name="hot_drink"
+                                                                           value="{{ v }}"
+                                                                           class="form-check-input-styled-danger"
+                                                                           data-fouc>
+                                                                    {{ v }}
+                                                                </label>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset class="col-lg-12">
+                                                <legend><a
+                                                        href="#alpaca-input-label-source42"
+                                                        data-toggle="collapse"
+                                                        class=""
+                                                        aria-expanded="true"><i
+                                                        class="icon-radio-unchecked mr-2"></i>
+                                                    Siyah Çay (lütfen tüketim
+                                                    miktarını
+                                                    belirtiniz)
+                                                </a></legend>
+                                                <div class="mt-2 collapse"
+                                                     id="alpaca-input-label-source42"
+                                                     style="">
+                                                    <div class=" row my-2 mx-2">
+
+                                                        {% for k,v in form.NUTRITIONFORM.COFFEECONSUMPTION.items %}
+                                                            <div class="form-check col-lg-2">
+                                                                <label class="form-check-label">
+                                                                    <input type="radio"
+                                                                           name="black_tea"
+                                                                           value="{{ v }}"
+                                                                           class="form-check-input-styled-warning"
+                                                                           data-fouc>
+                                                                    {{ v }}
+                                                                </label>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset class="col-lg-12">
+                                                <legend><a
+                                                        href="#alpaca-input-label-source43"
+                                                        data-toggle="collapse"
+                                                        class=""
+                                                        aria-expanded="true"><i
+                                                        class="icon-radio-unchecked mr-2"></i>
+                                                    Diğer İçecekler (lütfen tüketim miktarını
+                                                    belirtiniz)
+                                                </a></legend>
+                                                <div class="mt-2 collapse"
+                                                     id="alpaca-input-label-source43"
+                                                     style="">
+
+                                                    <div class="row mx-1">
+                                                        {% for k,v in form.NUTRITIONFORM.COFFEECONSUMPTION.items %}
+                                                            <div class="form-check  col-lg-2">
+                                                                <label class="form-check-label">
+                                                                    <input type="radio"
+                                                                           name="quantity_drinks"
+                                                                           value="{{ v }}"
+                                                                           class="form-check-input-styled-success"
+                                                                           data-fouc>
+                                                                    {{ v }}
+                                                                </label>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12 col-sm-12 my-2 mx-2">
+                                        <fieldset class="row">
+                                            <legend>Kahve tüketim tercihiniz hangisidir?
+                                            </legend>
+                                            <div class="row">
+                                                {% for k,v in form.NUTRITIONFORM.COFFEEPREFERENCE.items %}
+                                                    <div class="form-check col-lg-2 mx-2">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox"
+                                                                   name="{{ k }}"
+                                                                   value="{{ v }}"
+                                                                   class="form-check-input-styled-danger"
+                                                                   data-fouc>
+                                                            {{ v }}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+                                                <a href="#alpaca-input-label-source17"
+                                                   data-toggle="collapse"
+                                                   class="col-lg-6"
+                                                   aria-expanded="true"><i
+                                                        class="icon-checkbox-unchecked2 text-danger mr-2"></i>
+                                                    Diğer
+                                                </a>
+                                            </div>
+
+                                            <div class="collapse col-lg-12 my-2"
+                                                 id="alpaca-input-label-source17"
+                                                 style="">
+                                                <div class="form-group col-lg-12 ">
+                                                    <input type="text"
+                                                           name="coffee_other"
+                                                           class="form-control col-lg-12 tagsinput-custom-tag-class{% if athletic_form.coffee_other.errors %} border-danger-800 {% endif %}"
+                                                           value="{{ athletic_form.coffee_other.value | default_if_none:"" }}"
+                                                           data-fouc
+                                                           placeholder="Diğer...">
+                                                    {% if athletic_form.coffee_other.errors %}
+                                                        {% for error in athletic_form.coffee_other.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12 my-2 mx-2">
+                                        <fieldset>
+                                            <legend>Kahve tüketim tercihinizi genellikle nasıl yaparsınız?
+                                            </legend>
+                                            <div class="row">
+                                                {% for k,v in form.NUTRITIONFORM.COFFEECHOİCE.items %}
+                                                    <div class="form-check col-lg-4">
+                                                        <label class="form-check-label">
+                                                            <input type="radio"
+                                                                   name="coffeechoice"
+                                                                   value="{{ v }}"
+                                                                   class="form-check-input-styled-success"
+                                                                   data-fouc>
+                                                            {{ v }}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+                                                <a href="#alpaca-input-label-source18"
+                                                   data-toggle="collapse"
+                                                   class=""
+                                                   aria-expanded="true"><i
+                                                        class="icon-radio-unchecked text-success mr-2"></i>
+                                                    Diğer
+                                                </a>
+                                            </div>
+
+                                            <div class="collapse col-lg-12 my-2"
+                                                 id="alpaca-input-label-source18"
+                                                 style="">
+                                                <div class="form-group col-lg-12 ">
+                                                    <input type="text"
+                                                           name="coffeechoice_other"
+                                                           class="form-control col-lg-12 tagsinput-custom-tag-class{% if athletic_form.coffeechoice_other.errors %} border-danger-800 {% endif %}"
+                                                           value="{{ athletic_form.coffeechoice_other.value | default_if_none:"" }}"
+                                                           data-fouc
+                                                           placeholder="Diğer...">
+                                                    {% if athletic_form.coffeechoice_other.errors %}
+                                                        {% for error in athletic_form.coffeechoice_other.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12 my-2  mx-3">
+                                        <fieldset class="row">
+                                            <legend> Daha önce diyet yaptınız mı?
+                                            </legend>
+                                            <div class="row">
+                                                {% for k,v in form.NUTRITIONFORM.DIET.items %}
+                                                    <div class="form-check col-lg-4">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox"
+                                                                   name="{{ k }}"
+                                                                   value="{{ v }}"
+                                                                   class="form-check-input-styled-danger"
+                                                                   data-fouc>
+                                                            {{ v }}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+                                                <a href="#alpaca-input-label-source19"
+                                                   data-toggle="collapse"
+                                                   class=""
+                                                   aria-expanded="true"><i
+                                                        class="icon-checkbox-unchecked2 text-danger mr-2"></i>
+                                                    Diğer
+                                                </a>
+                                            </div>
+                                            <div class="collapse col-lg-12 my-2"
+                                                 id="alpaca-input-label-source19"
+                                                 style="">
+                                                <div class="form-group col-lg-12 ">
+                                                    <input type="text"
+                                                           name="dietbefore_other"
+                                                           class="form-control col-lg-12 tagsinput-custom-tag-class{% if athletic_form.dietbefore_other.errors %} border-danger-800 {% endif %}"
+                                                           value="{{ athletic_form.dietbefore_other.value | default_if_none:"" }}"
+                                                           data-fouc
+                                                           placeholder="Diğer...">
+                                                    {% if athletic_form.dietbefore_other.errors %}
+                                                        {% for error in athletic_form.dietbefore_other.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12 my-2 mx-3">
+                                        <fieldset class="row">
+                                            <legend>Neden Diyet yaparsınız?
+                                            </legend>
+                                            <div class="row">
+                                                {% for k,v in form.NUTRITIONFORM.REASONDIET.items %}
+                                                    <div class="form-check col-lg-4">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox"
+                                                                   name="{{ k }}"
+                                                                   value="{{ v }}"
+                                                                   class="form-check-input-styled-success"
+                                                                   data-fouc>
+                                                            {{ v }}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+                                                <a href="#alpaca-input-label-source20"
+                                                   data-toggle="collapse"
+                                                   class=""
+                                                   aria-expanded="true"><i
+                                                        class="icon-checkbox-unchecked2 text-success mr-2"></i>
+                                                    Diğer
+                                                </a>
+                                            </div>
+                                            <div class="collapse col-lg-12 my-2"
+                                                 id="alpaca-input-label-source20"
+                                                 style="">
+                                                <div class="form-group col-lg-12 ">
+                                                    <input type="text"
+                                                           name="diet_other"
+                                                           class="form-control col-lg-12 tagsinput-custom-tag-class{% if athletic_form.diet_other.errors %} border-danger-800 {% endif %}"
+                                                           value="{{ athletic_form.diet_other.value | default_if_none:"" }}"
+                                                           data-fouc
+                                                           placeholder="Diğer...">
+                                                    {% if athletic_form.diet_other.errors %}
+                                                        {% for error in athletic_form.diet_other.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12 my-2 mx-2">
+                                        <fieldset>
+                                            <legend>En uzun diyet uygulaması süreniz ne kadar?
+                                            </legend>
+                                            <div class="row">
+                                                {% for k,v in form.NUTRITIONFORM.LONGDIET.items %}
+                                                    <div class="form-check col-lg-3 col-md-5 col-sm-12">
+                                                        <label class="form-check-label">
+                                                            <input type="radio"
+                                                                   name="long_diet"
+                                                                   value="{{ v }}"
+                                                                   class="form-check-input-styled-danger"
+                                                                   data-fouc>
+                                                            {{ v }}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+                                                <a href="#alpaca-input-label-source21"
+                                                   data-toggle="collapse"
+                                                   class=""
+                                                   aria-expanded="true"><i
+                                                        class="icon-radio-unchecked text-danger mr-2"></i>
+                                                    Diğer
+                                                </a>
+                                            </div>
+                                            <div class="collapse col-lg-12 my-2"
+                                                 id="alpaca-input-label-source21"
+                                                 style="">
+                                                <div class="form-group col-lg-12 ">
+                                                    <input type="text"
+                                                           name="longdiet_other"
+                                                           class="form-control col-lg-12 tagsinput-custom-tag-class{% if athletic_form.longdiet_other.errors %} border-danger-800 {% endif %}"
+                                                           value="{{ athletic_form.longdiet_other.value | default_if_none:"" }}"
+                                                           data-fouc
+                                                           placeholder="Diğer...">
+                                                    {% if athletic_form.longdiet_other.errors %}
+                                                        {% for error in athletic_form.longdiet_other.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12 my-2 mx-3">
+                                        <fieldset class="row">
+                                            <legend>Herhangi bir besin takviyesi kullanır mısınız?
+                                            </legend>
+                                            <div class="row">
+                                                {% for k,v in form.NUTRITIONFORM.VITAMINS.items %}
+                                                    <div class="form-check col-lg-3">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox"
+                                                                   name="{{ k }}"
+                                                                   value="{{ v }}"
+                                                                   class="form-check-input-styled-danger"
+                                                                   data-fouc>
+                                                            {{ v }}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12 my-2 mx-2">
+                                        <fieldset class="row">
+                                            <legend>Ne kadar süredir besin takviyesi kullanıyorsunuz?
+                                            </legend>
+                                            {% for k,v in form.NUTRITIONFORM.FOODTIME.items %}
+                                                <div class="form-check col-lg-3">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"
+                                                               name="nutritional_supplement"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-success"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+
+
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-right">
+                                <button type="submit" name="_save" value="_save" class="btn bg-primary">
+                                    KAYDET
+                                    <i class="icon-paperplane ml-2"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-header bg-warning-600 header-elements-inline">
+                    <h6 class="card-title">
+                        <a data-toggle="collapse" class="text-white collapsed"
+                           href="#collapsible-styled-group14" aria-expanded="false"><i
+                                class="icon-arrow-down15 mr-2"></i>Eudaimonia Sağlıklı Yaşam Semptom Formu</a>
+                    </h6>
+                    <div class="header-elements">
+                        <div class="list-icons">
+                            <a class="list-icons-item" data-action="reload"></a>
+                            <a class="list-icons-item" data-action="fullscreen"></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="collapsible-styled-group14" class="collapse" style="">
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data"
+                              action="{% url 'personal-eudaimonia-create' %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Zihinsel Süreçler</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.MENTAL.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-danger"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Cilt</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.SKIN.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-info"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Baş Bölgesi</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.HEAD.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-success"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Gözler ve Göz Bölgesi</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.EYES.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-primary"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Burun</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.NOSE.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-warning"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Kulaklar</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.EAR.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-info"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Ağız ve Boğaz Bölgesi</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.MOUTH.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-danger"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Akciğerler</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.LUNGS.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-primary"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Kalp Fonksiyonları</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.HEART.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-success"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Gastro-İntestinel Fonksiyonlar</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.GASTROINTESTINE.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-info"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Eklemler – Kaslar</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.JOINTS.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-warning"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Vücut Ağırlığı</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.BODYWEIGHT.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-danger"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Enerji ve Hareketlilik</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.ENERGY.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-success"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Duygular</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.FEELINGS.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                               value="{{ v }}"
+                                                               class="form-check-input-styled-warning"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">İlaç Kullanımı</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.MEDICINE.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                                value="{{ v }}"
+                                                               class="form-check-input-styled-info"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-lg-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Geçmiş Öyküsü</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.STRORY.items %}
+                                                <div class="form-check col-lg-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                                value="{{ v }}"
+                                                               class="form-check-input-styled-warning"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 my-2">
+                                    <fieldset>
+                                        <legend class="font-weight-bold">Diğer Semptomlar</legend>
+                                        <div class="row">
+                                            {% for k,v in form.EUDAIMONIA.OTHERSYMPTOMS.items %}
+                                                <div class="form-check col-lg-6 col-md-12">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                               name="{{ k }}"
+                                                                value="{{ v }}"
+                                                               class="form-check-input-styled-info"
+                                                               data-fouc>
+                                                        {{ v }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" name="_save" value="_save" class="btn bg-primary">
+                                    KAYDET
+                                    <i class="icon-paperplane ml-2"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- /corporate table -->
+{% endblock page_content %}

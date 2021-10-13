@@ -1,0 +1,1032 @@
+{% extends '../reporting_analysis_base.html' %}
+{% block title %}
+    Form Analiz & Raporlama Yönetimi
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/datatables.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switchery.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/buttons.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_extension_buttons_html5.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_data_sources.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_sorting.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_buttons.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_advanced.js' %}"></script>
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="{% url 'corporate-home' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <a href="{% url 'corporate-reporting-analysis-home' %}" class="breadcrumb-item">
+                        Aanaliz & Raporlama Yönetimi</a>
+                    <a href="" class="breadcrumb-item">
+                        Form Analiz & Raporlama Sonuçları</a>
+
+                </div>
+
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h4><i class="mr-1"></i> <span class="font-weight-semibold"><a style="color: black"
+                                                                               href="{% url 'corporate-reporting-analysis-home' %}"><i
+                        class="icon-arrow-left52 fa-2x mr-2"></i></a> Form Analiz & Raporlama Sonuçları</span>
+                </h4>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+            <div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+    <!-- Corporate Table -->
+    <div class="card">
+        <div class="card-header bg-danger-600 header-elements-inline">
+            <h6 class="card-title">
+                <a data-toggle="collapse" class="text-white collapsed "
+                   href="#collapsible-styled-group" aria-expanded="false"><i
+                        class="icon-arrow-down15  mr-2"></i>Ön Görüşme Form Sonuçları</a>
+            </h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="reload"></a>
+                    <a class="list-icons-item" data-action="fullscreen"></a>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="collapsible-styled-group" class="collapse" style="">
+            <div class="card-body">
+
+                {% if interviews %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                            <thead>
+                            <tr>
+                                <th>Fotoğraf</th>
+                                <th>Ad</th>
+                                <th>Soyad</th>
+                                <th>Mail</th>
+                                <th>Cinsiyet</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>İşlemler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for interview in interviews %}
+                                <tr>
+                                    <td> {% if interview.personal.avatar %}
+                                        <a href="{{ interview.personal.avatar.url }}">
+                                            <img src="{{ interview.personal.avatar.url }} "
+                                                 class="rounded-round" width="50px" height="50px"/></a>
+                                    {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ interview.personal.user.first_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ interview.personal.user.last_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ interview.personal.user.email | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ interview.personal.gender_value   | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ interview.date }}
+                                    </td>
+
+                                    <td>
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                        Export to
+                                                        .pdf</a>
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
+                                                        Export to
+                                                        .csv</a>
+                                                    <a href="{{ interview.get_corporate_interview_delete_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-trash text-danger"></i> Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-success-600 header-elements-inline">
+            <h6 class="card-title">
+                <a class="text-white collapsed" data-toggle="collapse"
+                   href="#collapsible-styled-group2" aria-expanded="false"><i
+                        class="icon-arrow-down15 mr-2"></i>Teklif ve Sözleşme Form Sonuçları</a>
+            </h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="reload"></a>
+                    <a class="list-icons-item" data-action="fullscreen"></a>
+                </div>
+            </div>
+        </div>
+        <div id="collapsible-styled-group2" class="collapse" style="">
+            <div class="card-body">
+
+                {% if contracts %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                            <thead>
+                            <tr>
+                                <th>Fotoğraf</th>
+                                <th>Ad</th>
+                                <th>Soyad</th>
+                                <th>Mail</th>
+                                <th>Cinsiyet</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>İşlemler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for contract in contracts %}
+                                <tr>
+                                    <td> {% if contract.personal.avatar %}
+                                        <a href="{{ contract.personal.avatar.url }}">
+                                            <img src="{{ contract.personal.avatar.url }} "
+                                                 class="rounded-round" width="50px" height="50px"/></a>
+                                    {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ contract.personal.user.first_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ contract.personal.user.last_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ contract.personal.user.email | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ contract.personal.gender_value   | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ contract.date }}
+                                    </td>
+                                    <td>
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                        Export to
+                                                        .pdf</a>
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
+                                                        Export to
+                                                        .csv</a>
+                                                    <a href="{{ contract.get_corporate_contract_delete_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-trash text-danger"></i> Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-primary-600 header-elements-inline">
+            <h6 class="card-title">
+                <a class="collapsed text-white" data-toggle="collapse"
+                   href="#collapsible-styled-group3"><i class="icon-arrow-down15 mr-2"></i>Medikal izin Form
+                    Sonuçları</a>
+            </h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="reload"></a>
+                    <a class="list-icons-item" data-action="fullscreen"></a>
+                </div>
+            </div>
+        </div>
+        <div id="collapsible-styled-group3" class="collapse">
+            <div class="card-body">
+
+                {% if medicals %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                            <thead>
+                            <tr>
+                                <th>Fotoğraf</th>
+                                <th>Ad</th>
+                                <th>Soyad</th>
+                                <th>Mail</th>
+                                <th>Cinsiyet</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>İşlemler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for medical in medicals %}
+                                <tr>
+                                    <td> {% if medical.personal.avatar %}
+                                        <a href="{{ medical.personal.avatar.url }}">
+                                            <img src="{{ medical.personal.avatar.url }} "
+                                                 class="rounded-round" width="50px" height="50px"/></a>
+                                    {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ medical.personal.user.first_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ medical.personal.user.last_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ medical.personal.user.email | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ medical.personal.gender_value   | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ medical.date }}
+                                    </td>
+                                    <td>
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                        Export to
+                                                        .pdf</a>
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
+                                                        Export to
+                                                        .csv</a>
+                                                    <a href="{{ medical.get_corporate_medical_delete_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-trash text-danger"></i> Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-dark header-elements-inline">
+            <h6 class="card-title">
+                <a class="text-white collapsed" data-toggle="collapse"
+                   href="#collapsible-styled-group4" aria-expanded="false"><i
+                        class="icon-arrow-down15 mr-2"></i>Gönüllü Rıza Form Sonuçları</a>
+            </h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="reload"></a>
+                    <a class="list-icons-item" data-action="fullscreen"></a>
+                </div>
+            </div>
+        </div>
+        <div id="collapsible-styled-group4" class="collapse" style="">
+            <div class="card-body">
+
+                {% if voluntarys %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                            <thead>
+                            <tr>
+                                <th>Fotoğraf</th>
+                                <th>Ad</th>
+                                <th>Soyad</th>
+                                <th>Mail</th>
+                                <th>Cinsiyet</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>İşlemler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for voluntary in voluntarys %}
+                                <tr>
+                                    <td> {% if voluntary.personal.avatar %}
+                                        <a href="{{ voluntary.personal.avatar.url }}">
+                                            <img src="{{ voluntary.personal.avatar.url }} "
+                                                 class="rounded-round" width="50px" height="50px"/></a>
+                                    {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ voluntary.personal.user.first_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ voluntary.personal.user.last_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ voluntary.personal.user.email | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ voluntary.personal.gender_value   | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ voluntary.date }}
+                                    </td>
+                                    <td>
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                        Export to
+                                                        .pdf</a>
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
+                                                        Export to
+                                                        .csv</a>
+                                                    <a href="{{ voluntary.get_corporate_voluntary_delete_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-trash text-danger"></i> Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-brown header-elements-inline">
+            <h6 class="card-title">
+                <a class="collapsed text-white" data-toggle="collapse"
+                   href="#collapsible-styled-group5"><i class="icon-arrow-down15 mr-2"></i>
+                    Aile Öyküsü ve Hastalık Geçmişi Form Sonuçları</a>
+            </h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="reload"></a>
+                    <a class="list-icons-item" data-action="fullscreen"></a>
+
+                </div>
+            </div>
+        </div>
+        <div id="collapsible-styled-group5" class="collapse">
+            <div class="card-body">
+                {% if familys %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                            <thead>
+                            <tr>
+
+                                <th>Meslek</th>
+                                <th>Yaş</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>İşlemler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for family in familys %}
+                                <tr>
+                                    <td>
+                                        {{ family.personal.user.job | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ family.date }}
+                                    </td>
+                                    <td>
+                                        {{ family.date }}
+                                    </td>
+                                    <td>
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                        Export to
+                                                        .pdf</a>
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
+                                                        Export to
+                                                        .csv</a>
+                                                    <a href="{{ family.get_corporate_family_delete_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-trash text-danger"></i> Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-danger-600 header-elements-inline">
+            <h6 class="card-title">
+                <a data-toggle="collapse" class="text-white collapsed ml-0 "
+                   href="#collapsible-styled-group7" aria-expanded="false"><i
+                        class="icon-arrow-down15  mr-2"></i>Egzersiz Geçmişi ve Yönelim Form Sonuçları</a>
+            </h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="reload"></a>
+                    <a class="list-icons-item" data-action="fullscreen"></a>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="collapsible-styled-group7" class="collapse" style="">
+            <div class="card-body">
+                {% if exercises %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                            <thead>
+                            <tr>
+                                <th>Yürüyüş Mesafesi</th>
+                                <th>Egzersiz Aralığı</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>İşlemler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for exercise in exercises %}
+                                <tr>
+
+
+                                    <td>
+                                        {{ exercise.walk | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ exercise.regularexercise   | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ exercise.date }}
+                                    </td>
+                                    <td>
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                        Export to
+                                                        .pdf</a>
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
+                                                        Export to
+                                                        .csv</a>
+                                                    <a href="{{ exercise.get_corporate_exercisehistory_delete_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-trash text-danger"></i> Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-header bg-warning-600 header-elements-inline">
+            <h6 class="card-title">
+                <a data-toggle="collapse" class="text-white collapsed"
+                   href="#collapsible-styled-group8" aria-expanded="false"><i
+                        class="icon-arrow-down15 mr-2"></i>PAR-Q Form Form Sonuçları</a>
+            </h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="reload"></a>
+                    <a class="list-icons-item" data-action="fullscreen"></a>
+                </div>
+            </div>
+        </div>
+        <div id="collapsible-styled-group8" class="collapse" style="">
+            <div class="card-body">
+
+                {% if parqs %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                            <thead>
+                            <tr>
+                                <th>Ad</th>
+                                <th>Soyad</th>
+                                <th>Mail</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>İşlemler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for parq in parqs %}
+                                <tr>
+
+                                    <td>
+                                        {{ parq.personal.user.first_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ parq.personal.user.last_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ parq.personal.user.email | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ parq.date }}
+                                    </td>
+                                    <td>
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                        Export to
+                                                        .pdf</a>
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
+                                                        Export to
+                                                        .csv</a>
+                                                    <a href="{{ parq.get_corporate_parq_delete_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-trash text-danger"></i> Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Duygu Durumu – Sosyalite – İş Koşulları Form Sonuçları-->
+    <div class="card">
+        <div class="card-header bg-success-600 header-elements-inline">
+            <h6 class="card-title">
+                <a class="text-white collapsed" data-toggle="collapse"
+                   href="#collapsible-styled-group9" aria-expanded="false"><i
+                        class="icon-arrow-down15 mr-2"></i>Duygu Durumu – Sosyalite – İş Koşulları Form Sonuçları</a>
+            </h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="reload"></a>
+                    <a class="list-icons-item" data-action="fullscreen"></a>
+                </div>
+            </div>
+        </div>
+        <div id="collapsible-styled-group9" class="collapse" style="">
+            <div class="card-body">
+
+                {% if moods %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                            <thead>
+                            <tr>
+                                <th>Ad</th>
+                                <th>Soyad</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>İşlemler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for mood in moods %}
+                                <tr>
+                                    <td>
+                                        {{ mood.personal.user.first_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ mood.personal.user.last_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ mood.date }}
+                                    </td>
+                                    <td>
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                        Export to
+                                                        .pdf</a>
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
+                                                        Export to
+                                                        .csv</a>
+                                                    <a href="{{ mood.get_personal_mood_delete_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-trash text-danger"></i> Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-header bg-primary-600 header-elements-inline">
+            <h6 class="card-title">
+                <a class="collapsed text-white" data-toggle="collapse"
+                   href="#collapsible-styled-group10"><i class="icon-arrow-down15 mr-2"></i>Uyku Kalitesi – Zindelik –
+                    Ağrı Durumu Form Sonuçları</a>
+            </h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="reload"></a>
+                    <a class="list-icons-item" data-action="fullscreen"></a>
+                </div>
+            </div>
+        </div>
+        <div id="collapsible-styled-group10" class="collapse">
+            <div class="card-body">
+                {% if sleeps %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                            <thead>
+                            <tr>
+                                <th>Ad</th>
+                                <th>Soyad</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>İşlemler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for sleep in sleeps %}
+                                <tr>
+
+                                    <td>
+                                        {{ sleep.personal.user.first_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ sleep.personal.user.last_name | default_if_none:"" }}
+                                    </td>
+
+                                    <td>
+                                        {{ sleep.date }}
+                                    </td>
+                                    <td>
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                        Export to
+                                                        .pdf</a>
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
+                                                        Export to
+                                                        .csv</a>
+                                                    <a href="{{ sleep.get_corporate_sleepquality_delete_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-trash text-danger"></i> Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!--Beslenme ve Tüketim Alışkanlıkları Form Sonuçları-->
+    <div class="card">
+        <div class="card-header bg-brown header-elements-inline">
+            <h6 class="card-title">
+                <a class="collapsed text-white" data-toggle="collapse"
+                   href="#collapsible-styled-group12"><i class="icon-arrow-down15 mr-2"></i>
+                    Beslenme ve Tüketim Alışkanlıkları Form Sonuçları</a>
+            </h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="reload"></a>
+                    <a class="list-icons-item" data-action="fullscreen"></a>
+
+                </div>
+            </div>
+        </div>
+        <div id="collapsible-styled-group12" class="collapse">
+            <div class="card-body">
+                {% if nutritions %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                            <thead>
+                            <tr>
+                                <th>Kahvaltı</th>
+                                <th>Öğün Sayısı</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>İşlemler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for nutrition in nutritions %}
+                                <tr>
+
+                                    <td>
+                                        {{ nutrition.breakfast | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ nutrition.meal | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ nutrition.date }}
+                                    </td>
+                                    <td>
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                        Export to
+                                                        .pdf</a>
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
+                                                        Export to
+                                                        .csv</a>
+                                                    <a href="{{ nutrition.get_corporate_nutrition_delete_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-trash text-danger"></i> Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-danger-600 header-elements-inline">
+            <h6 class="card-title">
+                <a data-toggle="collapse" class="text-white collapsed ml-0 "
+                   href="#collapsible-styled-group13" aria-expanded="false"><i
+                        class="icon-arrow-down15  mr-2"></i>İzlence Form Sonuçları</a>
+            </h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="reload"></a>
+                    <a class="list-icons-item" data-action="fullscreen"></a>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="collapsible-styled-group13" class="collapse" style="">
+            <div class="card-body">
+
+                {% if curriculums %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                            <thead>
+                            <tr>
+                                <th>Fotoğraf</th>
+                                <th>Ad</th>
+                                <th>Soyad</th>
+                                <th>Mail</th>
+                                <th>Cinsiyet</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>İşlemler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for curriculum in curriculums %}
+                                <tr>
+                                    <td> {% if curriculum.personal.avatar %}
+                                        <a href="{{ curriculum.personal.avatar.url }}">
+                                            <img src="{{ curriculum.personal.avatar.url }} "
+                                                 class="rounded-round" width="50px" height="50px"/></a>
+                                    {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ curriculum.personal.user.first_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ curriculum.personal.user.last_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ curriculum.personal.user.email | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ curriculum.personal.gender_value   | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ curriculum.date }}
+                                    </td>
+                                    <td>
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                        Export to
+                                                        .pdf</a>
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
+                                                        Export to
+                                                        .csv</a>
+                                                    <a href="{{ curriculum.get_corporate_curriculum_delete_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-trash text-danger"></i> Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-warning-600 header-elements-inline">
+            <h6 class="card-title">
+                <a data-toggle="collapse" class="text-white collapsed"
+                   href="#collapsible-styled-group14" aria-expanded="false"><i
+                        class="icon-arrow-down15 mr-2"></i>Eudaimonia Sağlıklı Yaşam Semptom Form Sonuçları</a>
+            </h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="reload"></a>
+                    <a class="list-icons-item" data-action="fullscreen"></a>
+                </div>
+            </div>
+        </div>
+        <div id="collapsible-styled-group14" class="collapse" style="">
+            <div class="card-body">
+                {% if eudaimonias %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                            <thead>
+                            <tr>
+                                <th>Ad</th>
+                                <th>Soyad</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>İşlemler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for eudaimonia in eudaimonias %}
+                                <tr>
+
+                                    <td>
+                                        {{ eudaimonia.personal.user.first_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ eudaimonia.personal.user.last_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ eudaimonia.date }}
+                                    </td>
+                                    <td>
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                        Export to
+                                                        .pdf</a>
+                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
+                                                        Export to
+                                                        .csv</a>
+                                                    <a href="{{ eudaimonia.get_corporate_eudaimonia_delete_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-trash text-danger"></i> Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+    <!-- /corporate table -->
+{% endblock page_content %}

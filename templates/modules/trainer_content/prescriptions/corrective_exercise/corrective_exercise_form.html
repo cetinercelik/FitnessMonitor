@@ -1,0 +1,1414 @@
+{% extends './corrective_exercise_base.html' %}
+{% block title %}
+    Düzeltici Egzersiz Reçetesi Hazırlama
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/forms/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/buttons.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_extension_buttons_html5.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_data_sources.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_sorting.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_buttons.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_advanced.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_select2.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/extensions/jquery_ui/interactions.min.js' %}"></script>
+
+    <!-- Theme JS files -->
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switchery.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switch.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_checkboxes_radios.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_checkboxes_radios.js' %}"></script>
+
+    <!-- Theme JS files -->
+    <script src="{% static 'global_assets/js/plugins/sliders/ion_rangeslider.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/ui/moment/moment_locales.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/extra_sliders_ion.js' %}"></script>
+    <!-- /theme JS files -->
+
+
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="{% url 'trainer-home' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <a href="{% url 'trainer-home' %}" class="breadcrumb-item">Düzeltici Egzersiz Reçetesi Yönetimi</a>
+                    <span class="breadcrumb-item active">Düzeltici Egzersiz Reçetesi Hazırlama</span>
+                </div>
+
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h5><i class="mr-1"></i><span class="font-weight-semibold"><a style="color: black"
+                                                                              href="{% url 'trainer-corrective_exercise-home' %}"><i
+                        class="icon-arrow-left52 fa-2x mr-2"></i></a>Düzeltici Egzersiz Reçetesi - </span>Manuel Program
+                    Hazırlama
+                </h5>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+            <div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+    <!-- Corporate Table -->
+    <div class="row">
+        <div class="col-lg-12">
+            <form method="post" enctype="multipart/form-data"
+                  action="{% url 'trainer-corrective_exercise-create' %}">
+                {% csrf_token %}
+
+                <div class="card">
+
+                    <div class="card-header header-elements-inline">
+                        <div class="form-group col-md-4 " data-select2-id="265">
+                            <label class="font-weight-bold">Danışan Seç</label>
+                            <select class="form-control select select2-hidden-accessible"
+                                    data-container-css-class="border-primary text-primary-700"
+                                    data-dropdown-css-class="border-primary" data-fouc="" data-select2-id="22"
+                                    tabindex="-1" aria-hidden="true" name="personal">
+                                <optgroup label="Danışanlarınız" data-select2-id="266">
+                                    {% for personal in  personals %}
+                                        {% if personal_info.personal.id == personal.id %}
+                                            <option value="{{ personal.id }}"
+                                                    selected>{{ personal.user.first_name }} {{ personal.user.last_name }}</option>
+                                        {% else %}
+                                            <option value="{{ personal.id }}">{{ personal.user.first_name }} {{ personal.user.last_name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </optgroup>
+                            </select>
+
+                        </div>
+                        <div class="header-elements">
+                            <div class="list-icons">
+                                <a class="list-icons-item" data-action="collapse"></a>
+                                <a class="list-icons-item" data-action="reload"></a>
+                                <a class="list-icons-item" data-action="remove"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="">
+                        <div class="card">
+                            <div class="card-header bg-danger-600 header-elements-inline">
+                                <h6 class="card-title">
+                                    <a data-toggle="collapse" class="text-white collapsed ml-0 "
+                                       href="#collapsible-styled-group" aria-expanded="false"><i
+                                            class="icon-arrow-down15  mr-2"></i>Düzeltici Egzersiz Reçetesi</a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="collapsible-styled-group" class="collapse" style="">
+                                <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-12 my-2">
+                                            <fieldset>
+                                                <legend class="font-weight-bold">Kişinin Düzeyini
+                                                    Belirle
+                                                </legend>
+                                                {% for k,v in corrective.MAIN.LEVEL.items %}
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio"
+                                                                   name="person_level"
+                                                                   value="{{ v }}"
+                                                                   class="form-check-input-styled-primary"
+                                                                   data-fouc>
+                                                            {{ v }}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-12 my-2">
+                                            <fieldset>
+                                                <legend class="font-weight-bold">Amaç Belirle
+                                                </legend>
+                                                <div class="row">
+                                                    {% for k,v in corrective.MAIN.PURPOSE.items %}
+
+                                                        <div class="form-check col-lg-6 col-sm-12">
+                                                            <label class="form-check-label">
+                                                                <input type="checkbox"
+                                                                       name="{{ k }}"
+                                                                       value="{{ v }}"
+                                                                       class="form-check-input-styled-danger"
+                                                                       data-fouc>
+                                                                {{ v }}
+                                                            </label>
+                                                        </div>
+
+                                                    {% endfor %}
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-12 my-2">
+                                            <fieldset>
+                                                <legend class="font-weight-bold">Gün Sayısı</legend>
+                                                {% for k,v in corrective.MAIN.DAYS.items %}
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox"
+                                                                   name="{{ k }}"
+                                                                   value="{{ v }}"
+                                                                   class="form-check-input-styled-success"
+                                                                   data-fouc>
+                                                            {{ v }}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-12 my-2">
+                                            <fieldset>
+                                                <legend class="font-weight-bold">Antrenman Süresi
+                                                    Belirle
+                                                </legend>
+                                                {% for k,v in corrective.MAIN.TRAININGTIME.items %}
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio"
+                                                                   name="train_time"
+                                                                   value="{{ v }}"
+                                                                   class="form-check-input-styled-primary"
+                                                                   data-fouc>
+                                                            {{ v }}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+
+
+                                            </fieldset>
+                                        </div>
+
+
+                                        <div class="col-lg-6 col-sm-12 my-2">
+                                            <fieldset>
+                                                <legend class="font-weight-bold">
+                                                    Tempo
+                                                    (TUT)
+                                                </legend>
+                                                {% for k,v in corrective.MAIN.TEMPO.items %}
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio"
+                                                                   name="tempo1"
+                                                                   value="{{ v }}"
+                                                                   class="form-check-input-styled-danger"
+                                                                   data-fouc>
+                                                            {{ v }}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-12 my-2">
+                                            <fieldset>
+                                                <legend class="font-weight-bold">Set
+                                                    Sayısı & Tekrar
+                                                    Sayısı
+                                                </legend>
+
+                                                <div class="form-group">
+                                                    <label class="font-weight-bold">Set
+                                                        Sayısı</label>
+                                                    <input type="text" name="set_number1"
+                                                           class="form-control ion-height-helper ion-basic"
+                                                           id="" data-fouc>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="font-weight-bold">Tekrar
+                                                        Sayısı</label>
+                                                    <input type="text" name="over_number1"
+                                                           class="form-control ion-height-helper ion-basic1"
+                                                           id="" data-fouc>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+
+                                        <div class="col-lg-6 col-sm-12 my-2">
+                                            <fieldset>
+                                                <legend class="font-weight-bold">
+                                                    Dinlenme Aralığı Süresi
+                                                </legend>
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-sm-12">
+                                                        <label class="font-weight-bold">Setler
+                                                            Arası
+                                                            Dinlenme</label>
+                                                        {% for k,v in corrective.MAIN.SET.items %}
+                                                            <div class="form-check">
+                                                                <label class="form-check-label">
+                                                                    <input type="radio"
+                                                                           name="sets_between1"
+                                                                           value="{{ v }}"
+                                                                           class="form-check-input-styled-success"
+                                                                           data-fouc>
+                                                                    {{ v }}
+                                                                </label>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-12">
+                                                        <label class="font-weight-bold">Hareketler
+                                                            Arası
+                                                            Dinlenme</label>
+                                                        {% for k,v in corrective.MAIN.MOVEMENT.items %}
+                                                            <div class="form-check">
+                                                                <label class="form-check-label">
+                                                                    <input type="radio"
+                                                                           name="move_between1"
+                                                                           value="{{ v }}"
+                                                                           class="form-check-input-styled-primary"
+
+                                                                           data-fouc>
+                                                                    {{ v }}
+                                                                </label>
+                                                            </div>
+                                                        {% endfor %}
+
+
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-12 my-2">
+                                            <fieldset>
+                                                <legend class="font-weight-bold">Reçete
+                                                    Dosyasını Oluştur
+                                                </legend>
+                                                {% for k,v in corrective.MAIN.FILE.items %}
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio"
+                                                                   name="exercise_file"
+                                                                   value="{{ v }}"
+                                                                   class="form-check-input-styled-danger"
+                                                                   data-fouc>
+                                                            {{ v }}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+
+
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header bg-warning-600 header-elements-inline">
+                                <h6 class="card-title">
+                                    <a data-toggle="collapse" class="text-white collapsed"
+                                       href="#collapsible-styled-group1" aria-expanded="false"><i
+                                            class="icon-arrow-down15 mr-2"></i>Düzeltici Egzersiz Stratejileri</a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapsible-styled-group1" class="collapse" style="">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="card col-lg-12">
+                                            <div class="card-header">
+                                                <h6 class="card-title">
+                                                    <a class="text-danger collapsed font-weight-bold"
+                                                       data-toggle="collapse"
+                                                       href="#collapsible-control-group151"
+                                                       aria-expanded="false"><i
+                                                            class="icon-arrow-down15 text-danger mr-3"></i>
+                                                        Over-Pronasyon Egzersiz Stratejileri</a>
+                                                </h6>
+                                            </div>
+
+                                            <div id="collapsible-control-group151"
+                                                 class="collapse"
+                                                 style="">
+                                                <div class="card-body">
+
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-danger collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group42"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-danger mr-3"></i>
+                                                                    SMR Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group42"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.OVERPRONASYON.SMR.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-danger"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-success collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group43"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-success mr-3"></i>
+                                                                    Stretching Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group43"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.OVERPRONASYON.STRETCHING.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-success"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-primary collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group44"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-primary mr-3"></i>
+                                                                    Kuvvetlendirme Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group44"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.OVERPRONASYON.FORCE.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-primary"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card col-lg-12">
+                                            <div class="card-header">
+                                                <h6 class="card-title">
+                                                    <a class="text-success collapsed font-weight-bold"
+                                                       data-toggle="collapse"
+                                                       href="#collapsible-control-group152"
+                                                       aria-expanded="false"><i
+                                                            class="icon-arrow-down15 text-success mr-3"></i>
+                                                        Dorsi-Fleksiyon Egzersiz Stratejileri</a>
+                                                </h6>
+                                            </div>
+
+                                            <div id="collapsible-control-group152"
+                                                 class="collapse"
+                                                 style="">
+                                                <div class="card-body">
+
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-danger collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group46"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-danger mr-3"></i>
+                                                                    SMR Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group46"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.DORSI.SMR.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-danger"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-success collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group47"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-success mr-3"></i>
+                                                                    Stretching Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group47"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.DORSI.STRETCHING.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-success"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-primary collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group48"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-primary mr-3"></i>
+                                                                    Kuvvetlendirme Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group48"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.DORSI.FORCE.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-primary"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card col-lg-12">
+                                            <div class="card-header">
+                                                <h6 class="card-title">
+                                                    <a class="text-primary collapsed font-weight-bold"
+                                                       data-toggle="collapse"
+                                                       href="#collapsible-control-group153"
+                                                       aria-expanded="false"><i
+                                                            class="icon-arrow-down15 text-primary mr-3"></i>
+                                                        Diz Valgusu Egzersiz Stratejileri</a>
+                                                </h6>
+                                            </div>
+
+                                            <div id="collapsible-control-group153"
+                                                 class="collapse"
+                                                 style="">
+                                                <div class="card-body">
+
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-danger collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group49"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-danger mr-3"></i>
+                                                                    SMR Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group49"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.KNEE.SMR.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-danger"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-success collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group50"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-success mr-3"></i>
+                                                                    Stretching Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group50"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.KNEE.STRETCHING.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-success"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-primary collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group51"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-primary mr-3"></i>
+                                                                    Kuvvetlendirme Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group51"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.KNEE.FORCE.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-primary"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card col-lg-12">
+                                            <div class="card-header">
+                                                <h6 class="card-title">
+                                                    <a class="text-warning collapsed font-weight-bold"
+                                                       data-toggle="collapse"
+                                                       href="#collapsible-control-group154"
+                                                       aria-expanded="false"><i
+                                                            class="icon-arrow-down15 text-warning mr-3"></i>
+                                                        Lomber Lordoz Artışı Egzersiz Stratejileri</a>
+                                                </h6>
+                                            </div>
+
+                                            <div id="collapsible-control-group154"
+                                                 class="collapse"
+                                                 style="">
+                                                <div class="card-body">
+
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-danger collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group52"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-danger mr-3"></i>
+                                                                    SMR Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group52"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.LOMBER.SMR.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-danger"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-success collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group53"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-success mr-3"></i>
+                                                                    Stretching Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group53"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.LOMBER.STRETCHING.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-success"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-primary collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group54"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-primary mr-3"></i>
+                                                                    Kuvvetlendirme Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group54"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.LOMBER.FORCE.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-primary"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card col-lg-12">
+                                            <div class="card-header">
+                                                <h6 class="card-title">
+                                                    <a class="text-info collapsed font-weight-bold"
+                                                       data-toggle="collapse"
+                                                       href="#collapsible-control-group155"
+                                                       aria-expanded="false"><i
+                                                            class="icon-arrow-down15 text-info mr-3"></i>
+                                                        Torakal Kifoz Egzersiz Stratejileri</a>
+                                                </h6>
+                                            </div>
+
+                                            <div id="collapsible-control-group155"
+                                                 class="collapse"
+                                                 style="">
+                                                <div class="card-body">
+
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-danger collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group55"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-danger mr-3"></i>
+                                                                    SMR Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group55"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.TORAKAL.SMR.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-danger"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-success collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group56"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-success mr-3"></i>
+                                                                    Stretching Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group56"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.TORAKAL.STRETCHING.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-success"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-primary collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group57"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-primary mr-3"></i>
+                                                                    Kuvvetlendirme Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group57"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.TORAKAL.FORCE.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-primary"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card col-lg-12">
+                                            <div class="card-header">
+                                                <h6 class="card-title">
+                                                    <a class="text-danger collapsed font-weight-bold"
+                                                       data-toggle="collapse"
+                                                       href="#collapsible-control-group156"
+                                                       aria-expanded="false"><i
+                                                            class="icon-arrow-down15 text-danger mr-3"></i>
+                                                        Round Shoulder Egzersiz Stratejileri</a>
+                                                </h6>
+                                            </div>
+
+                                            <div id="collapsible-control-group156"
+                                                 class="collapse"
+                                                 style="">
+                                                <div class="card-body">
+
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-danger collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group59"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-danger mr-3"></i>
+                                                                    SMR Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group59"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.ROUND.SMR.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-danger"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-success collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group60"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-success mr-3"></i>
+                                                                    Stretching Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group60"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.ROUND.STRETCHING.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-success"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-primary collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group61"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-primary mr-3"></i>
+                                                                    Kuvvetlendirme Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group61"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.ROUND.FORCE.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-primary"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card col-lg-12">
+                                            <div class="card-header">
+                                                <h6 class="card-title">
+                                                    <a class="text-primary collapsed font-weight-bold"
+                                                       data-toggle="collapse"
+                                                       href="#collapsible-control-group157"
+                                                       aria-expanded="false"><i
+                                                            class="icon-arrow-down15 text-primary mr-3"></i>
+                                                        Protracted Skapula Egzersiz Stratejileri</a>
+                                                </h6>
+                                            </div>
+
+                                            <div id="collapsible-control-group157"
+                                                 class="collapse"
+                                                 style="">
+                                                <div class="card-body">
+
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-danger collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group63"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-danger mr-3"></i>
+                                                                    SMR Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group63"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.PROTRACTED.SMR.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-danger"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-success collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group64"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-success mr-3"></i>
+                                                                    Stretching Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group64"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.PROTRACTED.STRETCHING.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-success"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-primary collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group65"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-primary mr-3"></i>
+                                                                    Kuvvetlendirme Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group65"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.PROTRACTED.FORCE.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-primary"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card col-lg-12">
+                                            <div class="card-header">
+                                                <h6 class="card-title">
+                                                    <a class="text-warning collapsed font-weight-bold"
+                                                       data-toggle="collapse"
+                                                       href="#collapsible-control-group158"
+                                                       aria-expanded="false"><i
+                                                            class="icon-arrow-down15 text-warning mr-3"></i>
+                                                        Forward-Head Sendromu (İleri Baş) Egzersiz Stratejileri</a>
+                                                </h6>
+                                            </div>
+
+                                            <div id="collapsible-control-group158"
+                                                 class="collapse"
+                                                 style="">
+                                                <div class="card-body">
+
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-danger collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group67"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-danger mr-3"></i>
+                                                                    SMR Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group67"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.FORWARD.SMR.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-danger"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-success collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group68"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-success mr-3"></i>
+                                                                    Stretching Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group68"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.FORWARD.STRETCHING.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-success"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card col-lg-12">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-primary collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group69"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-primary mr-3"></i>
+                                                                    Kuvvetlendirme Egzersiz Teknikleri</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group69"
+                                                             class="collapse"
+                                                             style="">
+                                                            <div class="card-body">
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-2">
+                                                                        {% for k,v in corrective.STRATEGIES.FORWARD.FORCE.items %}
+                                                                            <div class="form-check col-lg-6 col-md-12">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox"
+                                                                                           name="{{ k }}"
+                                                                                           value="{{ v }}"
+                                                                                           class="form-check-input-styled-primary"
+                                                                                           data-fouc>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="text-right">
+                            <button type="submit" name="_save" value="_save" class="btn bg-primary">KAYDET
+                                <i class="icon-paperplane ml-2"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        $('.ion-basic').ionRangeSlider({
+            min: 1,
+            max: 20,
+        });
+
+        $('.ion-basic1').ionRangeSlider({
+            min: 1,
+            max: 50,
+        });
+
+    </script>
+    <!-- /corporate table -->
+{% endblock page_content %}

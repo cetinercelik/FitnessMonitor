@@ -1,0 +1,2001 @@
+{% extends './athletic_performance_base.html' %}
+{% block title %}
+    Atletik Performans Değerlendirme
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/datatables.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/buttons.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_extension_buttons_html5.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_data_sources.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_sorting.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_buttons.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_advanced.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_select2.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/extensions/jquery_ui/interactions.min.js' %}"></script>
+
+    <!-- Theme JS files -->
+    <script src="{% static 'global_assets/js/plugins/forms_contents/styling/switchery.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/styling/switch.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_checkboxes_radios.js' %}"></script>
+
+
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="{% url 'trainer-home' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <span class="breadcrumb-item active">Atletik Performans Değerlendirme</span>
+                </div>
+
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h4><i class="mr-1"></i> <span
+                        class="font-weight-semibold"><a style="color: black" href="{% url 'trainer-home' %}"><i
+                        class="icon-arrow-left52 fa-2x mr-2"></i></a>Atletik Performans Değerlendirme Formu</span>
+                </h4>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+            <div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+    <!-- Corporate Table -->
+    <div class="row">
+        <div class="col-lg-12">
+            <form method="post" enctype="multipart/form-data"
+                  action="{% url 'trainer-athletic-create' %}">
+                {% csrf_token %}
+
+                <div class="card">
+
+
+                    <div class="card-header header-elements-inline">
+                        <div class="form-group col-md-4" data-select2-id="265">
+                            <label class="font-weight-bold">Danışan Seç</label>
+                            <select class="form-control select select2-hidden-accessible"
+                                    data-container-css-class="border-primary text-primary-700"
+                                    data-dropdown-css-class="border-primary" data-fouc="" data-select2-id="22"
+                                    tabindex="-1" aria-hidden="true" name="personal">
+                                <optgroup label="Danışanlarınız" data-select2-id="266">
+                                    {% for personal in  personals %}
+                                        {% if personal_info.personal.id == personal.id %}
+                                            <option value="{{ personal.id }}"
+                                                    selected>{{ personal.user.first_name }} {{ personal.user.last_name }}</option>
+                                        {% else %}
+                                            <option value="{{ personal.id }}">{{ personal.user.first_name }} {{ personal.user.last_name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </optgroup>
+                            </select>
+
+                        </div>
+                        <div class="header-elements">
+                            <div class="list-icons">
+                                <a class="list-icons-item" data-action="collapse"></a>
+                                <a class="list-icons-item" data-action="reload"></a>
+                                <a class="list-icons-item" data-action="remove"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="">
+
+                        <div class="card">
+                            <div class="card-header bg-danger header-elements-inline">
+                                <h6 class="card-title">
+                                    <a data-toggle="collapse" class="text-white collapsed"
+                                       href="#collapsible-styled-group" aria-expanded="false"><i
+                                            class="icon-arrow-down15  mr-2"></i> Vücut Kompozisyonu</a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapsible-styled-group" class="collapse" style="">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card ">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-danger collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group1" aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-danger mr-3"></i>Çevre
+                                                                Ölçümleri</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group1" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                {% for k,v in athletic.BODY.SURRONDING.items %}
+                                                                    <div class="col-lg-3 col-sm-12 mt-2">
+                                                                        <div class="form-group">
+                                                                            <label>
+                                                                                {{ v }} </label>
+                                                                            <input type="number"
+                                                                                   name="{{ k }}"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                   placeholder="{{ v }}">
+                                                                            {% if athletic_form.k.errors %}
+                                                                                {% for error in athletic_form.k.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                {% endfor %}
+
+
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-primary collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group2" aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-primary mr-3"></i>Vücut
+                                                                Yağ Oranı</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group2" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="row">
+                                                                        <fieldset class="col-lg-12">
+                                                                            <legend><a
+                                                                                    href="#alpaca-input-label-source14"
+                                                                                    data-toggle="collapse"
+                                                                                    class=""
+                                                                                    aria-expanded="true"><i
+                                                                                    class="icon-radio-unchecked mr-2"></i>
+                                                                                3 Yön
+                                                                            </a></legend>
+                                                                            <div class="mt-2 collapse"
+                                                                                 id="alpaca-input-label-source14"
+                                                                                 style="">
+                                                                                <div class="row">
+                                                                                    <fieldset class="col-lg-12 mx-2">
+                                                                                        <legend><a
+                                                                                                href="#alpaca-input-label-source15"
+                                                                                                data-toggle="collapse"
+                                                                                                class=""
+                                                                                                aria-expanded="true"><i
+                                                                                                class="icon-radio-unchecked mr-2"></i>
+                                                                                            Erkek
+                                                                                        </a></legend>
+                                                                                        <div class="mb-2 collapse"
+                                                                                             id="alpaca-input-label-source15"
+                                                                                             style="">
+                                                                                            <div class="row">
+                                                                                                {% for k,v in athletic.BODY.BODYOIL.THREE.MAN.items %}
+                                                                                                    <div class="col-lg-4 col-sm-12 mt-2">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>
+                                                                                                                {{ v }} </label>
+                                                                                                            <input type="number"
+                                                                                                                   name="{{ k }}"
+                                                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                                                   value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                                                   placeholder="{{ v }}">
+                                                                                                            {% if athletic_form.k.errors %}
+                                                                                                                {% for error in athletic_form.k.errors %}
+                                                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                                                    <br/>
+                                                                                                                {% endfor %}
+                                                                                                            {% endif %}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                {% endfor %}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </fieldset>
+                                                                                    <fieldset
+                                                                                            class="col-lg-12 mx-2 my-2">
+                                                                                        <legend><a
+                                                                                                href="#alpaca-input-label-source16"
+                                                                                                data-toggle="collapse"
+                                                                                                class=""
+                                                                                                aria-expanded="true"><i
+                                                                                                class="icon-radio-unchecked mr-2"></i>
+                                                                                            Kadın
+                                                                                        </a></legend>
+                                                                                        <div class="mb-2 collapse"
+                                                                                             id="alpaca-input-label-source16"
+                                                                                             style="">
+                                                                                            <div class="row">
+                                                                                                {% for k,v in athletic.BODY.BODYOIL.THREE.WOMAN.items %}
+                                                                                                    <div class="col-lg-4 col-sm-12 mt-2">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>
+                                                                                                                {{ v }} </label>
+                                                                                                            <input type="number"
+                                                                                                                   name="{{ k }}"
+                                                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                                                   value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                                                   placeholder="{{ v }}">
+                                                                                                            {% if athletic_form.k.errors %}
+                                                                                                                {% for error in athletic_form.k.errors %}
+                                                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                                                    <br/>
+                                                                                                                {% endfor %}
+                                                                                                            {% endif %}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                {% endfor %}
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </fieldset>
+                                                                                </div>
+                                                                            </div>
+                                                                        </fieldset>
+                                                                        <fieldset class="col-lg-12">
+                                                                            <legend><a
+                                                                                    href="#alpaca-input-label-source17"
+                                                                                    data-toggle="collapse"
+                                                                                    class=""
+                                                                                    aria-expanded="true"><i
+                                                                                    class="icon-radio-unchecked mr-2"></i>
+                                                                                7 Yön
+                                                                            </a></legend>
+                                                                            <div class="mt-2 collapse"
+                                                                                 id="alpaca-input-label-source17"
+                                                                                 style="">
+                                                                                <div class="row">
+                                                                                    <fieldset class="col-lg-12 mx-2">
+                                                                                        <legend><a
+                                                                                                href="#alpaca-input-label-source18"
+                                                                                                data-toggle="collapse"
+                                                                                                class=""
+                                                                                                aria-expanded="true"><i
+                                                                                                class="icon-radio-unchecked mr-2"></i>
+                                                                                            Erkek
+                                                                                        </a></legend>
+                                                                                        <div class="mt-2 collapse"
+                                                                                             id="alpaca-input-label-source18"
+                                                                                             style="">
+                                                                                            <div class="row">
+                                                                                                {% for k,v in athletic.BODY.BODYOIL.SEVEN.MAN.items %}
+                                                                                                    <div class="col-lg-3 col-sm-12 mt-2">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>
+                                                                                                                {{ v }} </label>
+                                                                                                            <input type="number"
+                                                                                                                   name="{{ k }}"
+                                                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                                                   value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                                                   placeholder="{{ v }}">
+                                                                                                            {% if athletic_form.k.errors %}
+                                                                                                                {% for error in athletic_form.k.errors %}
+                                                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                                                    <br/>
+                                                                                                                {% endfor %}
+                                                                                                            {% endif %}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                {% endfor %}
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </fieldset>
+                                                                                    <fieldset class="col-lg-12 mx-2">
+                                                                                        <legend><a
+                                                                                                href="#alpaca-input-label-source19"
+                                                                                                data-toggle="collapse"
+                                                                                                class=""
+                                                                                                aria-expanded="true"><i
+                                                                                                class="icon-radio-unchecked mr-2"></i>
+                                                                                            Kadın
+                                                                                        </a></legend>
+                                                                                        <div class="mt-2 collapse"
+                                                                                             id="alpaca-input-label-source19"
+                                                                                             style="">
+                                                                                            <div class="row">
+                                                                                                {% for k,v in athletic.BODY.BODYOIL.SEVEN.WOMAN.items %}
+                                                                                                    <div class="col-lg-3 col-sm-12 mt-2">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>
+                                                                                                                {{ v }} </label>
+                                                                                                            <input type="number"
+                                                                                                                   name="{{ k }}"
+                                                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                                                   value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                                                   placeholder="{{ v }}">
+                                                                                                            {% if athletic_form.k.errors %}
+                                                                                                                {% for error in athletic_form.k.errors %}
+                                                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                                                    <br/>
+                                                                                                                {% endfor %}
+                                                                                                            {% endif %}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                {% endfor %}
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </fieldset>
+                                                                                </div>
+                                                                            </div>
+                                                                        </fieldset>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 ">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-warning collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group3" aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-warning mr-3"></i>Somatotip
+                                                                Karakter</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group3" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                {% for k,v in athletic.BODY.SOMATOTIP.items %}
+                                                                    <div class="col-lg-6 col-sm-12 mt-2">
+                                                                        <div class="form-group">
+                                                                            <label>
+                                                                                {{ v }} </label>
+                                                                            <input type="number"
+                                                                                   name="{{ k }}"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                   placeholder="{{ v }}">
+                                                                            {% if athletic_form.k.errors %}
+                                                                                {% for error in athletic_form.k.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                {% endfor %}
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header bg-warning-600 header-elements-inline">
+                                <h6 class="card-title">
+                                    <a data-toggle="collapse" class="text-white collapsed"
+                                       href="#collapsible-styled-group1" aria-expanded="false"><i
+                                            class="icon-arrow-down15  mr-2"></i>Aerobik - Anaerobik
+                                        Kapasite</a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapsible-styled-group1" class="collapse" style="">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card ">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-danger collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group7" aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-danger mr-3"></i>Kalp Atım
+                                                                Hızı - Vo2maks - Laktat Eşiği</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group7" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <fieldset>
+                                                                        <legend class="font-weight-bold">Kalp Atım
+                                                                            Hızı
+                                                                        </legend>
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group">
+                                                                                <label>
+                                                                                    Dinlenim Kalp Atım Hızı </label>
+                                                                                <input type="number"
+                                                                                       name="heart_rate"
+                                                                                       class="form-control tagsinput-custom-tag-class{% if athletic_form.heart_rate.errors %} border-danger-800 {% endif %} "
+                                                                                       value="{{ athletic_form.heart_rate.value | default_if_none:"" }}"
+                                                                                       placeholder="Dinlenim Kalp Atım Hızı">
+                                                                                {% if athletic_form.heart_rate.errors %}
+                                                                                    {% for error in athletic_form.heart_rate.errors %}
+                                                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                                                        <br/>
+                                                                                    {% endfor %}
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        </div>
+                                                                    </fieldset>
+                                                                    <fieldset>
+                                                                        <legend class="font-weight-bold"> Vo2maks
+                                                                        </legend>
+                                                                        <div class="row">
+                                                                            {% for k,v in athletic.AEROBIK.VOMAKS.items %}
+                                                                                <div class="col-lg-4 col-sm-12 mt-2">
+                                                                                    <div class="form-group">
+                                                                                        <label>
+                                                                                            {{ v }} </label>
+                                                                                        <input type="number"
+                                                                                               name="{{ k }}"
+                                                                                               class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                               value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                               placeholder="{{ v }}">
+                                                                                        {% if athletic_form.k.errors %}
+                                                                                            {% for error in athletic_form.k.errors %}
+                                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                                <br/>
+                                                                                            {% endfor %}
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                </div>
+                                                                            {% endfor %}
+
+                                                                        </div>
+                                                                    </fieldset>
+                                                                    <fieldset>
+                                                                        <legend class="font-weight-bold">Laktat Eşiği
+                                                                        </legend>
+                                                                        <div class="row">
+                                                                            {% for k,v in athletic.AEROBIK.LAKTAT.items %}
+                                                                                <div class="col-lg-4 col-sm-12">
+                                                                                    <div class="form-group">
+                                                                                        <label>
+                                                                                            {{ v }} </label>
+                                                                                        <input type="number"
+                                                                                               name="{{ k }}"
+                                                                                               class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                               value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                               placeholder="{{ v }}">
+                                                                                        {% if athletic_form.k.errors %}
+                                                                                            {% for error in athletic_form.k.errors %}
+                                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                                <br/>
+                                                                                            {% endfor %}
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                </div>
+                                                                            {% endfor %}
+
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-primary collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group8" aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-primary mr-3"></i>Anaerobik
+                                                                Güç</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group8" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <fieldset>
+                                                                        <legend class="font-weight-bold">Wingate
+                                                                            Anaerobik Güç
+                                                                        </legend>
+                                                                        <div class="row">
+                                                                            {% for k,v in athletic.AEROBIK.ANEROBIK.WINGATE.items %}
+                                                                                <div class="col-lg-4 col-sm-12">
+                                                                                    <div class="form-group">
+                                                                                        <label>
+                                                                                            {{ v }} </label>
+                                                                                        <input type="number"
+                                                                                               name="{{ k }}"
+                                                                                               class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                               value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                               placeholder="{{ v }}">
+                                                                                        {% if athletic_form.k.errors %}
+                                                                                            {% for error in athletic_form.k.errors %}
+                                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                                <br/>
+                                                                                            {% endfor %}
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                </div>
+                                                                            {% endfor %}
+
+                                                                        </div>
+                                                                    </fieldset>
+                                                                    <fieldset>
+                                                                        <legend class="font-weight-bold">Dikey Sıçrama
+                                                                            Anaerobik Güç
+                                                                        </legend>
+                                                                        <div class="row">
+                                                                            {% for k,v in athletic.AEROBIK.ANEROBIK.LEAP.VERTICAL.items %}
+                                                                                <div class="col-lg-4 col-sm-12">
+                                                                                    <div class="form-group">
+                                                                                        <label>
+                                                                                            {{ v }} </label>
+                                                                                        <input type="number"
+                                                                                               name="{{ k }}"
+                                                                                               class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                               value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                               placeholder="{{ v }}">
+                                                                                        {% if athletic_form.k.errors %}
+                                                                                            {% for error in athletic_form.k.errors %}
+                                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                                <br/>
+                                                                                            {% endfor %}
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                </div>
+                                                                            {% endfor %}
+
+                                                                        </div>
+                                                                    </fieldset>
+                                                                    <fieldset>
+                                                                        <legend class="font-weight-bold">Yatay Sıçrama
+                                                                            Anaerobik Güç
+                                                                        </legend>
+                                                                        <div class="row">
+                                                                            {% for k,v in athletic.AEROBIK.ANEROBIK.LEAP.HORIZANTAL.items %}
+                                                                                <div class="col-lg-4 col-sm-12">
+                                                                                    <div class="form-group">
+                                                                                        <label>
+                                                                                            {{ v }} </label>
+                                                                                        <input type="number"
+                                                                                               name="{{ k }}"
+                                                                                               class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                               value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                               placeholder="{{ v }}">
+                                                                                        {% if athletic_form.k.errors %}
+                                                                                            {% for error in athletic_form.k.errors %}
+                                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                                <br/>
+                                                                                            {% endfor %}
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                </div>
+                                                                            {% endfor %}
+
+                                                                        </div>
+                                                                    </fieldset>
+                                                                    <fieldset>
+                                                                        <legend class="font-weight-bold">Sağlık Topu
+                                                                            Fırlatma
+                                                                        </legend>
+                                                                        <div class="row">
+                                                                            {% for k,v in athletic.AEROBIK.ANEROBIK.HEALTH.items %}
+                                                                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                                                                    <div class="form-group">
+                                                                                        <label>
+                                                                                            {{ v }} </label>
+                                                                                        <input type="number"
+                                                                                               name="{{ k }}"
+                                                                                               class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                               value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                               placeholder="{{ v }}">
+                                                                                        {% if athletic_form.k.errors %}
+                                                                                            {% for error in athletic_form.k.errors %}
+                                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                                <br/>
+                                                                                            {% endfor %}
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                </div>
+                                                                            {% endfor %}
+
+                                                                        </div>
+                                                                    </fieldset>
+                                                                    <fieldset>
+                                                                        <legend class="font-weight-bold">Doğrusal Hız
+                                                                            Testleri
+                                                                        </legend>
+                                                                        <div class="row">
+                                                                            {% for k,v in athletic.AEROBIK.ANEROBIK.LINEAR.items %}
+                                                                                <div class="col-lg-4 col-sm-12 mb-2">
+                                                                                    <div class="form-group">
+                                                                                        <label>
+                                                                                            {{ v }} </label>
+                                                                                        <input type="number"
+                                                                                               name="{{ k }}"
+                                                                                               class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                               value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                               placeholder="{{ v }}">
+                                                                                        {% if athletic_form.k.errors %}
+                                                                                            {% for error in athletic_form.k.errors %}
+                                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                                <br/>
+                                                                                            {% endfor %}
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                </div>
+                                                                            {% endfor %}
+
+                                                                        </div>
+                                                                    </fieldset>
+                                                                    <fieldset>
+                                                                        <legend class="font-weight-bold">Çeviklik
+                                                                        </legend>
+                                                                        <div class="row">
+                                                                            {% for k,v in athletic.AEROBIK.ANEROBIK.AGILITY.items %}
+                                                                                <div class="col-lg-4 col-sm-12">
+                                                                                    <div class="form-group">
+                                                                                        <label>
+                                                                                            {{ v }} </label>
+                                                                                        <input type="number"
+                                                                                               name="{{ k }}"
+                                                                                               class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                               value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                               placeholder="{{ v }}">
+                                                                                        {% if athletic_form.k.errors %}
+                                                                                            {% for error in athletic_form.k.errors %}
+                                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                                <br/>
+                                                                                            {% endfor %}
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                </div>
+                                                                            {% endfor %}
+
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header bg-success-600 header-elements-inline">
+                                <h6 class="card-title">
+                                    <a class="text-white collapsed" data-toggle="collapse"
+                                       href="#collapsible-styled-group2" aria-expanded="false"><i
+                                            class="icon-arrow-down15  mr-2"></i>Kas Kuvveti Dayanıklılığı</a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapsible-styled-group2" class="collapse" style="">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card ">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-danger collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group13"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-danger mr-3"></i>Genel Kas
+                                                                Kuvveti</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group13" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <fieldset>
+                                                                <legend class="font-weight-bold">El Kavrama Kuvveti
+                                                                </legend>
+                                                                <div class="row">
+                                                                    {% for k,v in athletic.EYEBROW.HAND.items %}
+                                                                        <div class="col-lg-4 col-sm-12 mb-2">
+                                                                            <div class="form-group">
+                                                                                <label>
+                                                                                    {{ v }} </label>
+                                                                                <input type="number"
+                                                                                       name="{{ k }}"
+                                                                                       class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                       value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                       placeholder="{{ v }}">
+                                                                                {% if athletic_form.k.errors %}
+                                                                                    {% for error in athletic_form.k.errors %}
+                                                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                                                        <br/>
+                                                                                    {% endfor %}
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        </div>
+                                                                    {% endfor %}
+
+                                                                </div>
+                                                            </fieldset>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-primary collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group14"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-primary mr-3"></i>Lokal
+                                                                Kas Dayanıklılığı</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group14" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                {% for k,v in athletic.EYEBROW.LOKAL.items %}
+                                                                    <div class="col-lg-4 col-sm-12 mb-2">
+                                                                        <div class="form-group">
+                                                                            <label>
+                                                                                {{ v }} </label>
+                                                                            <input type="number"
+                                                                                   name="{{ k }}"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                   placeholder="{{ v }}">
+                                                                            {% if athletic_form.k.errors %}
+                                                                                {% for error in athletic_form.k.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                {% endfor %}
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 ">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-warning collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group15"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-warning mr-3"></i>1 MT</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group15" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                {% for k,v in athletic.EYEBROW.MT.items %}
+                                                                    <div class="col-lg-3 col-sm-12 mb-2">
+                                                                        <div class="form-group">
+                                                                            <label>
+                                                                                {{ v }} </label>
+                                                                            <input type="number"
+                                                                                   name="{{ k }}"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                   placeholder="{{ v }}">
+                                                                            {% if athletic_form.k.errors %}
+                                                                                {% for error in athletic_form.k.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                {% endfor %}
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header bg-primary-600 header-elements-inline">
+                                <h6 class="card-title">
+                                    <a class="collapsed text-white" data-toggle="collapse"
+                                       href="#collapsible-styled-group3"><i
+                                            class="icon-arrow-down15  mr-2"></i>Metabolik Uygunluk</a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapsible-styled-group3" class="collapse">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card ">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-danger collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group19"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-danger mr-3"></i>Kan
+                                                                Glikoz Profili
+                                                            </a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group19" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                {% for k,v in athletic.METABOLIC.GLUCOSE.items %}
+                                                                    <div class="col-lg-4 col-sm-12 mb-2">
+                                                                        <div class="form-group">
+                                                                            <label>
+                                                                                {{ v }} </label>
+                                                                            <input type="number"
+                                                                                   name="{{ k }}"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                   placeholder="{{ v }}">
+                                                                            {% if athletic_form.k.errors %}
+                                                                                {% for error in athletic_form.k.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                {% endfor %}
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-primary collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group20"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-primary mr-3"></i>Kan Lipid Profili</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group20" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="col-md-12">
+                                                                <div class="row">
+                                                                    {% for k,v in athletic.METABOLIC.LIPID.items %}
+                                                                        <div class="col-lg-3 col-md-6 col-sm-12 mb-2">
+                                                                            <div class="form-group">
+                                                                                <label>
+                                                                                    {{ v }} </label>
+                                                                                <input type="number"
+                                                                                       name="{{ k }}"
+                                                                                       class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                       value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                       placeholder="{{ v }}">
+                                                                                {% if athletic_form.k.errors %}
+                                                                                    {% for error in athletic_form.k.errors %}
+                                                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                                                        <br/>
+                                                                                    {% endfor %}
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        </div>
+                                                                    {% endfor %}
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 ">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-warning collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group21"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-warning mr-3"></i>Kan Basıncı Profili</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group21" class="collapse" style="">
+                                                        <div class="card-body">
+                                                          <div class="row">
+                                                                    {% for k,v in athletic.METABOLIC.PRESS.items %}
+                                                                        <div class="col-lg-6 col-sm-12 mb-2">
+                                                                            <div class="form-group">
+                                                                                <label>
+                                                                                    {{ v }} </label>
+                                                                                <input type="number"
+                                                                                       name="{{ k }}"
+                                                                                       class="form-control tagsinput-custom-tag-class{% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                       value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                       placeholder="{{ v }}">
+                                                                                {% if athletic_form.k.errors %}
+                                                                                    {% for error in athletic_form.k.errors %}
+                                                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                                                        <br/>
+                                                                                    {% endfor %}
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        </div>
+                                                                    {% endfor %}
+
+                                                                </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header bg-dark header-elements-inline">
+                                <h6 class="card-title">
+                                    <a class="text-white collapsed" data-toggle="collapse"
+                                       href="#collapsible-styled-group4" aria-expanded="false"><i
+                                            class="icon-arrow-down15  mr-2"></i> Hareket Kalitesi ve
+                                        Denge </a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapsible-styled-group4" class="collapse" style="">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card ">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-danger collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group24"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-danger mr-3"></i>Overhead
+                                                                Squat Testi - Tek Bacak Squat Testi (Sağ-Sol Taraf İçin)</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group24" class="collapse" style="">
+                                                        <div class="card-body">
+
+                                                            <fieldset>
+                                                                <legend>Overhead Squat Testi</legend>
+                                                                <div class="row">
+                                                                    {% for k,v in athletic.MOVEMENT.OVERHEAD.items %}
+                                                                        <div class="form-check col-lg-5 col-sm-12 mx-2">
+                                                                            <label class="form-check-label">
+                                                                                <div class=" border-danger text-danger">
+                                                                        <span class="name"><input type="checkbox"
+                                                                                                  class="form-check-input-styled-danger"
+                                                                                                  name="{{ k }}"
+                                                                                                  value="{{ v }}"
+                                                                                                  data-fouc=""></span>
+                                                                                </div>
+                                                                                {{ v }}
+                                                                            </label>
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                    <div class="form-group col-lg-6">
+                                                                        <a href="#alpaca-input-label-source20"
+                                                                           data-toggle="collapse"
+                                                                           class=""
+                                                                           aria-expanded="true"><i
+                                                                                class="icon-checkbox-unchecked2 text-danger mr-2"></i>
+                                                                            Diğer Bulgular ve Yorumlar (varsa)
+                                                                        </a>
+                                                                        <div class="mt-2 collapse"
+                                                                             id="alpaca-input-label-source20"
+                                                                             style="">
+                                                                            <input type="text"
+                                                                                   name="other_overhead"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.other_overhead.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.other_overhead.value | default_if_none:"" }}"
+                                                                                   placeholder="Diğer Bulgular...">
+                                                                            {% if athletic_form.other_overhead.errors %}
+                                                                                {% for error in athletic_form.other_overhead.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+
+
+                                                            <fieldset>
+                                                                <legend>Tek Bacak Squat Testi (Sağ-Sol Taraf
+                                                                    İçin)
+                                                                </legend>
+                                                                <div class="row">
+                                                                    {% for k,v in athletic.MOVEMENT.SQUAT.items %}
+                                                                        <div class="form-check col-lg-5 col-sm-12 mx-2">
+                                                                            <label class="form-check-label">
+                                                                                <div class=" border-danger text-danger">
+                                                                        <span class="name"><input type="checkbox"
+                                                                                                  class="form-check-input-styled-danger"
+                                                                                                  name="{{ k }}"
+                                                                                                  value="{{ v }}"
+                                                                                                  data-fouc=""></span>
+                                                                                </div>
+                                                                                {{ v }}
+                                                                            </label>
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                    <div class="form-group col-lg-6">
+                                                                        <a href="#alpaca-input-label-source21"
+                                                                           data-toggle="collapse"
+                                                                           class=""
+                                                                           aria-expanded="true"><i
+                                                                                class="icon-checkbox-unchecked2 text-danger mr-2"></i>
+                                                                            Diğer Bulgular ve Yorumlar (varsa)
+                                                                        </a>
+                                                                        <div class="mt-2 collapse"
+                                                                             id="alpaca-input-label-source21"
+                                                                             style="">
+                                                                            <input type="text"
+                                                                                   name="other_squat"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.other_squat.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.other_squat.value | default_if_none:"" }}"
+                                                                                   placeholder="Diğer Bulgular...">
+                                                                            {% if athletic_form.other_squat.errors %}
+                                                                                {% for error in athletic_form.other_squat.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </fieldset>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-primary collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group25"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-primary mr-3"></i>Tek
+                                                                Bacak Köprü Testi (Sağ-Sol Taraf İçin) - Lunge Testi
+                                                                (Sağ-Sol Taraf İçin)</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group25" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <fieldset>
+                                                                    <legend>Tek Bacak Köprü Testi (Sağ-Sol Taraf
+                                                                        İçin)
+                                                                    </legend>
+                                                                    <div class="row">
+                                                                        {% for k,v in athletic.MOVEMENT.BRIDGE.items %}
+                                                                            <div class="form-check col-lg-5 col-sm-12 mx-2">
+                                                                                <label class="form-check-label">
+                                                                                    <div class=" border-primary text-primary">
+                                                                        <span class="name"><input type="checkbox"
+                                                                                                  class="form-check-input-styled-primary"
+                                                                                                  name="{{ k }}"
+                                                                                                  value="{{ v }}"
+                                                                                                  data-fouc=""></span>
+                                                                                    </div>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                        <div class="form-group col-lg-6">
+                                                                            <a href="#alpaca-input-label-source22"
+                                                                               data-toggle="collapse"
+                                                                               class=""
+                                                                               aria-expanded="true"><i
+                                                                                    class="icon-checkbox-unchecked2 text-primary mr-2"></i>
+                                                                                Diğer Bulgular ve Yorumlar (varsa)
+                                                                            </a>
+                                                                            <div class="mt-2 collapse"
+                                                                                 id="alpaca-input-label-source22"
+                                                                                 style="">
+                                                                                <input type="text"
+                                                                                       name="other_bridge"
+                                                                                       class="form-control tagsinput-custom-tag-class{% if athletic_form.other_bridge.errors %} border-danger-800 {% endif %} "
+                                                                                       value="{{ athletic_form.other_bridge.value | default_if_none:"" }}"
+                                                                                       placeholder="Diğer Bulgular...">
+                                                                                {% if athletic_form.other_bridge.errors %}
+                                                                                    {% for error in athletic_form.other_bridge.errors %}
+                                                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                                                        <br/>
+                                                                                    {% endfor %}
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                </fieldset>
+
+                                                                <fieldset>
+                                                                    <legend>Lunge Testi (Sağ-Sol Taraf İçin)
+                                                                    </legend>
+                                                                    <div class="row">
+                                                                        {% for k,v in athletic.MOVEMENT.LUNGE.items %}
+                                                                            <div class="form-check col-lg-5 col-sm-12 mx-2">
+                                                                                <label class="form-check-label">
+                                                                                    <div class=" border-primary text-primary">
+                                                                        <span class="name"><input type="checkbox"
+                                                                                                  class="form-check-input-styled-primary"
+                                                                                                  name="{{ k }}"
+                                                                                                  value="{{ v }}"
+                                                                                                  data-fouc=""></span>
+                                                                                    </div>
+                                                                                    {{ v }}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                        <div class="form-group col-lg-6">
+                                                                            <a href="#alpaca-input-label-source23"
+                                                                               data-toggle="collapse"
+                                                                               class=""
+                                                                               aria-expanded="true"><i
+                                                                                    class="icon-checkbox-unchecked2 text-primary mr-2"></i>
+                                                                                Diğer Bulgular ve Yorumlar (varsa)
+                                                                            </a>
+                                                                            <div class="mt-2 collapse"
+                                                                                 id="alpaca-input-label-source23"
+                                                                                 style="">
+                                                                                <input type="text"
+                                                                                       name="other_lunge"
+                                                                                       class="form-control tagsinput-custom-tag-class{% if athletic_form.other_lunge.errors %} border-danger-800 {% endif %} "
+                                                                                       value="{{ athletic_form.other_lunge.value | default_if_none:"" }}"
+                                                                                       placeholder="Diğer Bulgular...">
+                                                                                {% if athletic_form.other_lunge.errors %}
+                                                                                    {% for error in athletic_form.other_lunge.errors %}
+                                                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                                                        <br/>
+                                                                                    {% endfor %}
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 ">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-warning collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group26"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-warning mr-3"></i>Trunk
+                                                                Stability (Push-up) - Shoulder Mobility (Sağ-Sol Taraf
+                                                                İçin)</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group26" class="collapse" style="">
+                                                        <div class="card-body">
+
+                                                            <fieldset>
+                                                                <legend>Trunk Stability (Push-up)
+                                                                </legend>
+                                                                <div class="row">
+                                                                    {% for k,v in athletic.MOVEMENT.TRUNK.items %}
+                                                                        <div class="form-check col-lg-5 col-sm-12 mx-2">
+                                                                            <label class="form-check-label">
+                                                                                <div class=" border-warning text-warning">
+                                                                        <span class="name"><input type="checkbox"
+                                                                                                  class="form-check-input-styled-warning"
+                                                                                                  name="{{ k }}"
+                                                                                                  value="{{ v }}"
+                                                                                                  data-fouc=""></span>
+                                                                                </div>
+                                                                                {{ v }}
+                                                                            </label>
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                    <div class="form-group col-lg-6">
+                                                                        <a href="#alpaca-input-label-source24"
+                                                                           data-toggle="collapse"
+                                                                           class=""
+                                                                           aria-expanded="true"><i
+                                                                                class="icon-checkbox-unchecked2 text-warning mr-2"></i>
+                                                                            Diğer Bulgular ve Yorumlar (varsa)
+                                                                        </a>
+                                                                        <div class="mt-2 collapse"
+                                                                             id="alpaca-input-label-source24"
+                                                                             style="">
+                                                                            <input type="text"
+                                                                                   name="other_trunk"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.other_trunk.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.other_trunk.value | default_if_none:"" }}"
+                                                                                   placeholder="Diğer Bulgular...">
+                                                                            {% if athletic_form.other_trunk.errors %}
+                                                                                {% for error in athletic_form.other_trunk.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+
+                                                            <fieldset>
+                                                                <legend>Shoulder Mobility (Sağ-Sol Taraf İçin)
+                                                                </legend>
+                                                                <div class="row">
+                                                                    {% for k,v in athletic.MOVEMENT.SHOULDER.items %}
+                                                                        <div class="form-check col-lg-5 col-sm-12 mx-2">
+                                                                            <label class="form-check-label">
+                                                                                <div class=" border-warning text-warning">
+                                                                        <span class="name"><input type="checkbox"
+                                                                                                  class="form-check-input-styled-warning"
+                                                                                                  name="{{ k }}"
+                                                                                                  value="{{ v }}"
+                                                                                                  data-fouc=""></span>
+                                                                                </div>
+                                                                                {{ v }}
+                                                                            </label>
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                    <div class="form-group col-lg-6">
+                                                                        <a href="#alpaca-input-label-source25"
+                                                                           data-toggle="collapse"
+                                                                           class=""
+                                                                           aria-expanded="true"><i
+                                                                                class="icon-checkbox-unchecked2 text-warning mr-2"></i>
+                                                                            Diğer Bulgular ve Yorumlar (varsa)
+                                                                        </a>
+                                                                        <div class="mt-2 collapse"
+                                                                             id="alpaca-input-label-source25"
+                                                                             style="">
+                                                                            <input type="text"
+                                                                                   name="other_shoulder"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.other_shoulder.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.other_shoulder.value | default_if_none:"" }}"
+                                                                                   placeholder="Diğer Bulgular...">
+                                                                            {% if athletic_form.other_shoulder.errors %}
+                                                                                {% for error in athletic_form.other_shoulder.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-success collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group27"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-success mr-3"></i>Active
+                                                                Straight Leg Raise Test (Sağ-Sol Taraf İçin) - Rotary
+                                                                Stability (Sağ-Sol Taraf İçin)</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group27" class="collapse" style="">
+                                                        <div class="card-body">
+
+                                                            <fieldset>
+                                                                <legend>Active Straight Leg Raise Test (Sağ-Sol
+                                                                    Taraf İçin)
+                                                                </legend>
+                                                                <div class="row">
+                                                                    {% for k,v in athletic.MOVEMENT.ACTIVE.items %}
+                                                                        <div class="form-check col-lg-5 col-sm-12 mx-2">
+                                                                            <label class="form-check-label">
+                                                                                <div class=" border-success text-success">
+                                                                        <span class="name"><input type="checkbox"
+                                                                                                  class="form-check-input-styled-success"
+                                                                                                  name="{{ k }}"
+                                                                                                  value="{{ v }}"
+                                                                                                  data-fouc=""></span>
+                                                                                </div>
+                                                                                {{ v }}
+                                                                            </label>
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                    <div class="form-group col-lg-6">
+                                                                        <a href="#alpaca-input-label-source26"
+                                                                           data-toggle="collapse"
+                                                                           class=""
+                                                                           aria-expanded="true"><i
+                                                                                class="icon-checkbox-unchecked2 text-success mr-2"></i>
+                                                                            Diğer Bulgular ve Yorumlar (varsa)
+                                                                        </a>
+                                                                        <div class="mt-2 collapse"
+                                                                             id="alpaca-input-label-source26"
+                                                                             style="">
+                                                                            <input type="text"
+                                                                                   name="other_active"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.other_active.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.other_active.value | default_if_none:"" }}"
+                                                                                   placeholder="Diğer Bulgular...">
+                                                                            {% if athletic_form.other_active.errors %}
+                                                                                {% for error in athletic_form.other_active.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+
+                                                            <fieldset>
+                                                                <legend>Rotary Stability (Sağ-Sol Taraf İçin)
+                                                                </legend>
+                                                                <div class="row">
+                                                                    {% for k,v in athletic.MOVEMENT.ROTARY.items %}
+                                                                        <div class="form-check col-lg-5 col-sm-12 mx-2">
+                                                                            <label class="form-check-label">
+                                                                                <div class=" border-success text-success">
+                                                                        <span class="name"><input type="checkbox"
+                                                                                                  class="form-check-input-styled-success"
+                                                                                                  name="{{ k }}"
+                                                                                                  value="{{ v }}"
+                                                                                                  data-fouc=""></span>
+                                                                                </div>
+                                                                                {{ v }}
+                                                                            </label>
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                    <div class="form-group col-lg-6">
+                                                                        <a href="#alpaca-input-label-source27"
+                                                                           data-toggle="collapse"
+                                                                           class=""
+                                                                           aria-expanded="true"><i
+                                                                                class="icon-checkbox-unchecked2 text-success mr-2"></i>
+                                                                            Diğer Bulgular ve Yorumlar (varsa)
+                                                                        </a>
+                                                                        <div class="mt-2 collapse"
+                                                                             id="alpaca-input-label-source27"
+                                                                             style="">
+                                                                            <input type="text"
+                                                                                   name="other_rotary"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.other_rotary.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.other_rotary.value | default_if_none:"" }}"
+                                                                                   placeholder="Diğer Bulgular...">
+                                                                            {% if athletic_form.other_rotary.errors %}
+                                                                                {% for error in athletic_form.other_rotary.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-danger collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group28"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-danger mr-3"></i>Front
+                                                                Plank Dayanıklılık Testi (Veri Girişi) - Side Plank
+                                                                Dayanıklılık Testi (Sağ-Sol Taraf İçin)</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group28" class="collapse"
+                                                         style="">
+                                                        <div class="card-body">
+                                                            <fieldset>
+                                                                <legend>Front Plank Dayanıklılık Testi (Veri
+                                                                    Girişi)
+                                                                </legend>
+                                                                <div class="row">
+                                                                    {% for k,v in athletic.MOVEMENT.FRONT.items %}
+                                                                        <div class="form-check col-lg-5 col-sm-12 mx-2">
+                                                                            <label class="form-check-label">
+                                                                                <div class=" border-danger text-danger">
+                                                                        <span class="name"><input type="checkbox"
+                                                                                                  class="form-check-input-styled-danger"
+                                                                                                  name="{{ k }}"
+                                                                                                  value="{{ v }}"
+                                                                                                  data-fouc=""></span>
+                                                                                </div>
+                                                                                {{ v }}
+                                                                            </label>
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                    <div class="form-group col-lg-6">
+                                                                        <a href="#alpaca-input-label-source28"
+                                                                           data-toggle="collapse"
+                                                                           class=""
+                                                                           aria-expanded="true"><i
+                                                                                class="icon-checkbox-unchecked2 text-danger mr-2"></i>
+                                                                            Diğer Bulgular ve Yorumlar (varsa)
+                                                                        </a>
+                                                                        <div class="mt-2 collapse"
+                                                                             id="alpaca-input-label-source28"
+                                                                             style="">
+                                                                            <input type="text"
+                                                                                   name="other_front"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.other_front.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.other_front.value | default_if_none:"" }}"
+                                                                                   placeholder="Diğer Bulgular...">
+                                                                            {% if athletic_form.other_front.errors %}
+                                                                                {% for error in athletic_form.other_front.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+                                                            <fieldset>
+                                                                <legend>Side Plank Dayanıklılık Testi (Sağ-Sol
+                                                                    Taraf İçin)
+                                                                </legend>
+                                                                <div class="row">
+                                                                    {% for k,v in athletic.MOVEMENT.SIDE.items %}
+                                                                        <div class="form-check col-lg-5 col-sm-12 mx-2">
+                                                                            <label class="form-check-label">
+                                                                                <div class=" border-danger text-danger">
+                                                                        <span class="name"><input type="checkbox"
+                                                                                                  class="form-check-input-styled-danger"
+                                                                                                  name="{{ k }}"
+                                                                                                  value="{{ v }}"
+                                                                                                  data-fouc=""></span>
+                                                                                </div>
+                                                                                {{ v }}
+                                                                            </label>
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                    <div class="form-group col-lg-6">
+                                                                        <a href="#alpaca-input-label-source29"
+                                                                           data-toggle="collapse"
+                                                                           class=""
+                                                                           aria-expanded="true"><i
+                                                                                class="icon-checkbox-unchecked2 text-danger mr-2"></i>
+                                                                            Diğer Bulgular ve Yorumlar (varsa)
+                                                                        </a>
+                                                                        <div class="mt-2 collapse"
+                                                                             id="alpaca-input-label-source29"
+                                                                             style="">
+                                                                            <input type="text"
+                                                                                   name="other_side"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.other_side.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.other_side.value | default_if_none:"" }}"
+                                                                                   placeholder="Diğer Bulgular...">
+                                                                            {% if athletic_form.other_side.errors %}
+                                                                                {% for error in athletic_form.other_side.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-success collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group29"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-success mr-3"></i>Gövde
+                                                                Fleksör Dayanıklılık Testi - Gövde Ekstansör
+                                                                Dayanıklılık Testi</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group29" class="collapse"
+                                                         style="">
+                                                        <div class="card-body">
+
+                                                            <fieldset>
+                                                                <legend>Gövde Fleksör Dayanıklılık Testi
+                                                                </legend>
+                                                                <div class="row">
+                                                                    {% for k,v in athletic.MOVEMENT.FLEKSOR.items %}
+                                                                        <div class="form-check col-lg-5 col-sm-12 mx-2">
+                                                                            <label class="form-check-label">
+                                                                                <div class=" border-success text-success">
+                                                                        <span class="name"><input type="checkbox"
+                                                                                                  class="form-check-input-styled-success"
+                                                                                                  name="{{ k }}"
+                                                                                                  value="{{ v }}"
+                                                                                                  data-fouc=""></span>
+                                                                                </div>
+                                                                                {{ v }}
+                                                                            </label>
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                    <div class="form-group col-lg-6">
+                                                                        <a href="#alpaca-input-label-source30"
+                                                                           data-toggle="collapse"
+                                                                           class=""
+                                                                           aria-expanded="true"><i
+                                                                                class="icon-checkbox-unchecked2 text-success mr-2"></i>
+                                                                            Diğer Bulgular ve Yorumlar (varsa)
+                                                                        </a>
+                                                                        <div class="mt-2 collapse"
+                                                                             id="alpaca-input-label-source30"
+                                                                             style="">
+                                                                            <input type="text"
+                                                                                   name="other_fleksor"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.other_fleksor.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.other_fleksor.value | default_if_none:"" }}"
+                                                                                   placeholder="Diğer Bulgular...">
+                                                                            {% if athletic_form.other_fleksor.errors %}
+                                                                                {% for error in athletic_form.other_fleksor.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+
+                                                            <fieldset>
+                                                                <legend>Gövde Ekstansör Dayanıklılık Testi
+                                                                </legend>
+                                                                <div class="row">
+                                                                    {% for k,v in athletic.MOVEMENT.EKSTANSOR.items %}
+                                                                        <div class="form-check col-lg-5 col-sm-12 mx-2">
+                                                                            <label class="form-check-label">
+                                                                                <div class=" border-success text-success">
+                                                                        <span class="name"><input type="checkbox"
+                                                                                                  class="form-check-input-styled-success"
+                                                                                                  name="{{ k }}"
+                                                                                                  value="{{ v }}"
+                                                                                                  data-fouc=""></span>
+                                                                                </div>
+                                                                                {{ v }}
+                                                                            </label>
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                    <div class="form-group col-lg-6">
+                                                                        <a href="#alpaca-input-label-source31"
+                                                                           data-toggle="collapse"
+                                                                           class=""
+                                                                           aria-expanded="true"><i
+                                                                                class="icon-checkbox-unchecked2 text-success mr-2"></i>
+                                                                            Diğer Bulgular ve Yorumlar (varsa)
+                                                                        </a>
+                                                                        <div class="mt-2 collapse"
+                                                                             id="alpaca-input-label-source31"
+                                                                             style="">
+                                                                            <input type="text"
+                                                                                   name="other_extansor"
+                                                                                   class="form-control tagsinput-custom-tag-class{% if athletic_form.other_extansor.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ athletic_form.extansor_other.value | default_if_none:"" }}"
+                                                                                   placeholder="Diğer Bulgular...">
+                                                                            {% if athletic_form.extansor_other.errors %}
+                                                                                {% for error in athletic_form.other_extansor.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-blue-800 collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group30"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-blue-800 mr-3"></i>Tek
+                                                                Bacak Denge Testi - Yıldız Denge Testi - Denge Hata
+                                                                Skoru Testi</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group30" class="collapse"
+                                                         style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <div class="col-md-12 mb-4">
+                                                                    <fieldset>
+                                                                        <legend class="font-weight-bold">Tek Bacak Denge Testi
+                                                                        </legend>
+                                                                        <fieldset>
+                                                                            <legend class="font-weight-bold">Gözler Açık</legend>
+                                                                            <div class="row">
+                                                                                {% for k,v in athletic.MOVEMENT.BALANCE.OPEN.items %}
+                                                                                    <div class="col-lg-4 col-md-6 col-sm-12 mt-2">
+                                                                                        <label>{{ v }} </label>
+                                                                                        <input type="number"
+                                                                                               name="{{ k }}"
+                                                                                               class="form-control {% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                               value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                               placeholder="">
+                                                                                        {% if athletic_form.k.errors %}
+                                                                                            {% for error in athletic_form.k.errors %}
+                                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                                <br/>
+                                                                                            {% endfor %}
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                {% endfor %}
+                                                                            </div>
+                                                                        </fieldset>
+
+                                                                        <fieldset>
+                                                                            <legend class="font-weight-bold">Gözler Kapalı</legend>
+                                                                            <div class="row">
+                                                                                {% for k,v in athletic.MOVEMENT.BALANCE.CLOSE.items %}
+                                                                                    <div class="col-lg-4 col-md-6 col-sm-12 mt-2">
+                                                                                        <label>{{ v }} </label>
+                                                                                        <input type="number"
+                                                                                               name="{{ k }}"
+                                                                                               class="form-control {% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                               value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                               placeholder="">
+                                                                                        {% if athletic_form.k.errors %}
+                                                                                            {% for error in athletic_form.k.errors %}
+                                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                                <br/>
+                                                                                            {% endfor %}
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                {% endfor %}
+                                                                            </div>
+                                                                        </fieldset>
+                                                                    </fieldset>
+                                                                </div>
+                                                                <div class="col-md-12  mb-4">
+                                                                    <fieldset>
+                                                                        <legend class="font-weight-bold">Yıldız Denge Testi</legend>
+
+                                                                        <div class="col-lg-12 my-2">
+                                                                            <div class="form-group">
+                                                                                <label>
+                                                                                    Bacak Uzunluğu (cm)</label>
+                                                                                <input type="number" name="star_test"
+                                                                                       class="form-control ">
+                                                                            </div>
+                                                                        </div>
+                                                                        <fieldset class="col-lg-12">
+                                                                            <legend><a
+                                                                                    href="#alpaca-input-label-source10"
+                                                                                    data-toggle="collapse"
+                                                                                    class=""
+                                                                                    aria-expanded="true"><i
+                                                                                    class="icon-radio-unname mr-2"></i>
+                                                                                3 Yön
+                                                                            </a></legend>
+                                                                            <div class="mt-1 collapse mb-2"
+                                                                                 id="alpaca-input-label-source10"
+                                                                                 style="">
+                                                                                <div class="row mt-2">
+                                                                                    {% for k,v in athletic.MOVEMENT.STAR.THREEDIRECT.items %}
+                                                                                        <div class="col-lg-4 col-md-6 col-sm-12 mt-2">
+                                                                                            <label>{{ v }} </label>
+                                                                                            <input type="number"
+                                                                                                   name="{{ k }}"
+                                                                                                   class="form-control {% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                                   value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                                   placeholder="">
+                                                                                            {% if athletic_form.k.errors %}
+                                                                                                {% for error in athletic_form.k.errors %}
+                                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                                    <br/>
+                                                                                                {% endfor %}
+                                                                                            {% endif %}
+                                                                                        </div>
+                                                                                    {% endfor %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </fieldset>
+                                                                        <fieldset class="col-lg-12">
+                                                                            <legend><a
+                                                                                    href="#alpaca-input-label-source11"
+                                                                                    data-toggle="collapse"
+                                                                                    class=""
+                                                                                    aria-expanded="true"><i
+                                                                                    class="icon-radio-unname mr-2"></i>
+                                                                                7 Yön
+                                                                            </a></legend>
+                                                                            <div class="mt-2 collapse"
+                                                                                 id="alpaca-input-label-source11"
+                                                                                 style="">
+                                                                                <div class="row mt-2">
+                                                                                    {% for k,v in athletic.MOVEMENT.STAR.SEVENDIRECT.items %}
+                                                                                        <div class="col-lg-3 col-md-6 col-sm-12 mt-2">
+                                                                                            <label>{{ v }} </label>
+                                                                                            <input type="number"
+                                                                                                   name="{{ k }}"
+                                                                                                   class="form-control {% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                                   value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                                   placeholder="">
+                                                                                            {% if athletic_form.k.errors %}
+                                                                                                {% for error in athletic_form.k.errors %}
+                                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                                    <br/>
+                                                                                                {% endfor %}
+                                                                                            {% endif %}
+                                                                                        </div>
+                                                                                    {% endfor %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </fieldset>
+
+                                                                    </fieldset>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <fieldset>
+                                                                        <legend class="font-weight-bold">Denge Hata Skoru Testi</legend>
+                                                                        <div class="row mt-2">
+                                                                            {% for k,v in athletic.MOVEMENT.ERROR.items %}
+                                                                                <div class="col-lg-6 col-sm-12 mt-2">
+                                                                                    <label>{{ v }} </label>
+                                                                                    <input type="number"
+                                                                                           name="{{ k }}"
+                                                                                           class="form-control {% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                           value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                           placeholder="">
+                                                                                    {% if athletic_form.k.errors %}
+                                                                                        {% for error in athletic_form.k.errors %}
+                                                                                            <small class="text-danger-800">* {{ error }}</small>
+                                                                                            <br/>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            {% endfor %}
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </div>
+                                                                <div class="col-md-12 mt-3">
+                                                                    <fieldset>
+                                                                        <legend class="font-weight-bold">Modified Bass Test</legend>
+                                                                        <div class="row mt-2">
+                                                                            {% for k,v in athletic.MOVEMENT.MODIFIED.items %}
+                                                                                <div class="col-lg-4 col-md-6 col-sm-12 mt-2">
+                                                                                    <label>{{ v }} </label>
+                                                                                    <input type="number"
+                                                                                           name="{{ k }}"
+                                                                                           class="form-control {% if athletic_form.k.errors %} border-danger-800 {% endif %} "
+                                                                                           value="{{ athletic_form.k.value | default_if_none:"" }}"
+                                                                                           placeholder="">
+                                                                                    {% if athletic_form.k.errors %}
+                                                                                        {% for error in athletic_form.k.errors %}
+                                                                                            <small class="text-danger-800">* {{ error }}</small>
+                                                                                            <br/>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            {% endfor %}
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="text-right">
+                            <button type="submit" name="_save" value="_save" class="btn bg-primary">KAYDET
+                                <i class="icon-paperplane ml-2"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <!-- /corporate table -->
+{% endblock page_content %}

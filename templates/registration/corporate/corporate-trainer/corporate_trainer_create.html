@@ -1,0 +1,266 @@
+{% extends './corporate_trainer_base.html' %}
+{% block title %}
+    Kurumsal Antrenör Kayıt Formu
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/forms/wizards/steps.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/inputs/inputmask.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/validation/validate.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/extensions/cookie.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_wizard.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/uploaders/fileinput/fileinput.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/uploader_bootstrap.js' %}"></script>
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="{% url 'home-dashboard' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <a href="{% url 'corporate-trainer-home' %}" class="breadcrumb-item"><i class=""></i>Kurumsal
+                        Antrenör Yönetim</a>
+                    {% if action == "create" %}
+                        <span class="breadcrumb-item active">Kurumsal Antrenör Kayıt Formu</span>
+                    {% else %}
+                        <span class="breadcrumb-item active">Kurumsal Antrenör Güncelleme Formu</span>
+                    {% endif %}
+                </div>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h4><i class="mr-1"></i> <span class="font-weight-semibold"><a style="color: black"
+                                                                               href="{% url 'corporate-trainer-home' %}"><i
+                        class="icon-arrow-left52 fa-2x mr-2"></i></a>Form Yönetimi</span>
+                </h4>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+
+            <div class="header-elements d-none">
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+    <!-- Personal form area -->
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            {% if action == "create" %}
+                <h6 class="card-title">Yeni Antrenör kaydı yapın</h6>
+            {% else %}
+                <h6 class="card-title">Antrenör kayıt verinizi güncelleyin</h6>
+            {% endif %}
+            <div class="header-elements">
+                <div class="list-icons">
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-{{ message.tags }} alert-styled-left alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                                    {{ message }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+
+            {% if form_trainer.non_field_errors %}
+                <div class="non-field-errors">
+                    {% for err in form_trainer.non_field_errors %}
+                        <p class="form-error">{{ err }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+
+            {% if form2.non_field_errors %}
+                <div class="non-field-errors">
+                    {% for err in form2.non_field_errors %}
+                        <p class="form-error">{{ err }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+
+            <form method="post" enctype="multipart/form-data"
+                  action="{% if action == "create" %} {% url 'corporate-trainer-create' %}
+                    {% else %}{% url 'corporate-trainer-update' id=model_id %} {% endif %}">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <fieldset>
+                            <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Kişisel bilgiler
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">* Adınız:</label>
+                                        <input type="text" name="first_name"
+                                               class="form-control {% if form2.first_name.errors %}border-danger-800{% endif %}"
+                                               value="{{ form2.first_name.value | default_if_none:"" }}"
+                                               placeholder="adınızı giriniz">
+                                        {% if form2.first_name.errors %}
+                                            {% for error in form2.first_name.errors %}
+                                                <small class="text-danger-800">* {{ error }}</small><br/>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">* Soyad:</label>
+                                        <input type="text" name="last_name"
+                                               class="form-control {% if form2.last_name.errors %}border-danger-800{% endif %}"
+                                               value="{{ form2.last_name.value | default_if_none:"" }}"
+                                               placeholder="soyadınızı giriniz">
+                                        {% if form2.last_name.errors %}
+                                            {% for error in form2.last_name.errors %}
+                                                <small class="text-danger-800">* {{ error }}</small><br/>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Email:</label>
+                                        <input type="text" name="email"
+                                               class="form-control {% if form2.email.errors %}border-danger-800{% endif %}"
+                                               value="{{ form2.email.value | default_if_none:"" }}"
+                                               placeholder="email giriniz">
+                                        {% if form2.email.errors %}
+                                            {% for error in form2.email.errors %}
+                                                <small class="text-danger-800">* {{ error }}</small><br/>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Kullanıcı Adı:</label>
+                                        <input type="text" name="username"
+                                               class="form-control {% if form2.username.errors %}border-danger-800{% endif %}"
+                                               value="{{ form2.username.value | default_if_none:"" }}"
+                                               placeholder="kullanıcı adı giriniz">
+                                        {% if form2.username.errors %}
+                                            {% for error in form2.username.errors %}
+                                                <small class="text-danger-800">* {{ error }}</small><br/>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Telefon:</label>
+                                        <input type="text" name="phone"
+                                               class="form-control {% if form_trainer.phone.errors %}border-danger-800{% endif %}"
+                                               value="{{ form_trainer.phone.value | default_if_none:"" }}">
+                                        {% if form_trainer.phone.errors %}
+                                            {% for error in form_trainer.phone.errors %}
+                                                <small class="text-danger-800">* {{ error }}</small><br/>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    {% if not form2.password %}
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Şifre:</label>
+                                            <input type="password" name="password1"
+                                                   class="form-control {% if form2.password1.errors %}border-danger-800{% endif %}"
+                                                   value="{{ form2.password1.value | default_if_none:"" }}"
+                                                   placeholder="şifre giriniz">
+                                            {% if form2.password1.errors %}
+                                                {% for error in form2.password1.errors %}
+                                                    <small class="text-danger-800">* {{ error }}</small><br/>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Şifre Onayla:</label>
+                                            <input type="password" name="password2"
+                                                   class="form-control {% if form2.password2.errors %}border-danger-800{% endif %}"
+                                                   value="{{ form2.password2.value | default_if_none:"" }}"
+                                                   placeholder="şifre onay giriniz">
+                                            {% if form2.password2.errors %}
+                                                {% for error in form2.password2.errors %}
+                                                    <small class="text-danger-800">* {{ error }}</small><br/>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    {% else %}
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Şifre:</label>
+                                            <p class="form-control">Bu Şifre şifrelenmiştir.</p>
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-group">
+                                        <label class="d-block">Profil fotoğrafı:</label>
+                                        <input type="file" name="avatar"
+                                               class="file-input-custom {% if form_trainer.avatar.errors %}border-danger-800{% endif %}"
+                                               accept="image/*"
+                                               data-fouc>
+                                        <span class="form-text text-muted">Kabul edilen formatlar: görüntü/*. Max boyut 2Mb</span>
+                                        {% if form_trainer.avatar.errors %}
+                                            {% for error in form_trainer.avatar.errors %}
+                                                <small class="text-danger-800">* {{ error }}</small><br/>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <fieldset>
+                            <legend class="font-weight-semibold"><i class="icon-book mr-2"></i> Adres bilgileri
+                            </legend>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Tam Adres:</label>
+                                        <input type="text" name="address"
+                                               class="form-control {% if form.address.errors %}border-danger-800{% endif %}"
+                                               value="{{ form.address.value | default_if_none:"" }}">
+                                        {% if form.address.errors %}
+                                            {% for error in form.address.errors %}
+                                                <small class="text-danger-800">* {{ error }}</small>
+                                                <br/>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="text-right">
+                    {% if action == "create" %}
+                        <button type="submit" name="_save" value="_save" class="btn bg-primary">KAYDET
+                            <i class="icon-paperplane ml-2"></i></button>
+                    {% else %}
+                        <button type="submit" class="btn btn-info">Güncelle <i class="icon-paperplane ml-2"></i>
+                        </button>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- /personal form area -->
+{% endblock page_content %}

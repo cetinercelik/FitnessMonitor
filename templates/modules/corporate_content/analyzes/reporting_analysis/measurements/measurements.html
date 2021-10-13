@@ -1,0 +1,109 @@
+{% extends '../reporting_analysis_base.html' %}
+{% block title %}
+    Ölçüm Analiz & Raporlama
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/datatables.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/buttons.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_extension_buttons_html5.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_data_sources.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_sorting.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_buttons.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_advanced.js' %}"></script>
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="{% url 'corporate-home' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <a href="{% url 'corporate-reporting-analysis-home' %}" class="breadcrumb-item">Analiz &
+                        Raporlama</a>
+                    <a href="{% url 'corporate-measurements-analysis-home' id=id %}" class="breadcrumb-item active">Ölçüm
+                        Analiz &
+                        Raporlama</a>
+                </div>
+
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h4><i class="mr-1"></i> <span class="font-weight-semibold"><a style="color: black"
+                                                                               href="{% url 'corporate-reporting-analysis-home' %}"><i
+                        class="icon-arrow-left52 fa-2x mr-2"></i></a>Ölçüm Analiz  & Raporlama Yönetimi</span>
+                </h4>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+            <div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+    <!-- Corporate Table -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="icon-height icon-2x text-success-400 border-success-400 border-3 rounded-round p-3 mb-3 mt-1"></i>
+                    <h5 class="card-title">Fitnes Ölçüm Analiz Verileri</h5>
+                    <p class="mb-3">Fitnes Ölçüm verilerinin sonuçlarına buradan
+                        ulaşabilirsiniz .</p>
+                    <a href="{% url 'corporate-measurements-fitness-results-home' id=id %}" class="btn bg-success-400">Ölçümler</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="icon-page-break icon-2x text-warning-400 border-warning-400 border-3 rounded-round p-3 mb-3 mt-1"></i>
+                    <h5 class="card-title">Postürel Ölçüm Analiz Sonuçları</h5>
+                    <p class="mb-3">Postürel Ölçüm verilerinin sonuçlarına buradan
+                        ulaşabilirsiniz.</p>
+                    <a href="{% url 'corporate-measurements-postural-results-home' id=id %}" class="btn bg-warning-400">Ölçümler</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card ">
+                <div class="card-body text-center">
+                    <i class="icon-unfold icon-2x text-blue border-blue border-3 rounded-round p-3 mb-3 mt-1"></i>
+                    <h5 class="card-title">Medikal Ölçüm Analiz Sonuçları</h5>
+                    <p class="mb-3">Medikal Ölçüm verilerinin sonuçlarına buradan
+                        ulaşabilirsiniz.</p>
+                    <a href="{% url 'corporate-measurements-medical-results-home' id=id %}"
+                       class="btn bg-blue">Ölçümler</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card ">
+                <div class="card-body text-center">
+                    <i class="icon-stats-growth icon-2x text-danger border-danger border-3 rounded-round p-3 mb-3 mt-1"></i>
+                    <h5 class="card-title">Atletik Performans Ölçüm Analiz Sonuçları</h5>
+                    <p class="mb-3">Atletik Performans Ölçüm verilerinin sonuçlarına buradan
+                        ulaşabilirsiniz.</p>
+                    <a href="{% url 'corporate-measurements-athletic-results-home' id=id %}" class="btn bg-danger">Ölçümler</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /corporate table -->
+{% endblock page_content %}

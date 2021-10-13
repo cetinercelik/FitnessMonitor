@@ -1,0 +1,536 @@
+{% extends './corp_base_settings.html' %}
+{% block title %}
+    Kurumsal Hesap Ayarları
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/forms_contents/wizards/steps.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/styling/uniform.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/inputs/inputmask.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/validation/validate.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_wizard.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/uploaders/fileinput/fileinput.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/uploader_bootstrap.js' %}"></script>
+    <!-- /theme JS files -->
+
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="{% url 'home-dashboard' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <span class="breadcrumb-item active">Kurumsal</span>
+                </div>
+
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h4><i class="mr-1"></i> <span class="font-weight-semibold">Hesap Ayarları</span> - Kurumsal
+                    Profil </h4>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+            <div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+
+    <!--Start Content-->
+    <div class="content">
+        <ul class="fab-menu fab-menu-absolute fab-menu-bottom-right is_stuck" data-fab-toggle="hover"
+            id="fab-menu-affixed-demo-right" style="position: fixed; bottom: 20px; width: 48px;">
+            <li>
+                <a class="fab-menu-btn btn bg-pink-300 btn-float rounded-round btn-icon">
+                    <i class="fab-icon-open icon-grid3"></i>
+                    <i class="fab-icon-close icon-cross2"></i>
+                </a>
+
+                <ul class="fab-menu-inner">
+                    <li>
+                        <div data-fab-label="Compose email">
+                            <a href="#" class="btn btn-light rounded-round btn-icon btn-float">
+                                <i class="icon-pencil"></i>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div data-fab-label="Conversations">
+                            <a href="#" class="btn btn-light rounded-round btn-icon btn-float">
+                                <i class="icon-bubbles3"></i>
+                            </a>
+                            <span class="badge bg-primary-400">5</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div data-fab-label="Chat with Jack">
+                            <a href="#" class="btn bg-pink-400 rounded-round btn-icon btn-float">
+                                <img src="../../../../global_assets/images/placeholders/placeholder.jpg"
+                                     class="img-fluid rounded-circle" alt="">
+                            </a>
+                            <span class="badge badge-mark border-pink-400"></span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- Inner container -->
+        <div class="d-flex align-items-start flex-column flex-md-row">
+            <!-- Left content -->
+            <div class="tab-content w-100 order-2 order-md-1">
+                <div class="tab-pane fade" id="activity">
+                    <!-- Timeline -->
+                    <div class="timeline timeline-left">
+                        <div class="timeline-container">
+                        </div>
+                    </div>
+                    <!-- /timeline -->
+                </div>
+                <div class="tab-pane fade active show" id="settings">
+                    <div class="content bg-white">
+                        <form method="post" enctype="multipart/form-data"
+                              action="{% url 'corporate-settings' id=user.id %}">
+                            {% csrf_token %}
+                            <div class="card">
+                                <div class="card-header header-elements-inline  bg-danger">
+                                    <h6 class="font-weight-bold"><i class="icon-home4 mr-2"></i> Kurum Bilgileri</h6>
+                                    <div class="header-elements">
+                                        <div class="list-icons">
+                                            <a class="list-icons-item" data-action="collapse"></a>
+                                            <a class="list-icons-item" data-action="reload"></a>
+                                            <a class="list-icons-item" data-action="remove"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="font-weight-bold">* Kurum Adı:</label>
+                                                <input type="text" maxlength="30" name="corporate_name"
+                                                       class="form-control {% if form.corporate_name.errors %}border-danger-800{% endif %}"
+                                                       value="{{ form.corporate_name.value | default_if_none:"" }}"
+                                                       placeholder="Kurum adını giriniz">
+                                                {% if form.corporate_name.errors %}
+                                                    {% for error in form.corporate_name.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small><br/>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="font-weight-bold">Email:</label>
+                                                <input type="text" name="email"
+                                                       class="form-control {% if form2.email.errors %}border-danger-800{% endif %}"
+                                                       value="{{ form2.email.value | default_if_none:"" }}"
+                                                       placeholder="email giriniz">
+                                                {% if form2.email.errors %}
+                                                    {% for error in form2.email.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small><br/>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group my-4">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-sm-12">
+                                                <h6 class="mb-0 font-weight-semibold">Antrenör Sayısı</h6>
+                                                <div class="progress rounded-round my-2">
+                                                    <div class="progress-bar bg-success" style="width: 60%">
+                                                        <span>30 </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-sm-12">
+                                                <h6 class="mb-0 font-weight-semibold">Danışan Sayısı</h6>
+                                                <div class="progress rounded-round my-2">
+                                                    <div class="progress-bar bg-warning" style="width: 30%">
+                                                        <span>15 </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group my-4">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="font-weight-bold">Kurum Alan Büyüklüğü(m2):</label>
+                                                <input type="number" name="area"
+                                                       class="form-control {% if form.area.errors %}border-danger-800{% endif %}"
+                                                       value="{{ form.area.value | default_if_none:"" }}"
+                                                       placeholder="Kurum alan büyüklüğünü giriniz">
+                                                {% if form.area.errors %}
+                                                    {% for error in form.area.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small><br/>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="font-weight-bold">Kurum Çalışma Yılı:</label>
+                                                <input type="number" name="corporate_year"
+                                                       class="form-control {% if form.corporate_year.errors %}border-danger-800{% endif %}"
+                                                       value="{{ form.corporate_year.value | default_if_none:"" }}"
+                                                       placeholder="Kurum Çalışma alanını doldurunuz.">
+                                                {% if form.corporate_year.errors %}
+                                                    {% for error in form.corporate_year.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small><br/>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group my-4">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="font-weight-bold">Kurum Çalışma Saatleri:</label>
+                                                <input type="text" name="corporate_clocks"
+                                                       class="form-control {% if form.corporate_clocks.errors %}border-danger-800{% endif %}"
+                                                       value="{{ form.corporate_clocks.value | default_if_none:"" }}"
+                                                       placeholder="Çalışma Satlerini giriniz">
+                                                {% if form.corporate_clocks.errors %}
+                                                    {% for error in form.corporate_clocks.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small><br/>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="font-weight-bold">Krum Telefon:</label>
+                                                <input type="text" name="phone"
+                                                       class="form-control {% if form.phone.errors %}border-danger-800{% endif %}"
+                                                       value="{{ form.phone.value | default_if_none:"" }}">
+                                                {% if form.phone.errors %}
+                                                    {% for error in form.phone.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small><br/>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group my-4">
+                                        <div class="col-md-12 mt-4">
+                                            <fieldset>
+                                                <legend class="font-weight-semibold"><i class="icon-book mr-2"></i>
+                                                    Kurum Adres
+                                                    bilgileri
+                                                </legend>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="font-weight-bold">Tam Adres:</label>
+                                                            <input type="text" name="address"
+                                                                   class="form-control {% if form.address.errors %}border-danger-800{% endif %}"
+                                                                   value="{{ form.address.value | default_if_none:"" }}">
+                                                            {% if form.address.errors %}
+                                                                {% for error in form.address.errors %}
+                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                    <br/>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="form-group my-4">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-12">
+                                                <fieldset>
+                                                    <legend class="font-weight-semibold"><i
+                                                            class="icon-camera mr-2"></i>
+                                                        Kurum Logosu
+                                                    </legend>
+
+                                                    <input type="file" name="logo" multiple="multiple"
+                                                           class="file-input-custom {% if form.logo.errors %}border-danger-800{% endif %}"
+                                                           accept="image/*"
+                                                           data-fouc>
+                                                    <span class="form-text text-muted">Kabul edilen formatlar: görüntü/*. Max boyut 2Mb</span>
+                                                    {% if form.logo.errors %}
+                                                        {% for error in form.logo.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!-- /Kişisel Bilgiler -->
+
+                            <!--Eğitim ve çalışma hayatı-->
+                            <div class="card">
+                                <div class="card-header header-elements-inline bg-success">
+                                    <h6 class="font-weight-bold"><i class="icon-info22 mr-2"></i>Yetkili Bilgileri</h6>
+                                    <div class="header-elements">
+                                        <div class="list-icons">
+                                            <a class="list-icons-item" data-action="collapse"></a>
+                                            <a class="list-icons-item" data-action="reload"></a>
+                                            <a class="list-icons-item" data-action="remove"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-sm-12">
+                                                <label class="font-weight-bold">* Adınız:</label>
+                                                <input type="text" name="first_name"
+                                                       class="form-control {% if form2.first_name.errors %}border-danger-800{% endif %}"
+                                                       value="{{ form2.first_name.value | default_if_none:"" }}"
+                                                       placeholder="adınızı giriniz">
+                                                {% if form2.first_name.errors %}
+                                                    {% for error in form2.first_name.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small><br/>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-lg-6 col-sm-12">
+                                                <label class="font-weight-bold">* Soyad:</label>
+                                                <input type="text" name="last_name"
+                                                       class="form-control {% if form2.last_name.errors %}border-danger-800{% endif %}"
+                                                       value="{{ form2.last_name.value | default_if_none:"" }}"
+                                                       placeholder="soyadınızı giriniz">
+                                                {% if form2.last_name.errors %}
+                                                    {% for error in form2.last_name.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small><br/>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group my-4">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-sm-12">
+                                                <label class="font-weight-bold">Kullanıcı Adı:</label>
+                                                <input type="text" name="username"
+                                                       class="form-control {% if form2.username.errors %}border-danger-800{% endif %}"
+                                                       value="{{ form2.username.value | default_if_none:"" }}"
+                                                       placeholder="kullanıcı adı giriniz">
+                                                {% if form2.username.errors %}
+                                                    {% for error in form2.username.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small><br/>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-lg-6 col-sm-12">
+                                                <label class="font-weight-bold">Kurumdaki Görevi</label>
+                                                <input type="text" name="authorized_task"
+                                                       class="form-control {% if form.authorized_task.errors %}border-danger-800{% endif %}"
+                                                       value="{{ form.authorized_task.value |default_if_none:"" }}"
+                                                       placeholder="Alanı doldurunuz...">
+                                                {% if form.authorized_task.errors %}
+                                                    {% for error in form.authorized_task.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small><br/>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group my-4">
+                                        <div class="row">
+                                            <div class="form-group mb-3 mb-md-2 col-lg-6 col-sm-12">
+                                                <label class="d-block font-weight-bold">Cinsiyet:</label>
+                                                <div class="custom-control  custom-radio custom-control-inline">
+                                                    <input type="radio" class="custom-control-input"
+                                                           name="trainer_gender" id="custom_radio_inline_unchecked"
+                                                           value="male">
+                                                    <label class="custom-control-label"
+                                                           for="custom_radio_inline_unchecked">Erkek</label>
+                                                </div>
+
+                                                <div class="custom-control custom-radio custom-control-inline  mx-4">
+                                                    <input type="radio" class="custom-control-input"
+                                                           name="trainer_gender" id="custom_radio_inline_checked"
+                                                           value="female">
+                                                    <label class="custom-control-label "
+                                                           for="custom_radio_inline_checked">Kadın</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="font-weight-bold">Yaş:</label>
+                                                <input type="number" name="authorized_age"
+                                                       class="form-control {% if form.authorized_age.errors %}border-danger-800{% endif %}"
+                                                       value="{{ form.authorized_age.value | default_if_none:"" }}"
+                                                       placeholder="Yaş alanını doldurunuz.">
+                                                {% if form.authorized_age.errors %}
+                                                    {% for error in form.authorized_age.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small><br/>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+
+                                            <div class="col-lg-6 col-sm-12">
+                                                <label class="font-weight-bold">Yetkili Telefon:</label>
+                                                <input type="text" name="authorized_phone"
+                                                       class="form-control {% if form.authorized_phone.errors %}border-danger-800{% endif %}"
+                                                       value="{{ form.authorized_phone.value | default_if_none:"" }}"
+                                                       placeholder="Telefon Alanını Doldurunuz">
+                                                {% if form.authorized_phone.errors %}
+                                                    {% for error in form.authorized_phone.errors %}
+                                                        <small class="text-danger-800">* {{ error }}</small><br/>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group my-4">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-12">
+                                                <fieldset>
+                                                    <legend class="font-weight-semibold"><i
+                                                            class="icon-camera mr-2"></i>
+                                                        Profil Fotoğrafı
+                                                    </legend>
+
+                                                    <input type="file" name="authorized_image" multiple="multiple"
+                                                           class="file-input-custom {% if form.authorized_image.errors %}border-danger-800{% endif %}"
+                                                           accept="image/*"
+                                                           data-fouc>
+                                                    <span class="form-text text-muted">Kabul edilen formatlar: görüntü/*. Max boyut 2Mb</span>
+                                                    {% if form.authorized_image.errors %}
+                                                        {% for error in form.authorized_image.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!--/Eğitim ve çalışma hayatı-->
+
+                            <!--Belgeler ve sertifikalar-->
+
+                            <div class="text-right">
+                                <a class="mx-3" href="{% url 'change-password' %}">Şifreyi değiştir </a>
+                                <button type="submit" class="btn btn-primary">Kaydet</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- /left content -->
+            <!-- Right sidebar component -->
+            <div class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-right wmin-300 border-0 shadow-0 order-1 order-md-2 sidebar-expand-md">
+                <!-- Sidebar content -->
+                <div class="sidebar-content">
+                    <!-- User card -->
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-img-actions d-inline-block mb-3">
+                                {% if form.authorized_image %}
+                                    <a href="{{ form.authorized_image.url }}">
+                                        <img src="{{ request.user.corporate.authorized_image.url }} "
+                                             class="rounded-round" width="120" height="120"/></a>
+                                {% endif %}
+                            </div>
+                            <h6 class="font-weight-semibold mb-0">{{ form.corporate_name.value | default_if_none:"" }}</h6>
+                            <span class="d-block text-muted">{{ form2.first_name.value |default_if_none:"" }} {{ form2.last_name.value |default_if_none:"" }}</span>
+                            <div class="list-icons list-icons-extended mt-3">
+                                <a href="#" class="list-icons-item" data-popup="tooltip" title="" data-container="body"
+                                   data-original-title="Google Drive"><i class="icon-google-drive"></i></a>
+                                <a href="#" class="list-icons-item" data-popup="tooltip" title="" data-container="body"
+                                   data-original-title="Twitter"><i class="icon-twitter"></i></a>
+                                <a href="#" class="list-icons-item" data-popup="tooltip" title="" data-container="body"
+                                   data-original-title="Github"><i class="icon-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /user card -->
+                    <!-- Navigation -->
+                    <div class="card">
+                        <div class="card-header bg-transparent header-elements-inline">
+                            <span class="card-title font-weight-semibold">Panel</span>
+                            <div class="header-elements">
+                                <div class="list-icons">
+                                    <a class="list-icons-item" data-action="collapse"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="nav nav-sidebar my-2">
+                                <li class="nav-item">
+                                    <a href="{% url 'corporate-settings' id=user.id %}" class="nav-link">
+                                        <i class="icon-home2"></i>
+                                        Kurum Profili
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'corporate-trainer-home' %}" class="nav-link">
+                                        <i class="icon-users"></i>
+                                        Antrenörlerimiz
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'corporate-personal-home' %}" class="nav-link">
+                                        <i class="icon-users4"></i>
+                                        Danışanlarımız
+                                    </a>
+                                </li>
+                                <li class="nav-item-divider"></li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="icon-calendar3"></i>
+                                        Etkinlikler
+                                        <span class="badge bg-teal-400 badge-pill ml-auto">48</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'corporate-settings' id=user.id %}" class="nav-link">
+                                        <i class="icon-cog3"></i>
+                                        Hesap Ayarları
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /navigation -->
+                </div>
+                <!-- /sidebar content -->
+            </div>
+            <!-- /right sidebar component -->
+        </div>
+        <!-- /inner container -->
+    </div>
+    <!--End Content-->
+{% endblock page_content %}

@@ -1,0 +1,257 @@
+{% extends '../home_base.html' %}
+{% block title %}
+    Anasayfa
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+
+{% endblock javascript %}
+
+{% block page_header %}
+
+{% endblock page_header %}
+
+
+{% block page_content %}
+    <!-- Corporate Table -->
+    <!-- Inspiro Slider -->
+    <div id="slider" class="inspiro-slider slider-fullscreen dots-creative" data-fade="true">
+        {% if  sliders %}
+            {% for sld in sliders %}
+                <!-- Slide 1 -->
+                <div class="slide kenburns"
+                     data-bg-image="{{ sld.image.url | default_if_none:'' }}">
+                    <div class="bg-overlay"></div>
+                    <div class="container">
+                        <div class="slide-captions text-center text-light">
+                            <!-- Captions -->
+                            <h1 data-caption-animate="zoom-out">{{ sld.main_title | default_if_none:'' }}</h1>
+                            <p>{{ sld.sub_title | default_if_none:'' }}</p>
+                            </span>
+                            <!-- end: Captions -->
+                        </div>
+                    </div>
+                </div>
+                <!-- end: Slide 1 -->
+            {% endfor %}
+
+
+        {% endif %}
+    </div>
+    <!--end: Inspiro Slider -->
+
+    <!-- WHAT WE DO -->
+    <section class="background-grey">
+        <div class="container">
+
+            <div class="heading-text heading-section">
+                <h2>KURUMSAL</h2>
+                {% for hm in homes %}
+                    <span class="lead">{{ hm.corporate_main_title | safe  | default_if_none:"" }}</span>
+                {% endfor %}
+            </div>
+            <div class="row">
+                {% if  abouts %}
+                    {% for abts in  abouts %}
+                        <div class="col-lg-6 col-md-12 my-3">
+                            <div data-animate="animate__fadeInUp" data-animate-delay="0">
+                                <h4>Hakkımızda</h4>
+                                <p>{{ abts.description | safe | truncatewords:15  | default_if_none:"" }}</p>
+                            </div>
+                            <a href="{% url 'home-about' %}" class="item-link">Daha Fazla Oku <i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% if  founders %}
+                    {% for fts in  founders %}
+                        <div class="col-lg-6 col-md-12 my-3">
+                            <div data-animate="animate__fadeInUp" data-animate-delay="0">
+                                <h4>FitnessMonitor Kurucu</h4>
+                                <p>{{ fts.founder_descriptions | safe | truncatewords:15  | default_if_none:"" }}</p>
+                            </div>
+                            <a href="{% url 'home-founder' %}" class="item-link">Daha Fazla Oku <i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% if  philosophys %}
+                    {% for ph in  philosophys %}
+                        <div class="col-lg-6 col-md-12 my-3">
+                            <div data-animate="animate__fadeInUp" data-animate-delay="0">
+                                <h4>Felsefemiz</h4>
+                                <p>{{ ph.first_description | safe | truncatewords:15  | default_if_none:"" }}</p>
+                            </div>
+                            <a href="{% url 'home-philosophy' %}" class="item-link">Daha Fazla Oku <i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% if  corporates %}
+                    {% for crp in  corporates %}
+                        <div class="col-lg-6 col-md-12 my-3">
+                            <div data-animate="animate__fadeInUp" data-animate-delay="0">
+                                <h4>Kurumsal Çözümlemeler</h4>
+                                <p>{{ crp.description | safe | truncatewords:15  | default_if_none:"" }}</p>
+                            </div>
+                            <a href="{% url 'home-corpsolve' %}" class="item-link">Daha Fazla Oku <i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+        </div>
+    </section>
+    <!-- END WHAT WE DO -->
+    <section id="content">
+        <div class="container">
+            <!-- Pricing Table Colored  four columns-->
+            <div class="heading-text heading-line text-center pb-5">
+                <h4>Fiyatlandırma</h4>
+            </div>
+            <div class="row pricing-table colored">
+                {% if pricings %}
+                    {% for prc in pricings %}
+                        <div class="col-lg-4 col-md-12 col-12">
+                            <div class="plan">
+                                <div class="plan-header">
+                                    <h4>{{ prc.title | default_if_none:'' }}</h4>
+                                    <p class="text-muted">{{ prc.sub_title | default_if_none:'' }}</p>
+                                    <div class="plan-price"><sup>₺</sup>{{ prc.price | default_if_none:'' }}</div>
+                                    <a class="btn btn-light btn-light btn-light-hover" href="#"><span><i
+                                            class="fas fa-shopping-cart"></i>Kartı Satın Al</span></a>
+                                </div>
+                                <div class="plan-list">
+                                    <ul>
+                                        <li><i class="fa fa-user"></i>{{ prc.trainer_panel | default_if_none:'' }}</li>
+                                        <li><i class="fa fa-users"></i>{{ prc.personal_panel | default_if_none:'' }}
+                                        </li>
+                                        <li><i class="fas fa-tv"></i>{{ prc.fitnessmonitor | default_if_none:'' }}</li>
+                                        {% if subPricings %}
+                                            {% for sprc in subPricings %}
+                                                <li>
+                                                    <i class="fas fa-angle-double-right"></i>{{ sprc.title | default_if_none:'' }}
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                {% endif %}
+
+
+            </div>
+            <!-- end: Pricing Table Colored four columns-->
+        </div>
+    </section>
+    <!-- BLOG -->
+    <section class="content background-grey">
+        <div class="container">
+            <div class="heading-text heading-section">
+                <h2>BLOG</h2>
+                {% if homes %}
+                    {% for hm in homes %}
+                        <span class="lead">{{ hm.blog_main_title | default_if_none:'' }}</span>
+                    {% endfor %}
+                {% endif %}
+
+            </div>
+            <div id="blog" class="grid-layout post-3-columns m-b-30" data-item="post-item">
+                {% if blogs %}
+                    {% for blg in blogs %}
+                        <!-- Post item-->
+                        <div class="post-item border">
+                            <div class="post-item-wrap">
+                                <div class="post-image">
+                                    <a href="#">
+                                        <img alt="" src="{{ blg.blog_image.url | default_if_none:'' }}">
+                                    </a>
+
+                                </div>
+                                <div class="post-item-description">
+                                    <span class="post-meta-date"><i
+                                            class="fa fa-calendar-o"></i>{{ blg.blog_date | default_if_none:'' }}</span>
+                                    <h2><a href="#">{{ blg.blog_title | default_if_none:'' }}
+                                    </a></h2>
+                                    <p>{{ blg.blog_descriptions | safe | truncatewords:15 |default_if_none:'' }}</p>
+                                    <a href="#" class="item-link">Read More <i class="fas fa-chevron-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end: Post item-->
+                    {% endfor %}
+
+                {% endif %}
+
+            </div>
+        </div>
+    </section>
+    <!-- end: BLOG -->
+    <!-- TEAM -->
+    <section class="background-grey">
+        <div class="container">
+            <div class="heading-text heading-section text-center">
+                <h2>Ekibimiz</h2>
+                {% if homes %}
+                    {% for hm in homes %}
+                        <p>{{ hm.team_main_title | default_if_none:'' }}</p>
+                    {% endfor %}
+
+                {% endif %}
+
+            </div>
+            <div class="row team-members">
+                {% if teams %}
+                    {% for tms in teams %}
+                        <div class="col-lg-3">
+                            <div class="team-member">
+                                <div class="team-image">
+                                    <img height="200px" src="{{ tms.image.url | default_if_none:'' }}">
+                                </div>
+                                <div class="team-desc">
+                                    <h3>{{ tms.name_surname  | default_if_none:'' }}</h3>
+                                    <span>{{ tms.job | default_if_none:'' }}</span>
+                                    <p>{{ tms.personal_descriptions | truncatewords:10 | default_if_none:'' }}</p>
+                                    <div class="align-center">
+                                        <a class="btn btn-xs btn-slide btn-light"
+                                           href="{{ tms.facebook  | default_if_none:'' }}">
+                                            <i class="fab fa-facebook-f"></i>
+                                            <span>Facebook</span>
+                                        </a>
+                                        <a class="btn btn-xs btn-slide btn-light"
+                                           href="{{ tms.twitter  | default_if_none:'' }}" data-width="100">
+                                            <i class="fab fa-twitter"></i>
+                                            <span>Twitter</span>
+                                        </a>
+                                        <a class="btn btn-xs btn-slide btn-light"
+                                           href="{{ tms.instagram  | default_if_none:'' }}" data-width="118">
+                                            <i class="fab fa-instagram"></i>
+                                            <span>Instagram</span>
+                                        </a>
+                                        <a class="btn btn-xs btn-slide btn-light"
+                                           href="mailto:{{ tms.mail  | default_if_none:'' }}"
+                                           data-width="80">
+                                            <i class="fas fa-envelope-square"></i>
+                                            <span>Mail</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
+    </section>
+    <!-- end: TEAM -->
+    <!-- /corporate table -->
+{% endblock page_content %}
+
+
+
+
+
+

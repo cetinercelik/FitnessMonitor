@@ -1,0 +1,1476 @@
+{% extends './fitness_base.html' %}
+{% block title %}
+    Fitness Ölçme ve Değerlendirme Formu
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/datatables.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/buttons.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_extension_buttons_html5.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_data_sources.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_sorting.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_buttons.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_advanced.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/styling/uniform.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_select2.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/extensions/jquery_ui/interactions.min.js' %}"></script>
+
+    <!-- Theme JS files -->
+    <script src="{% static 'global_assets/js/plugins/forms_contents/styling/switchery.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/styling/switch.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_checkboxes_radios.js' %}"></script>
+    <!-- /theme JS files -->
+
+
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="{% url 'corporate-home' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <span class="breadcrumb-item active">Fitness Ölçme ve Değerlendirme Formu</span>
+                </div>
+
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h4><i class="mr-1"></i> <span class="font-weight-semibold"><a style="color: black"
+                                                                               href="{% url 'corporate-home' %}"><i
+                        class="icon-arrow-left52 fa-2x mr-2"></i></a>Fitness Ölçme ve Değerlendirme Formu</span>
+                </h4>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+            <div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+    <!-- Corporate Table -->
+    <div class="row">
+        <div class="col-lg-12">
+            <form method="post" enctype="multipart/form-data"
+                  action="{% url 'corporate-fitness-create' %}">
+                {% csrf_token %}
+
+                <div class="card">
+
+                    <div class="card-header header-elements-inline">
+                        <div class="form-group col-md-4 " data-select2-id="265">
+                            <label class="font-weight-bold"></label>
+                        </div>
+                        <div class="header-elements">
+                            <div class="list-icons">
+                                <a class="list-icons-item" data-action="collapse"></a>
+                                <a class="list-icons-item" data-action="reload"></a>
+                                <a class="list-icons-item" data-action="remove"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="">
+
+                        <div class="card">
+                            <div class="card-header bg-danger-600 header-elements-inline">
+                                <h6 class="card-title">
+                                    <a data-toggle="collapse" class="text-white collapsed ml-0 "
+                                       href="#collapsible-styled-group" aria-expanded="false"><i
+                                            class="icon-arrow-down15  mr-2"></i> Demografi</a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="collapsible-styled-group" class="collapse" style="">
+                                <div class="card-body">
+                                    <div class="col-md-12">
+                                        <div class="form-group mb-3 mb-md-2">
+
+                                            <div class="card ">
+                                                <div class="card-header">
+                                                    <h6 class="card-title">
+                                                        <a class="text-danger collapsed font-weight-bold"
+                                                           data-toggle="collapse"
+                                                           href="#collapsible-control-group1" aria-expanded="false"><i
+                                                                class="icon-enlarge7 text-danger mr-3"></i>Demografi</a>
+                                                    </h6>
+                                                </div>
+
+                                                <div id="collapsible-control-group1" class="collapse" style="">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-4 ">
+                                                                <div class="form-group">
+                                                                    <label class="font-weight-bold">Yaş </label>
+                                                                    <input type="number" name="age"
+                                                                           class="form-control {% if fitness_form.age.errors %} border-danger-800 {% endif %} "
+                                                                           value="{{ fitness_form.age.value | default_if_none:"" }}"
+                                                                           placeholder="">
+                                                                    {% if fitness_form.age.errors %}
+                                                                        {% for error in fitness_form.age.errors %}
+                                                                            <small class="text-danger-800">* {{ error }}</small>
+                                                                            <br/>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="font-weight-bold">Boy </label>
+                                                                    <input type="number" name="height"
+                                                                           class="form-control {% if fitness_form.height.errors %} border-danger-800 {% endif %}"
+                                                                           value="{{ fitness_form.height.value | default_if_none:"" }}"
+                                                                           placeholder="">
+                                                                    {% if fitness_form.height.errors %}
+                                                                        {% for error in fitness_form.height.errors %}
+                                                                            <small class="text-danger-800">* {{ error }}</small>
+                                                                            <br>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="font-weight-bold">Vucut
+                                                                        Ağırlığı</label>
+                                                                    <input type="number" name="weight"
+                                                                           class="form-control {% if fitness_form.weight.errors %} border-danger-800 {% endif %}"
+                                                                           value="{{ fitness_form.weight.value | default_if_none:"" }}"
+                                                                           placeholder="">
+                                                                    {% if fitness_form.weight.errors %}
+                                                                        {% for error in fitness_form.weight.errors %}
+                                                                            <small class="text-danger-800">* {{ error }}</small>
+                                                                            <br>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header bg-warning-600 header-elements-inline">
+                                <h6 class="card-title">
+                                    <a data-toggle="collapse" class="text-white collapsed"
+                                       href="#collapsible-styled-group1" aria-expanded="false"><i
+                                            class="icon-arrow-down15 mr-2"></i>Vücut Kompozisyonu</a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapsible-styled-group1" class="collapse" style="">
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card ">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-danger collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group7" aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-danger mr-3"></i> Vücut
+                                                                Kompozisyonu</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group7" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">BKİ </label>
+                                                                        <input type="number" name="bki"
+                                                                               class="form-control {% if fitness_form.bki.errors %} border-danger-800 {% endif %}"
+                                                                               value="{{ fitness_form.bki.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.bki.errors %}
+                                                                            {% for error in fitness_form.bki.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                            {% endfor %}
+
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Görece Yağ Kütle
+                                                                            İndeksi </label>
+                                                                        <input type="text" class="form-control ">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Yağsız Vücut
+                                                                            Ağırlığı</label>
+                                                                        <input type="text" class="form-control ">
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-primary collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group8" aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-primary mr-3"></i> Çevre
+                                                                Ölçümleri</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group8" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-lg-3  col-sm-12 ">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Omuz </label>
+                                                                        <input type="number" name="shoulder"
+                                                                               class="form-control {% if fitness_form.shoulder.errors %} border-danger-800 {% endif %}"
+                                                                               value="{{ fitness_form.shoulder.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.shoulder.errors %}
+                                                                            {% for error in fitness_form.shoulder.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12 ">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Göğüs
+                                                                            İndeksi </label>
+                                                                        <input type="number" name="chest"
+                                                                               class="form-control {% if fitness_form.chest.errors %} border-danger-800 {% endif %}"
+                                                                               value="{{ fitness_form.chest.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.chest.errors %}
+                                                                            {% for error in fitness_form.chest.error %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12 ">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Biseps</label>
+                                                                        <input type="number" name="biseps"
+                                                                               class="form-control {% if fitness_form.biseps.errors %} border-danger-800 {% endif %}"
+                                                                               value="{{ fitness_form.biseps.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.biseps.errors %}
+                                                                            {% for error in fitness_form.biseps.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12 ">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">El
+                                                                            Bileği</label>
+                                                                        <input type="number" name="wrist"
+                                                                               class="form-control {% if fitness_form.wrist.errors %} border-danger-800{% endif %}"
+                                                                               value="{{ fitness_form.wrist.value | default_if_none:"" }}">
+                                                                        {% if fitness_form.wrist.errors %}
+                                                                            {% for error in fitness_form.wrist.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12 ">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Bel
+                                                                            Çevresi </label>
+                                                                        <input type="number" name="waist"
+                                                                               class="form-control {% if fitness_form.waist.errors %}
+                                                                              border-danger-800
+                                                                              {% endif %} "
+                                                                               value="{{ fitness_form.waist.value| default_if_none:"" }}">
+                                                                        {% if fitness_form.waist.errors %}
+                                                                            {% for error in fitness_form.waist.err %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                            {% endfor %}
+
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12 ">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Kalça
+                                                                            Çevresi </label>
+                                                                        <input type="number" name="hip"
+                                                                               class="form-control {% if fitness_form.hip.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.hip.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.hip.errors %}
+                                                                            {% for error in fitness_form.hip.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12 ">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Diz
+                                                                            Çevresi </label>
+                                                                        <input type="number" name="knee"
+                                                                               class="form-control {% if fitness_form.knee.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.knee.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.knee.errors %}
+                                                                            {% for error in fitness_form.knee.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12 ">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Üst
+                                                                            Bacak </label>
+                                                                        <input type="number" name="upper_leg"
+                                                                               class="form-control {% if fitness_form.upper_leg.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.upper_leg.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.upper_leg.errors %}
+                                                                            {% for error in fitness_form.upper_leg.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12 ">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Gastrocnemius</label>
+                                                                        <input type="number" name="gastrocnemius"
+                                                                               class="form-control {% if fitness_form.gastrocnemius.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.gastrocnemius.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.gastrocnemius.errors %}
+                                                                            {% for error in fitness_form.gastrocnemius.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12 ">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Ayak
+                                                                            Bileği</label>
+                                                                        <input type="number" name="ankle"
+                                                                               class="form-control {% if fitness_form.ankle.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.ankle.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.ankle.errors %}
+                                                                            {% for error in fitness_form.ankle.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12 ">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Bel/Kalça
+                                                                            Oranı</label>
+                                                                        <input type="number" name="waist_Hip"
+                                                                               class="form-control {% if fitness_form.waist_Hip.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.waist_Hip.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.waist_Hip.errors %}
+                                                                            {% for error in fitness_form.waist_Hip.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 ">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-warning collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group9" aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-warning mr-3"></i> Vücut
+                                                                Yağ Oranı</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group9" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-lg-3  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Chest </label>
+                                                                        <input type="number" name="chest1"
+                                                                               class="form-control {% if fitness_form.chest1.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.chest1.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.chest1.errors %}
+                                                                            {% for error in fitness_form.chest1.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Midaxillary </label>
+                                                                        <input type="number" name="midaxillary"
+                                                                               class="form-control {% if fitness_form.midaxillary.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.midaxillary.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.midaxillary.errors %}
+                                                                            {% for error in fitness_form.midaxillary.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Triceps</label>
+                                                                        <input type="number" name="triceps"
+                                                                               class="form-control {% if fitness_form.triceps.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.triceps.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.triceps.errors %}
+                                                                            {% for error in fitness_form.triceps.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Subscapular</label>
+                                                                        <input type="number" name="subscapular"
+                                                                               class="form-control {% if fitness_form.subscapular.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.subscapular.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.subscapular.errors %}
+                                                                            {% for error in fitness_form.subscapular.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Abdomen </label>
+                                                                        <input type="number" name="abdomen"
+                                                                               class="form-control {% if fitness_form.abdomen.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.abdomen.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.abdomen.errors %}
+                                                                            {% for error in fitness_form.abdomen.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Suprailiac </label>
+                                                                        <input type="number" name="suprailiac"
+                                                                               class="form-control {% if fitness_form.suprailiac.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.suprailiac.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.suprailiac.errors %}
+                                                                            {% for error in fitness_form.suprailiac.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Thigh </label>
+                                                                        <input type="number" name="thigh"
+                                                                               class="form-control {% if fitness_form.thigh.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.thigh.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.thigh.errors %}
+                                                                            {% for error in fitness_form.thigh.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Gastrocnemius </label>
+                                                                        <input type="number" name="gastrocnemius1"
+                                                                               class="form-control {% if fitness_form.gastrocnemius1.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.gastrocnemius1.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.gastrocnemius1.errors %}
+                                                                            {% for error in fitness_form.gastrocnemius1.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-success collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group10"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-success mr-3"></i>
+                                                                Somatotip Karakter</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group10" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-lg-6  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Humerus
+                                                                            Bikondil </label>
+                                                                        <input type="number" name="humerus_bikondil"
+                                                                               class="form-control {% if fitness_form.humerus_bikondil.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.humerus_bikondil.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.humerus_bikondil.errors %}
+                                                                            {% for error in fitness_form.humerus_bikondil.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Femur
+                                                                            Bikondil </label>
+                                                                        <input type="number" name="femur_bikondil"
+                                                                               class="form-control {% if fitness_form.femur_bikondil.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.femur_bikondil.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.femur_bikondil.errors %}
+                                                                            {% for error in fitness_form.femur_bikondil.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Düzeltilmiş
+                                                                            Biseps
+                                                                            Çevre</label>
+                                                                        <input type="number" name="adjusted_biseps"
+                                                                               class="form-control {% if fitness_form.adjusted_biseps.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.adjusted_biseps.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.adjusted_biseps.errors %}
+                                                                            {% for error in fitness_form.adjusted_biseps.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Düzeltilmiş
+                                                                            Gastrocnemius
+                                                                            Çevre</label>
+                                                                        <input type="number"
+                                                                               name="adjusted_gastrocnemius"
+                                                                               class="form-control {% if fitness_form.adjusted_gastrocnemius.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.adjusted_gastrocnemius.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.adjusted_gastrocnemius.errors %}
+                                                                            {% for error in fitness_form.adjusted_gastrocnemius.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header bg-success-600 header-elements-inline">
+                                <h6 class="card-title">
+                                    <a class="text-white collapsed" data-toggle="collapse"
+                                       href="#collapsible-styled-group2" aria-expanded="false"><i
+                                            class="icon-arrow-down15 mr-2"></i> Kalp-Solunum
+                                        Uygunluğu </a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapsible-styled-group2" class="collapse" style="">
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-danger collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group11"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-danger mr-3"></i> Kalp
+                                                                Atım Hızı</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group11" class="collapse"
+                                                         style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-lg-6  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Dinlenim Kalp
+                                                                            Atım
+                                                                            Hızı </label>
+                                                                        <input type="number"
+                                                                               name="rest_heart"
+                                                                               class="form-control {% if fitness_form.rest_heart.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.rest_heart.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.rest_heart.errors %}
+                                                                            {% for error in fitness_form.rest_heart.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Maksimum Kalp
+                                                                            Atım
+                                                                            Hızı</label>
+                                                                        <input type="number"
+                                                                               name="max_heart"
+                                                                               class="form-control {% if fitness_form.max_heart.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.max_heart.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.max_heart.errors %}
+                                                                            {% for error in fitness_form.max_heart.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-primary collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group12"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-primary mr-3"></i> Vo2maks</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group12" class="collapse"
+                                                         style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Direkt
+                                                                            Yöntem </label>
+                                                                        <input type="number"
+                                                                               name="direct_method"
+                                                                               class="form-control {% if fitness_form.direct_method.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.direct_method.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.direct_method.errors %}
+                                                                            {% for error in fitness_form.direct_method.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Basamak
+                                                                            Testi </label>
+                                                                        <input type="number"
+                                                                               name="step_test"
+                                                                               class="form-control {% if fitness_form.step_test.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.step_test.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.step_test.errors %}
+                                                                            {% for error in fitness_form.step_test.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Rockport 1-mil
+                                                                            koş
+                                                                            yürü</label>
+                                                                        <input type="number"
+                                                                               name="rockport"
+                                                                               class="form-control {% if fitness_form.rockport.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.rockport.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.rockport.errors %}
+                                                                            {% for error in fitness_form.rockport.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header bg-primary-600 header-elements-inline">
+                                <h6 class="card-title">
+                                    <a class="collapsed text-white" data-toggle="collapse"
+                                       href="#collapsible-styled-group3"><i class="icon-arrow-down15 mr-2"></i> Kas
+                                        Kuvveti Dayanıklılığı</a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapsible-styled-group3" class="collapse">
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card ">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-danger collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group13"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-danger mr-3"></i>Genel Kas
+                                                                Kuvveti</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group13" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">El Kavrama
+                                                                            Kuvveti </label>
+                                                                        <input type="number"
+                                                                               name="hand_grip"
+                                                                               class="form-control {% if fitness_form.hand_grip.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.hand_grip.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.hand_grip.errors %}
+                                                                            {% for error in fitness_form.hand_grip.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-primary collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group14"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-primary mr-3"></i> Lokal
+                                                                Kas Dayanıklılığı</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group14" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="col-md-12">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6  col-sm-12">
+                                                                        <div class="form-group">
+                                                                            <label class="font-weight-bold">Push-up </label>
+                                                                            <input type="number"
+                                                                                   name="push_up"
+                                                                                   class="form-control {% if fitness_form.push_up.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ fitness_form.push_up.value | default_if_none:"" }}"
+                                                                                   placeholder="">
+                                                                            {% if fitness_form.push_up.errors %}
+                                                                                {% for error in fitness_form.push_up.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6  col-sm-12">
+                                                                        <div class="form-group">
+                                                                            <label class="font-weight-bold">Curl-up </label>
+                                                                            <input type="number"
+                                                                                   name="curl_up"
+                                                                                   class="form-control {% if fitness_form.curl_up.errors %} border-danger-800 {% endif %} "
+                                                                                   value="{{ fitness_form.curl_up.value | default_if_none:"" }}"
+                                                                                   placeholder="">
+                                                                            {% if fitness_form.curl_up.errors %}
+                                                                                {% for error in fitness_form.curl_up.errors %}
+                                                                                    <small class="text-danger-800">* {{ error }}</small>
+                                                                                    <br/>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 ">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-warning collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group15"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-warning mr-3"></i> 1 MT
+                                                                Belirleme</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group15" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Squat </label>
+                                                                        <input type="number"
+                                                                               name="squat"
+                                                                               class="form-control {% if fitness_form.squat.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.squat.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.squat.errors %}
+                                                                            {% for error in fitness_form.squat.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">1 MT </label>
+                                                                        <input type="number"
+                                                                               name="squat_1mt"
+                                                                               class="form-control {% if fitness_form.squat_1mt.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.squat_1mt.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.squat_1mt.errors %}
+                                                                            {% for error in fitness_form.squat_1mt.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Relatif
+                                                                            Kuvvet</label>
+                                                                        <input type="number"
+                                                                               name="squat_relatif"
+                                                                               class="form-control {% if fitness_form.squat_relatif.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.squat_relatif.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.squat_relatif.errors %}
+                                                                            {% for error in fitness_form.squat_relatif.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Bench
+                                                                            Press </label>
+                                                                        <input type="number"
+                                                                               name="bench_press"
+                                                                               class="form-control {% if fitness_form.bench_press.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.bench_press.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.bench_press.errors %}
+                                                                            {% for error in fitness_form.bench_press.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">1 MT </label>
+                                                                        <input type="number"
+                                                                               name="bench_1mt"
+                                                                               class="form-control {% if fitness_form.bench_1mt.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.bench_1mt.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.bench_1mt.errors %}
+                                                                            {% for error in fitness_form.bench_1mt.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Relatif
+                                                                            Kuvvet</label>
+                                                                        <input type="number"
+                                                                               name="bench_relatif"
+                                                                               class="form-control {% if fitness_form.bench_relatif.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.bench_relatif.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.bench_relatif.errors %}
+                                                                            {% for error in fitness_form.bench_relatif.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header bg-dark header-elements-inline">
+                                <h6 class="card-title">
+                                    <a class="text-white collapsed" data-toggle="collapse"
+                                       href="#collapsible-styled-group4" aria-expanded="false"><i
+                                            class="icon-arrow-down15 mr-2"></i> Esneklik – Denge </a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapsible-styled-group4" class="collapse" style="">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-danger collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group16"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-danger mr-3"></i>Esneklik
+                                                                – Denge</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group16" class="collapse" style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <div class="col-lg-6  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Otur-Uzan</label>
+                                                                        <input type="number"
+                                                                               name="otur_uzan"
+                                                                               class="form-control {% if fitness_form.otur_uzan.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.otur_uzan.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.otur_uzan.errors %}
+                                                                            {% for error in fitness_form.otur_uzan.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Tek Bacak
+                                                                            Denge</label>
+                                                                        <input type="number"
+                                                                               name="one_leg"
+                                                                               class="form-control {% if fitness_form.one_leg.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.one_leg.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.one_leg.errors %}
+                                                                            {% for error in fitness_form.one_leg.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header bg-brown header-elements-inline">
+                                <h6 class="card-title">
+                                    <a class="collapsed text-white" data-toggle="collapse"
+                                       href="#collapsible-styled-group5"><i class="icon-arrow-down15 mr-2"></i>
+                                        Metabolik
+                                        Uygunluk</a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapsible-styled-group5" class="collapse">
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-danger collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group17"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-danger mr-3"></i>Kan
+                                                                Glikoz
+                                                                Profili</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group17" class="collapse"
+                                                         style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Açlık Kan
+                                                                            Şekeri </label>
+                                                                        <input type="number"
+                                                                               name="blood_sugar"
+                                                                               class="form-control {% if fitness_form.blood_sugar.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.blood_sugar.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.blood_sugar.errors %}
+                                                                            {% for error in fitness_form.blood_sugar.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Açlık
+                                                                            Insülin </label>
+                                                                        <input type="number"
+                                                                               name="insulin"
+                                                                               class="form-control {% if fitness_form.insulin.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.insulin.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.insulin.errors %}
+                                                                            {% for error in fitness_form.insulin.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">HB1AC</label>
+                                                                        <input type="number"
+                                                                               name="hb1ac"
+                                                                               class="form-control {% if fitness_form.hb1ac.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.hb1ac.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.hb1ac.errors %}
+                                                                            {% for error in fitness_form.hb1ac.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-primary collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group18"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-primary mr-3"></i>Kan
+                                                                Lipid
+                                                                Profili</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group18" class="collapse"
+                                                         style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">LDL</label>
+                                                                        <input type="number"
+                                                                               name="ldl"
+                                                                               class="form-control {% if fitness_form.ldl.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.ldl.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.ldl.errors %}
+                                                                            {% for error in fitness_form.ldl.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">HDL </label>
+                                                                        <input type="number"
+                                                                               name="hdl"
+                                                                               class="form-control {% if fitness_form.hdl.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.hdl.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.hdl.errors %}
+                                                                            {% for error in fitness_form.hdl.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Trigliserit</label>
+                                                                        <input type="number"
+                                                                               name="trigliserit"
+                                                                               class="form-control {% if fitness_form.trigliserit.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.trigliserit.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.trigliserit.errors %}
+                                                                            {% for error in fitness_form.trigliserit.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Total
+                                                                            Kolesterol </label>
+                                                                        <input type="number"
+                                                                               name="kolesterol"
+                                                                               class="form-control {% if fitness_form.kolesterol.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.kolesterol.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.kolesterol.errors %}
+                                                                            {% for error in fitness_form.kolesterol.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Total
+                                                                            Kolesterol/HDL
+                                                                            Oranı</label>
+                                                                        <input type="number"
+                                                                               name="kolesterol_hdl"
+                                                                               class="form-control {% if fitness_form.kolesterol_hdl.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.kolesterol_hdl.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.kolesterol_hdl.errors %}
+                                                                            {% for error in fitness_form.kolesterol_hdl.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3 mb-md-2">
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h6 class="card-title">
+                                                            <a class="text-success collapsed font-weight-bold"
+                                                               data-toggle="collapse"
+                                                               href="#collapsible-control-group19"
+                                                               aria-expanded="false"><i
+                                                                    class="icon-enlarge7 text-success mr-3"></i>Kan
+                                                                Basıncı Profili</a>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div id="collapsible-control-group19" class="collapse"
+                                                         style="">
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <div class="col-lg-6  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Sistolik Kan
+                                                                            Basıncı</label>
+                                                                        <input type="number"
+                                                                               name="sistolik"
+                                                                               class="form-control {% if fitness_form.sistolik.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.sistolik.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.sistolik.errors %}
+                                                                            {% for error in fitness_form.sistolik.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6  col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="font-weight-bold">Diastolik Kan
+                                                                            Basıncı </label>
+                                                                        <input type="number"
+                                                                               name="diastolik"
+                                                                               class="form-control {% if fitness_form.diastolik.errors %} border-danger-800 {% endif %} "
+                                                                               value="{{ fitness_form.diastolik.value | default_if_none:"" }}"
+                                                                               placeholder="">
+                                                                        {% if fitness_form.diastolik.errors %}
+                                                                            {% for error in fitness_form.diastolik.errors %}
+                                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                                                <br/>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /corporate table -->
+{% endblock page_content %}

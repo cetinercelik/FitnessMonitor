@@ -1,0 +1,80 @@
+{% extends 'core.html' %}
+{% block title %}
+    Giriş Yap
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'assets/js/app.js' %}"></script>
+{% endblock javascript %}
+{% block body %}
+    <!-- Page content -->
+    <div class="page-content login-cover ">
+        <!-- Main content -->
+        <div class="content-wrapper">
+            <!-- Content area -->
+            <div class="content d-flex justify-content-center align-items-center">
+                <!-- Login form -->
+                <form class="login-form" method="post">
+                    {% csrf_token %}
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="icon-reading icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"></i>
+                                <h5 class="mb-0">Hesabınıza giriş yapın</h5>
+                                <span class="d-block text-muted">Kullanıcı bilgilerinizi aşağıya girin</span>
+                            </div>
+
+                            {% if form.errors %}
+                                <div class="alert alert-danger alert-styled-left alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                                    <strong>Kullanıcı adınız ve şifreniz eşleşmedi. Lütfen tekrar deneyin. </strong>
+                                </div>
+                            {% endif %}
+                            {% if next %}
+                                {% if user.is_authenticated %}
+                                    <div class="alert alert-danger alert-styled-left alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                                        <strong>Hesabınızın bu sayfaya erişimi yok. Devam etmek için,
+                                            lütfen erişimi olan bir hesapla giriş yapın.</strong>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-danger alert-styled-left alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                                        <strong>Bu sayfayı görmek için lütfen giriş yapınız. </strong>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                            <div class="form-group mr-3 form-group-feedback form-group-feedback-left">
+                                <input type="text" class="form-control" required name="username"
+                                       placeholder="Kullanıcı Adı"/>
+                                <div class="form-control-feedback">
+                                    <i class="icon-user text-muted"></i>
+                                </div>
+                            </div>
+                            <div class="form-group mr-3 form-group-feedback form-group-feedback-left">
+                                <input type="password" class="form-control" required name="password"
+                                       placeholder="Şifre"/>
+                                <div class="form-control-feedback">
+                                    <i class="icon-lock2 text-muted"></i>
+                                </div>
+                            </div>
+                            <div class="form-group  container row">
+                                <button type="submit" class="btn bg-teal btn-block">
+                                    Giriş Yap <i class="icon-circle-right2 ml-2"></i>
+                                </button>
+                                <a class="btn-block" href="{% url 'personal_register' %}">Yeni Kayıt İçin
+                                    Tıklayınız</a>
+                                <a class="btn-block" href="{% url 'reset_password' %}">Şifremi unuttum</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- /login form -->
+            </div>
+            <!-- /content area -->
+        </div>
+        <!-- /main content -->
+    </div>
+    <!-- /page content -->
+{% endblock body %}

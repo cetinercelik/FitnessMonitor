@@ -1,0 +1,130 @@
+{% extends '../reporting_analysis_base.html' %}
+{% block title %}
+    Reçete Raporlama & Analiz
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/datatables.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/buttons.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_extension_buttons_html5.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_data_sources.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_sorting.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_buttons.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_advanced.js' %}"></script>
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="{% url 'personal-home' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <a href="{% url 'personal-reporting-analysis-home' %}" class="breadcrumb-item">Analiz &
+                        Raporlama</a>
+                    <a href="{% url 'personal-prescriptions-analysis-home' %}" class="breadcrumb-item active">Reçete
+                        Analiz &
+                        Raporlama</a>
+                </div>
+
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h4><i class="mr-1"></i> <span class="font-weight-semibold"><a style="color: black"
+                                                                               href="{% url 'personal-reporting-analysis-home' %}"><i
+                        class="icon-arrow-left52 fa-2x mr-2"></i></a>Reçete Analiz  & Raporlama Yönetimi</span>
+                </h4>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+            <div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+    <!-- Corporate Table -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="icon-file-text3 icon-2x text-success-400 border-success-400 border-3 rounded-round p-3 mb-3 mt-1"></i>
+                    <h5 class="card-title">Egzersiz Reçetesi Sonuçları</h5>
+                    <p class="mb-3">Egzersiz Reçetesi verilerinin sonuçlarına buradan
+                        ulaşabilirsiniz</p>
+                    <a href="{% url 'personal-prescriptions-exercise-prescription-home' %}"
+                       class="btn bg-success-400">Reçeteler</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="icon-file-check2 icon-2x text-warning border-warning border-3 rounded-round p-3 mb-3 mt-1"></i>
+                    <h5 class="card-title">Düzeltici Egzersiz Reçetesi Sonuçları</h5>
+                    <p class="mb-3">Düzeltici Egzersiz Reçetesi verilerinin sonuçlarına buradan
+                        ulaşabilirsiniz.</p>
+                    <a href="{% url 'personal-prescriptions-corrective-exercise-home' %}" class="btn bg-warning">Reçeteler</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="icon-file-presentation2 icon-2x text-blue border-blue border-3 rounded-round p-3 mb-3 mt-1"></i>
+                    <h5 class="card-title">Medikal Egzersiz Reçetesi Hazırlama Sonuçları</h5>
+                    <p class="mb-3">Medikal Egzersiz Reçetesi Hazırlama verilerinin sonuçlarına buradan
+                        ulaşabilirsiniz.</p>
+                    <a href="{% url 'personal-prescriptions-medical-exercise-home' %}" class="btn bg-blue">Reçeteler</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="icon-stats-growth icon-2x text-danger border-danger border-3 rounded-round p-3 mb-3 mt-1"></i>
+                    <h5 class="card-title">Atletik Performans Gelişim Programı</h5>
+                    <p class="mb-3">Atletik Performans Gelişim Programı verilerinin sonuçlarına buradan
+                        ulaşabilirsiniz.</p>
+                    <a href="{% url 'personal-prescriptions-athletic-development-home' %}" class="btn bg-danger">Reçeteler</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="icon-accessibility icon-2x text-teal-400 border-teal-400 border-3 rounded-round p-3 mb-3 mt-1"></i>
+                    <h5 class="card-title">Pilates Egzersiz Reçetesi Sonuçları</h5>
+                    <p class="mb-3">Pilates Egzersiz Reçetesi verilerinin sonuçlarına buradan
+                        ulaşabilirsiniz</p>
+                    <a href="{% url 'personal-prescriptions-pilates-prescription-results' %}"
+                       class="btn bg-teal-400">Reçeteler</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="icon-person icon-2x text-success border-success border-3 rounded-round p-3 mb-3 mt-1"></i>
+                    <h5 class="card-title">Metabolik Egzersiz Reçetesi Sonuçları</h5>
+                    <p class="mb-3">Metabolik Egzersiz Reçetesi verilerinin sonuçlarına buradan
+                        ulaşabilirsiniz</p>
+                    <a href="{% url 'personal-metabolic-exercise-results' %}"
+                       class="btn bg-success">Reçeteler</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /corporate table -->
+{% endblock page_content %}

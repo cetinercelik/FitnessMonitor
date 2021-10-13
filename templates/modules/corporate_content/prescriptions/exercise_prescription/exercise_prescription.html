@@ -1,0 +1,98 @@
+{% extends './exercise_prescription_base.html' %}
+{% block title %}
+    Egzersiz Reçetesi Hazırlama
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/datatables.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/buttons.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_extension_buttons_html5.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_data_sources.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_sorting.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_buttons.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_advanced.js' %}"></script>
+
+       <script src="{% static 'global_assets/js/demo_pages/form_select2.js' %}"></script>
+
+    <script src="{% static 'global_assets/js/plugins/notifications/pnotify.min.js' %}"></script>
+
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="{% url 'corporate-home' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <span class="breadcrumb-item active"> Egzersiz Reçetesi Hazırlama</span>
+                </div>
+
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h4><i class="mr-1"></i> <span class="font-weight-semibold"><a style="color: black"
+                                                                               href="{% url 'corporate-home' %}"><i
+                        class="icon-arrow-left52 fa-2x mr-2"></i></a>Düzeltici Egzersiz Reçetesi Yönetimi</span>
+                </h4>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+            <div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+    <!-- Corporate Table -->
+    <div class="card" >
+
+        <div class="row">
+            <div class="col-lg-6 ">
+                <div class="card card-body border-top-primary">
+                    <div class="text-center">
+                        <h6 class="m-0 font-weight-semibold">Sistem Reçete Hazırlama</h6>
+                        <p class="text-muted mb-3">Önceden sizin yapmış olduğunuz seçimlere göre sistem analizde bulunacaktır</p>
+
+                        <button type="button" class="btn bg-teal-400 btn-labeled btn-labeled-left rounded-round"
+                                id=""><b><i
+                                class="icon-gear"></i></b> Sistem Reçetesi
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card card-body border-top-primary">
+                    <div class="text-center">
+                        <h6 class="m-0 font-weight-semibold">Manuel Reçete Hazırlama</h6>
+                        <p class="text-muted mb-3">Burada yapacağınız seçimlere göre analizler yapılacaktır</p>
+                        <a href="{% url 'corporate-exercise_prescription-create' %}"
+                           class="btn bg-danger-400 btn-labeled btn-labeled-left rounded-round "><b><i
+                                class="icon-reading"></i></b>Manuel Reçete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#pnotify-solid-success').on('click', function () {
+            new PNotify({
+                title: 'İşlem Başarılı',
+                text: 'Rapor ve Analiz kısmından sonucu görebilirsiniz.',
+                addclass: 'bg-success border-success'
+            });
+        });
+    </script>
+    <!-- /corporate table -->
+{% endblock page_content %}

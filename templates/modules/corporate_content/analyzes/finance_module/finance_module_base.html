@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block main_sidebar_items %}
+
+    <li class="nav-item-header">
+        <div class="text-uppercase font-size-xs line-height-xs">Anasayfa</div>
+        <i class="icon-menu"
+           title="Main"></i>
+    </li>
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-home' %}" class="nav-link">
+                <i class="icon-home4"></i>
+                <span>Kurumsal Yönetim Paneli</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'corporate-trainer-home' %}" class="nav-link">
+                <i class="icon-users"></i>
+                <span>Antrenör Yönetim Paneli</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'corporate-personal-home' %}" class="nav-link">
+                <i class="icon-users4"></i>
+                <span>Danışan Yönetim Paneli</span>
+            </a>
+        </li>
+    {% elif user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-home' %}" class="nav-link">
+                <i class="icon-users"></i>
+                <span>Antrenör Takip Paneli</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'trainer-personal-home' %}" class="nav-link">
+                <i class="icon-users4"></i>
+                <span>Danışan Takip Paneli</span>
+            </a>
+        </li>
+    {% elif user_control_data.personal_c %}
+        <li class="nav-item">
+            <a href="{% url 'personal-home' %}" class="nav-link">
+                <i class="icon-users4"></i>
+                <span>Danışan Takip Paneli</span>
+            </a>
+        </li>
+
+    {% endif %}
+
+    <!-- /Reçeteler -->
+    <li class="nav-item-header">
+        <div class="text-uppercase font-size-xs line-height-xs">Analizler</div>
+        <i class="icon-menu"
+           title="Forms"></i>
+    </li>
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-finance-module-home' %}" class="nav-link active">
+                <i class="icon-coins"></i>
+                <span>Bütçe Takibi ve Finans Yönetimi </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-finance-module-home' %}" class="nav-link">
+                <i class="icon-coins"></i>
+                <span>Bütçe Takibi ve Finans Yönetimi </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.personal_c %}
+        <li class="nav-item">
+            <a href="{% url 'personal-finance-module-home' %}" class="nav-link">
+                <i class="icon-coins"></i>
+                <span>Bütçe Takibi ve Finans Yönetimi </span>
+            </a>
+        </li>
+    {% endif %}
+{% if user_control_data.corporate_c %}
+    <li class="nav-item">
+        <a href="{% url 'corporate-reporting-analysis-home' %}" class="nav-link">
+            <i class="icon-statistics"></i>
+            <span>Raporlama & Analiz Yönetimi </span>
+        </a>
+    </li>
+{% endif %}
+    {% if user_control_data.trainer_c %}
+    <li class="nav-item">
+        <a href="{% url 'trainer-reporting-analysis-home' %}" class="nav-link">
+            <i class="icon-statistics"></i>
+            <span>Raporlama & Analiz Yönetimi </span>
+        </a>
+    </li>
+{% endif %}
+    {% if user_control_data.personal_c %}
+    <li class="nav-item">
+        <a href="{% url 'personal-reporting-analysis-home' %}" class="nav-link">
+            <i class="icon-statistics"></i>
+            <span>Raporlama & Analiz Yönetimi </span>
+        </a>
+    </li>
+{% endif %}
+
+    <li class="nav-item">
+        <a href="#" class="nav-link">
+            <i class="icon-mail5"></i>
+            <span>Bildirim Paneli</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#" class="nav-link">
+            <i class="icon-question3"></i>
+            <span>Soru & Cevap Paneli</span>
+        </a>
+    </li>
+
+{% endblock main_sidebar_items %}

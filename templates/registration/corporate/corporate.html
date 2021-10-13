@@ -1,0 +1,95 @@
+{% extends './corporate_base.html' %}
+{% block title %}
+    Kurumsal Yönetimi
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/datatables.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/buttons.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_extension_buttons_html5.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_data_sources.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_sorting.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_buttons.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_advanced.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_api.js' %}"></script>
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="{% url 'home-dashboard' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <span class="breadcrumb-item active">Kurumsal Yönetim</span>
+                </div>
+
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h4><i class="mr-1"></i> <span class="font-weight-semibold">Kurumsal Yönetim</span></h4>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+            <div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+
+    <!--Start Content-->
+    <div class="content">
+        <ul class="fab-menu fab-menu-absolute fab-menu-bottom-right is_stuck" data-fab-toggle="hover"
+            id="fab-menu-affixed-demo-right" style="position: fixed; bottom: 20px; width: 48px;">
+            <li>
+                <a class="fab-menu-btn btn bg-pink-300 btn-float rounded-round btn-icon">
+                    <i class="fab-icon-open icon-grid3"></i>
+                    <i class="fab-icon-close icon-cross2"></i>
+                </a>
+
+                <ul class="fab-menu-inner">
+                    <li>
+                        <div data-fab-label="Compose email">
+                            <a href="#" class="btn btn-light rounded-round btn-icon btn-float">
+                                <i class="icon-pencil"></i>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div data-fab-label="Conversations">
+                            <a href="#" class="btn btn-light rounded-round btn-icon btn-float">
+                                <i class="icon-bubbles3"></i>
+                            </a>
+                            <span class="badge bg-primary-400">5</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div data-fab-label="Chat with Jack">
+                            <a href="#" class="btn bg-pink-400 rounded-round btn-icon btn-float">
+                                <img src="../../../../global_assets/images/placeholders/placeholder.jpg"
+                                     class="img-fluid rounded-circle" alt="">
+                            </a>
+                            <span class="badge badge-mark border-pink-400"></span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    <div>
+
+    </div>
+
+    </div>
+{% endblock page_content %}

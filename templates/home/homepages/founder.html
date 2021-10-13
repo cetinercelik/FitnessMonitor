@@ -1,0 +1,228 @@
+{% extends '../home_core.html' %}
+{% block title %}
+    Kurucu
+{% endblock title %}
+{% load static %}
+{% block body %}
+    <div class="body-inner">
+        <!-- Header -->
+        <header id="header" data-transparent="true" data-fullwidth="true" class="dark text-dark submenu-light">
+            <div class="header-inner">
+                <div class="container">
+                    <!--Logo-->
+                    <div id="logo">
+                        <a href="{% url 'home-page' %}">
+                            <span class="logo-default">FitnessMonitor</span>
+                            <span class="logo-dark">FitnessMonitor</span>
+                        </a>
+                    </div>
+                    <!--End: Logo-->
+                    <!-- Search -->
+                    <div id="search"><a id="btn-search-close" class="btn-search-close" aria-label="Close search form"><i
+                            class="icon-x"></i></a>
+                        <form class="search-form" action="search-results-page.html" method="get">
+                            <input class="form-control" name="q" type="text" placeholder="Type & Search..."/>
+                            <span class="text-muted">Start typing & press "Enter" or "ESC" to close</span>
+                        </form>
+                    </div>
+                    <!-- end: search -->
+                    <!--Header Extras-->
+                    <div class="header-extras">
+                        <ul>
+                            {#                            <li>#}
+                            {#                                <a id="btn-search" href="#"> <i class="fas fa-search"></i></a>#}
+                            {#                            </li>#}
+                            <li>
+                                <div class="p-dropdown">
+                                    <a href="#"><i class="fas fa-globe"></i><span>EN</span></a>
+                                    <ul class="p-dropdown-content">
+                                        <li><a href="#">Fransızca</a></li>
+                                        <li><a href="#">İspanyolca</a></li>
+                                        <li><a href="#">İngilizce</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <!--end: Header Extras-->
+                    <!--Navigation Resposnive Trigger-->
+                    <div id="mainMenu-trigger">
+                        <a class="lines-button x"><span class="lines"></span></a>
+                    </div>
+                    <!--end: Navigation Resposnive Trigger-->
+                    <!--Navigation-->
+                    <div id="mainMenu">
+                        <div class="container">
+                            <nav>
+                                <ul>
+                                    <li><a href="{% url 'home-page' %}">Home</a></li>
+                                    <li class="dropdown"><a href="#">Hakkımızda </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{% url 'home-about' %}">FitnessMonitor Hakkında</a></li>
+                                            <li><a href="{% url 'home-founder' %}">FitnessMonitor Kurucu</a></li>
+                                            <li><a href="{% url 'home-philosophy' %}">FitnessMonitor Felsefesi</a></li>
+                                            <li><a href="{% url 'home-corpsolve' %}">FitnessMonitor Kurumsal
+                                                Çözümler</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown"><a href="#">FitnessMonitor Keşfet</a>
+                                        <ul class="dropdown-menu">
+                                            {% if fitnessMonitors %}
+                                                {% for fts in fitnessMonitors %}
+                                                    <li>
+                                                        <a href="{% url 'home-fitnessmonitor'  id=fts.id %}">{{ fts.title | default_if_none:'' }}</a>
+                                                    </li>
+                                                {% endfor %}
+
+                                            {% endif %}
+
+                                        </ul>
+                                    </li>
+                                    <li><a href="{% url 'home-contact' %}">İletişim</a></li>
+                                    <li class="mega-menu-item"><a href="{% url 'login' %}" class=""><i
+                                            class="fas fa-sign-in-alt"></i>Giriş Yap</a></li>
+                                    <li class="mega-menu-item"><a href="{% url 'personal_register' %}"><i
+                                            class="fas fa-user-plus"></i>Üye Ol</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <!--end: Navigation-->
+                </div>
+            </div>
+        </header>
+        <!-- end: Header -->
+        <!-- Page content -->
+        <!-- Main content -->
+        <!-- Page header area -->
+        {% block page_header %}
+        {% endblock page_header %}
+        <!-- /page header area -->
+        <!-- Content area -->
+        {% block page_content %}
+            {% if founders %}
+                {% for fnd in founders %}
+                    <section id="page-content" class="sidebar-right">
+                        <div class="">
+                            <div class="row">
+                                <!-- content -->
+                                <div class="">
+                                    <!-- Blog -->
+                                    <div id="blog" class="single-post">
+                                        <!-- Post single item-->
+                                        <div class="post-item">
+                                            <div class="post-item-wrap row">
+                                                <div class="post-image col-lg-5">
+                                                    <a href="#">
+                                                        <img alt="" src="{{ fnd.image.url | default_if_none:'' }}">
+                                                    </a>
+                                                </div>
+                                                <div class="post-item-description col-lg-6 ml-4">
+                                                    <h2>{{ fnd.founder_name_surname |default_if_none:'' }}</h2>
+                                                    <hr>
+                                                    <p>{{ fnd.founder_descriptions | safe |default_if_none:'' }}</p>
+
+                                                    <div class="post-meta">
+
+                                                        <div class="post-meta-share">
+                                                            <a class="btn btn-xs btn-slide btn-facebook"
+                                                               href="{{ fnd.facebook |default_if_none:'' }}">
+                                                                <i class="fab fa-facebook-f"></i>
+                                                                <span>Facebook</span>
+                                                            </a>
+                                                            <a class="btn btn-xs btn-slide btn-twitter"
+                                                               href="{{ fnd.twitter |default_if_none:'' }}"
+                                                               data-width="100">
+                                                                <i class="fab fa-twitter"></i>
+                                                                <span>Twitter</span>
+                                                            </a>
+                                                            <a class="btn btn-xs btn-slide btn-instagram"
+                                                               href="{{ fnd.instagram |default_if_none:'' }}"
+                                                               data-width="118">
+                                                                <i class="fab fa-instagram"></i>
+                                                                <span>Instagram</span>
+                                                            </a>
+                                                            <a class="btn btn-xs btn-slide btn-googleplus"
+                                                               href="mailto:{{ fnd.mail |default_if_none:'' }}"
+                                                               data-width="80">
+                                                                <i class="fas fa-envelope-square"></i>
+                                                                <span>Mail</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <!-- end: Post single item-->
+                                    </div>
+                                </div>
+                                <!-- end: content -->
+                                <!-- Sidebar-->
+
+                                <!-- end: Sidebar-->
+                            </div>
+                        </div>
+                    </section>
+                {% endfor %}
+            {% endif %}
+        {% endblock page_content %}
+        <!-- /content area -->
+        <!-- Footer -->
+        <footer id="footer">
+            <div class="footer-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="widget">
+                                <div class="widget-title">FitnessMonitor Logo</div>
+                                <img src="{{ tms.image.url | default_if_none:'' }}">
+
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="widget">
+                                        <div class="widget-title">Popüler Bağlantılar</div>
+                                        <ul class="list">
+                                            <li><a href="{% url 'home-philosophy' %}">FitnessMonitor Felsefesi</a></li>
+                                            <li><a href="{% url 'home-founder' %}">FitnessMonitor Kurucu</a></li>
+                                            <li><a href="{% url 'home-corpsolve' %}">Kurumsal Çözümler</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="widget">
+                                        <div class="widget-title">Hızlı Linkler</div>
+                                        <ul class="list">
+                                            <li><a href="{% url 'home-page' %}">Anasayfa</a></li>
+                                            <li><a href="{% url 'home-about' %}">Hakkımızda</a></li>
+                                            <li><a href="{% url 'home-contact' %}">İletişim</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright-content">
+                <div class="container">
+                    <div class="copyright-text text-center">&copy;<a class="mx-2" id="demo"></a> FitnessMonitor - Bütün Hakları Saklıdır.</div>
+                </div>
+            </div>
+        </footer>
+        <!-- end: Footer -->
+        <!-- /main content -->
+        <!-- /page content -->
+    </div>
+    <a id="scrollTop"><i class="fas fa-chevron-up"></i><i class="fas fa-chevron-up"></i></a>
+        <script>
+        const d = new Date();
+        document.getElementById("demo").innerHTML = d.getFullYear();
+    </script>
+{% endblock body %}

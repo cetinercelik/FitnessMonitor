@@ -1,0 +1,326 @@
+{% extends 'base.html' %}
+{% block main_sidebar_items %}
+
+    <li class="nav-item-header">
+        <div class="text-uppercase font-size-xs line-height-xs">Anasayfa</div>
+        <i class="icon-menu"
+           title="Main"></i>
+    </li>
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-home' %}" class="nav-link active">
+                <i class="icon-home4"></i>
+                <span>Kurumsal Yönetim Paneli</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'corporate-trainer-home' %}" class="nav-link">
+                <i class="icon-users"></i>
+                <span>Antrenör Yönetim Paneli</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'corporate-personal-home' %}" class="nav-link">
+                <i class="icon-users4"></i>
+                <span>Danışan Yönetim Paneli</span>
+            </a>
+        </li>
+    {% elif user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-home' %}" class="nav-link">
+                <i class="icon-users"></i>
+                <span>Antrenör Takip Paneli</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'trainer-personal-home' %}" class="nav-link">
+                <i class="icon-users4"></i>
+                <span>Danışan Takip Paneli</span>
+            </a>
+        </li>
+    {% elif user_control_data.personal_c %}
+        <li class="nav-item">
+            <a href="{% url 'personal-home' %}" class="nav-link">
+                <i class="icon-users4"></i>
+                <span>Danışan Takip Paneli</span>
+            </a>
+        </li>
+
+    {% endif %}
+    <!-- /Paneller -->
+    <li class="nav-item-header ">
+        <div class="text-uppercase font-size-xs line-height-xs">Formlar</div>
+        <i class="icon-menu"
+           title="Forms"></i>
+    </li>
+    {% if  user_control_data.corporate_c %}
+        <li class="nav-item ">
+            <a href="{% url 'corporate-forms-home' %}" class="nav-link">
+                <i class="icon-stack2"></i>
+                <span>Formlar</span>
+            </a>
+        </li>
+    {% endif %}
+    {% if  user_control_data.trainer_c %}
+        <li class="nav-item ">
+            <a href="{% url 'trainer-forms-home' %}" class="nav-link">
+                <i class="icon-stack2"></i>
+                <span>Formlar</span>
+            </a>
+        </li>
+    {% endif %}
+    <!-- Ölçümler -->
+    {% if  user_control_data.corporate_c or user_control_data.trainer_c %}
+        <li class="nav-item-header">
+            <div class="text-uppercase font-size-xs line-height-xs">Ölçümler</div>
+            <i class="icon-menu"
+               title="Forms"></i>
+        </li>
+    {% endif %}
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-fitness-create' %}" class="nav-link">
+                <i class="icon-height"></i>
+                <span>Fitnes Ölçüm </span>
+            </a>
+        </li>
+    {% elif user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-fitness-create' %}" class="nav-link">
+                <i class="icon-height"></i>
+                <span>Fitnes Ölçüm </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-postural-create' %}" class="nav-link">
+                <i class="icon-page-break"></i>
+                <span>Postürel Bozulma Ölçüm </span>
+            </a>
+        </li>
+    {% elif user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-postural-create' %}" class="nav-link">
+                <i class="icon-page-break"></i>
+                <span>Postürel Bozulma Ölçüm </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-medical-create' %}" class="nav-link">
+                <i class="icon-unfold"></i>
+                <span>Medikal Ölçüm </span>
+            </a>
+        </li>
+    {% elif user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-medical-create' %}" class="nav-link">
+                <i class="icon-unfold"></i>
+                <span>Medikal Ölçüm </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-athletic-create' %}" class="nav-link">
+                <i class="icon-stats-growth"></i>
+                <span>Atletik Performans Ölçüm </span>
+            </a>
+        </li>
+    {% elif user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-athletic-create-home' %}" class="nav-link">
+                <i class="icon-stats-growth"></i>
+                <span>Atletik Performans Ölçüm </span>
+            </a>
+        </li>
+    {% endif %}
+    <!-- /Ölçümler -->
+    <!-- Reçeteler -->
+    {% if user_control_data.corporate_c or user_control_data.trainer_c %}
+        <li class="nav-item-header">
+            <div class="text-uppercase font-size-xs line-height-xs">Reçeteler</div>
+            <i class="icon-menu"
+               title="Forms"></i>
+        </li>
+    {% endif %}
+
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-exercise_prescription-home' %}" class="nav-link">
+                <i class="icon-file-text3"></i>
+                <span>Egzersiz Reçetesi</span>
+            </a>
+        </li>
+    {% elif user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-exercise_prescription-home' %}" class="nav-link">
+                <i class="icon-file-text3"></i>
+                <span>Egzersiz Reçetesi</span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="icon-file-text3"></i>
+                <span>Personal Training</span>
+            </a>
+        </li>
+    {% elif user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-pilates-home' %}" class="nav-link ">
+                <i class="icon-accessibility"></i>
+                <span>Personal Training</span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-corrective_exercise-home' %}" class="nav-link">
+                <i class="icon-file-check2"></i>
+                <span>Düzeltici Egzersiz Reçetesi</span>
+            </a>
+        </li>
+    {% elif user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-corrective_exercise-home' %}" class="nav-link active">
+                <i class="icon-file-check2"></i>
+                <span>Düzeltici Egzersiz Reçetesi</span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-medical-exercise-home' %}" class="nav-link">
+                <i class="icon-file-presentation2"></i>
+                <span>Medikal Egzersiz Reçetesi</span>
+            </a>
+        </li>
+    {% elif user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-medical-exercise-home' %}" class="nav-link">
+                <i class="icon-file-presentation2"></i>
+                <span>Medikal Egzersiz Reçetesi </span>
+            </a>
+        </li>
+    {% endif %}
+        {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="icon-person"></i>
+                <span>Metabolik Egzersiz Reçetesi</span>
+            </a>
+        </li>
+    {% elif user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-metabolic-exercise-home' %}" class="nav-link ">
+                <i class="icon-person"></i>
+                <span>Metabolik Egzersiz Reçetesi </span>
+            </a>
+        </li>
+    {% endif %}
+
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-athletic-development-home' %}" class="nav-link">
+                <i class="icon-stats-growth"></i>
+                <span>Atletik Performans Gelişim Programı </span>
+            </a>
+        </li>
+    {% elif user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-athletic-development-home' %}" class="nav-link">
+                <i class="icon-stats-growth"></i>
+                <span>Atletik Performans Gelişim Programı </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-exercise-tracking-home' %}" class="nav-link">
+                <i class="icon-reading"></i>
+                <span>Egzersiz Takibi ve Kayıt</span>
+            </a>
+        </li>
+    {% elif user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-exercise-tracking-home' %}" class="nav-link">
+                <i class="icon-reading"></i>
+                <span>Egzersiz Takibi ve Kayıt</span>
+            </a>
+        </li>
+    {% endif %}
+
+
+    <!-- /Reçeteler -->
+    <li class="nav-item-header">
+        <div class="text-uppercase font-size-xs line-height-xs">Analizler</div>
+        <i class="icon-menu"
+           title="Forms"></i>
+    </li>
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-finance-module-home' %}" class="nav-link">
+                <i class="icon-coins"></i>
+                <span>Bütçe Takibi ve Finans Yönetimi </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-finance-module-home' %}" class="nav-link">
+                <i class="icon-coins"></i>
+                <span>Bütçe Takibi ve Finans Yönetimi </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.personal_c %}
+        <li class="nav-item">
+            <a href="{% url 'personal-finance-module-home' %}" class="nav-link">
+                <i class="icon-coins"></i>
+                <span>Bütçe Takibi ve Finans Yönetimi </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-reporting-analysis-home' %}" class="nav-link">
+                <i class="icon-statistics"></i>
+                <span>Raporlama & Analiz Yönetimi </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.trainer_c %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-reporting-analysis-home' %}" class="nav-link">
+                <i class="icon-statistics"></i>
+                <span>Raporlama & Analiz Yönetimi </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if user_control_data.personal_c %}
+        <li class="nav-item">
+            <a href="{% url 'personal-reporting-analysis-home' %}" class="nav-link">
+                <i class="icon-statistics"></i>
+                <span>Raporlama & Analiz Yönetimi </span>
+            </a>
+        </li>
+    {% endif %}
+
+    <li class="nav-item">
+        <a href="#" class="nav-link">
+            <i class="icon-mail5"></i>
+            <span>Bildirim Paneli</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#" class="nav-link">
+            <i class="icon-question3"></i>
+            <span>Soru & Cevap Paneli</span>
+        </a>
+    </li>
+
+{% endblock main_sidebar_items %}

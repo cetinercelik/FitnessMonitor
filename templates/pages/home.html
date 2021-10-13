@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}
+    Medikal Egzersiz Otomasyon Sistemi
+{% endblock title %}
+{% load static %}
+{% block javascript %}
+    <script src="{% static 'assets/js/app.js' %}"></script>
+{% endblock javascript %}
+
+
+{% block main_sidebar_items %}
+    <!-- Main -->
+    <li class="nav-item-header">
+        <div class="text-uppercase font-size-xs line-height-xs">Anasayfa</div>
+        <i class="icon-menu"
+           title="Main"></i>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'home-dashboard' %}" class="nav-link active">
+            <i class="icon-home4"></i>
+            <span>Yönetim Paneli</span>
+        </a>
+    </li>
+    <!-- /main -->
+
+    <!-- Forms -->
+    <li class="nav-item-header">
+        <div class="text-uppercase font-size-xs line-height-xs">Formlar</div>
+        <i class="icon-menu"
+           title="Forms"></i>
+    </li>
+
+
+    <li class="nav-item">
+        <a href="{% url 'corporate-home' %}" class="nav-link">
+            <i class="icon-city"></i>
+            <span>Kurumsal Kayıt Yönetimi</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'trainer-home' %}" class="nav-link">
+            <i class="icon-users"></i>
+            <span>Antrenör Kayıt Yönetimi</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'personal-home' %}" class="nav-link">
+            <i class="icon-users4"></i>
+            <span>Danışan Kayıt Yönetimi</span>
+        </a>
+    </li>
+    <!-- /forms -->
+{% endblock main_sidebar_items %}
+
+{% block page_header %}
+    <!-- Page header -->
+    <div class="page-header page-header-light">
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h4><i class="mr-2"></i> <span class="font-weight-semibold">Anasayfa</span> - Gösterge Paneli</h4>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- /page header -->
+{% endblock page_header %}
+
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Sisteme Hoşgeldiniz</h1>
+        </div>
+    </div>
+{% endblock page_content %}

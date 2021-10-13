@@ -1,0 +1,190 @@
+{% extends './trainer_personal_base.html' %}
+{% block title %}
+    Antrenör Kayıt Yönetimi
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/datatables.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/buttons.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_extension_buttons_html5.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_data_sources.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_sorting.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_buttons.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_api.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_advanced.js' %}"></script>
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="#" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <span class="breadcrumb-item active">Danışan Yönetim Paneli</span>
+                </div>
+
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h4><i class="mr-1"></i> <span class="font-weight-semibold">Danışan Yönetim Paneli</span></h4>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+            <div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+    <!-- Corporate Table -->
+    <!--Start Content-->
+    <div class="content">
+        <ul class="fab-menu fab-menu-absolute fab-menu-bottom-right is_stuck" data-fab-toggle="hover"
+            id="fab-menu-affixed-demo-right" style="position: fixed; bottom: 20px; width: 48px;">
+            <li>
+                <a class="fab-menu-btn btn bg-pink-300 btn-float rounded-round btn-icon">
+                    <i class="fab-icon-open icon-grid3"></i>
+                    <i class="fab-icon-close icon-cross2"></i>
+                </a>
+
+                <ul class="fab-menu-inner">
+                    <li>
+                        <div data-fab-label="Compose email">
+                            <a href="#" class="btn btn-light rounded-round btn-icon btn-float">
+                                <i class="icon-pencil"></i>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div data-fab-label="Conversations">
+                            <a href="#" class="btn btn-light rounded-round btn-icon btn-float">
+                                <i class="icon-bubbles3"></i>
+                            </a>
+                            <span class="badge bg-primary-400">5</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div data-fab-label="Chat with Jack">
+                            <a href="#" class="btn bg-pink-400 rounded-round btn-icon btn-float">
+                                <img src="../../../../global_assets/images/placeholders/placeholder.jpg"
+                                     class="img-fluid rounded-circle" alt="">
+                            </a>
+                            <span class="badge badge-mark border-pink-400"></span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- Inner container -->
+
+        <div class="card">
+            <div class="card-header bg-warning  header-elements-inline">
+                <h5 class="card-title">Danışanlarım</h5>
+                <div class="header-elements">
+                    <div class="list-icons">
+                        <a class="list-icons-item" data-action="collapse"></a>
+                        <a class="list-icons-item" data-action="reload"></a>
+                        <a class="list-icons-item" data-action="remove"></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card-body header-elements-inline">
+                <h5 class="card-title "></h5>
+                <div class="header-elements">
+                    <a href="{% url 'trainer-personal-create' %}"
+                       class="btn bg-teal-400 btn-labeled btn-labeled-left "><b><i
+                            class="icon-plus3"></i></b>Danışan Ekle</a>
+                </div>
+            </div>
+
+            {% if personals %}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                        <thead>
+                        <tr>
+                            <th>Profil fotoğrafı</th>
+                            <th>Kullanıcı Adı</th>
+                            <th>Adı</th>
+                            <th>Soyadı</th>
+                            <th>Telefon</th>
+                            <th>E-mail</th>
+                            <th>Adres</th>
+                            <th class="text-center">İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for personal in personals %}
+                            <tr>
+                                <td>
+                                    {% if personal.avatar %}
+                                        <a href="{{ personal.avatar.url }}">
+                                            <img src="{{ personal.avatar.url }} "
+                                                 class="rounded-round" width="50px" height="50px"/></a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ personal.user.username | default_if_none:"" }}
+                                </td>
+                                <td>
+                                    {{ personal.user.first_name | default_if_none:"" }}
+                                </td>
+                                <td>
+                                    {{ personal.user.last_name | default_if_none:"" }}
+                                </td>
+                                <td>
+                                    {{ personal.phone | default_if_none:"" }}
+                                </td>
+                                <td>
+                                    {{ personal.user.email | default_if_none:"" }}
+                                </td>
+                                <td>
+                                    {{ personal.address | default_if_none:"" }}
+                                </td>
+                                <td class="text-center">
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{{ personal.get_update_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-edit text-info"></i> Düzenle</a>
+                                                <a href="{{ personal.get_delete_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-trash text-danger"></i> Sil</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <h4 class="text-danger text-center">Malesef bireysel kayıt verisi yok!</h4>
+                </div>
+            {% endif %}
+
+        </div>
+
+
+        <!-- /inner container -->
+    </div>
+    <!-- /corporate table -->
+{% endblock page_content %}

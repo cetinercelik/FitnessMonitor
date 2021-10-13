@@ -1,0 +1,406 @@
+{% extends './metabolic_base.html' %}
+{% block title %}
+    Metabolik Egzersiz Reçetesi
+{% endblock title %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/forms/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/buttons.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_extension_buttons_html5.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_data_sources.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_sorting.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_buttons.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_advanced.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_select2.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/extensions/jquery_ui/interactions.min.js' %}"></script>
+
+    <!-- Theme JS files -->
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switchery.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switch.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_checkboxes_radios.js' %}"></script>
+
+    <!-- Theme JS files -->
+    <script src="{% static 'global_assets/js/plugins/sliders/ion_rangeslider.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/ui/moment/moment_locales.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/extra_sliders_ion.js' %}"></script>
+    <!-- /theme JS files -->
+
+
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="{% url 'trainer-home' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <a href="{% url 'trainer-metabolic-exercise-home' %}" class="breadcrumb-item">
+                        Metabolik Egzersiz Reçetesi Yönetimi</a>
+                    <span class="breadcrumb-item active">Metabolik Egzersiz Reçetesi</span>
+
+                </div>
+
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h5><i class="mr-1"></i><span class="font-weight-semibold"><a style="color: black"
+                                                                              href="{% url 'trainer-metabolic-exercise-home' %}"><i
+                        class="icon-arrow-left52 fa-2x mr-2"></i></a>Metabolik Egzersiz Reçetesi - </span>Manuel Program
+                    Hazırlama
+                </h5>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+            <div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+    <!-- Corporate Table -->
+    <div class="row">
+        <div class="col-lg-12">
+            <form method="post" enctype="multipart/form-data"
+                  action="{% url 'trainer-metabolic-exercise-create' %}">
+                {% csrf_token %}
+
+                <div class="card">
+
+                    <div class="card-header header-elements-inline">
+                        <div class="form-group col-md-4 " data-select2-id="265">
+                            <label class="font-weight-bold">Danışan Seç</label>
+                            <select class="form-control select select2-hidden-accessible"
+                                    data-container-css-class="border-primary text-primary-700"
+                                    data-dropdown-css-class="border-primary" data-fouc="" data-select2-id="22"
+                                    tabindex="-1" aria-hidden="true" name="personal">
+                                <optgroup label="Danışanlarınız" data-select2-id="266">
+                                    {% for personal in  personals %}
+                                        {% if personal_info.personal.id == personal.id %}
+                                            <option value="{{ personal.id }}"
+                                                    selected>{{ personal.user.first_name }} {{ personal.user.last_name }}</option>
+                                        {% else %}
+                                            <option value="{{ personal.id }}">{{ personal.user.first_name }} {{ personal.user.last_name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </optgroup>
+                            </select>
+
+                        </div>
+                        <div class="header-elements">
+                            <div class="list-icons">
+                                <a class="list-icons-item" data-action="collapse"></a>
+                                <a class="list-icons-item" data-action="reload"></a>
+                                <a class="list-icons-item" data-action="remove"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="">
+                        <div class="card">
+                            <div class="card-header bg-danger header-elements-inline">
+                                <h6 class="card-title">
+                                    <a data-toggle="collapse" class="text-white collapsed"
+                                       href="#collapsible-styled-group1" aria-expanded="false"><i
+                                            class="icon-arrow-down15 mr-2"></i>Metabolik Egzersiz Reçetesi</a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapsible-styled-group1" class="collapse" style="">
+                                <div class="card-body">
+                                    <div class="row">
+
+
+                                        <div class="card col-lg-12">
+                                            <div class="card-header">
+                                                <h6 class="card-title">
+                                                    <a class="text-primary collapsed font-weight-bold"
+                                                       data-toggle="collapse"
+                                                       href="#collapsible-control-group10"
+                                                       aria-expanded="false"><i
+                                                            class="icon-arrow-down15 text-primary mr-3"></i>
+                                                        Akut Değişken Belirleme</a>
+                                                </h6>
+                                            </div>
+
+                                            <div id="collapsible-control-group10"
+                                                 class="collapse" style="">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-sm-12 my-2">
+                                                            <fieldset>
+                                                                <legend class="font-weight-bold">Düzey Seçimi
+                                                                </legend>
+                                                                {% for k,v in metabolic.LEVEL.LEVELSELECTION.items %}
+                                                                    <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                            <input type="radio"
+                                                                                   name="level_selection"
+                                                                                   value="{{ v }}"
+                                                                                   class="form-check-input-styled-primary"
+
+                                                                                   data-fouc>
+                                                                            {{ v }}
+                                                                        </label>
+                                                                    </div>
+                                                                {% endfor %}
+
+
+                                                            </fieldset>
+                                                        </div>
+                                                        <div class="col-lg-6 col-sm-12 my-2">
+                                                            <fieldset>
+                                                                <legend class="font-weight-bold">Zorluk Düzeyi
+                                                                </legend>
+                                                                {% for k,v in metabolic.LEVEL.DIFFICULTY.items %}
+                                                                    <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                            <input type="radio"
+                                                                                   name="difficulty"
+                                                                                   value="{{ v }}"
+                                                                                   class="form-check-input-styled-danger"
+                                                                                   data-fouc>
+                                                                            {{ v }}
+                                                                        </label>
+                                                                    </div>
+                                                                {% endfor %}
+
+                                                            </fieldset>
+                                                        </div>
+                                                        <div class="col-lg-6 col-sm-12 my-2">
+                                                            <fieldset>
+                                                                <legend class="font-weight-bold">Yüklenme:Dinlenme
+                                                                    Oranı
+                                                                </legend>
+                                                                {% for k,v in metabolic.LEVEL.LOADRATE.items %}
+                                                                    <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                            <input type="radio"
+                                                                                   name="load_rate"
+                                                                                   value="{{ v }}"
+                                                                                   class="form-check-input-styled-success"
+                                                                                   data-fouc>
+                                                                            {{ v }}
+                                                                        </label>
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </fieldset>
+                                                        </div>
+                                                        <div class="col-lg-6 col-sm-12 my-2">
+                                                            <fieldset>
+                                                                <legend class="font-weight-bold">Yüklenme:Dinlenme
+                                                                    Süreleri
+                                                                </legend>
+
+                                                                <div class="form-group">
+                                                                    <select class="form-control select" name="load_time"
+                                                                            data-dropdown-css-class="bg-teal-400"
+                                                                            data-fouc>
+                                                                        {% for k,v in metabolic.LEVEL.LOADTIME.items %}
+                                                                            <option value="{{ k }}">{{ v }}</option>
+                                                                        {% endfor %}
+
+
+                                                                    </select>
+                                                                </div>
+
+
+                                                            </fieldset>
+                                                        </div>
+
+
+                                                        <div class="col-lg-12 col-sm-12 my-2">
+                                                            <fieldset>
+                                                                <legend class="font-weight-bold">
+                                                                    Set
+                                                                    Sayısı & Tekrar
+                                                                    Sayısı
+                                                                </legend>
+                                                                <div class="row">
+                                                                    <div class="form-group col-lg-6 col-sm-12">
+                                                                        <label class="font-weight-bold">Set
+                                                                            Sayısı</label>
+                                                                        <input type="text"
+                                                                               name="set_count"
+                                                                               class="form-control ion-height-helper ion-basic"
+                                                                               id=""
+                                                                               data-fouc>
+                                                                    </div>
+                                                                    <div class="form-group col-lg-6 col-sm-12">
+                                                                        <label class="font-weight-bold">Egzersiz
+                                                                            Sayısı</label>
+                                                                        <input type="text"
+                                                                               name="exercise_count"
+                                                                               class="form-control ion-height-helper ion-basic1"
+                                                                               id=""
+                                                                               data-fouc>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card col-lg-12">
+                                            <div class="card-header">
+                                                <h6 class="card-title">
+                                                    <a class="text-danger collapsed font-weight-bold"
+                                                       data-toggle="collapse"
+                                                       href="#collapsible-control-group11"
+                                                       aria-expanded="false"><i
+                                                            class="icon-arrow-down15 text-danger mr-3"></i>
+                                                        Yeni Başlayan</a>
+                                                </h6>
+                                            </div>
+
+                                            <div id="collapsible-control-group11"
+                                                 class="collapse" style="">
+                                                <div class="card-body">
+                                                    <fieldset>
+                                                        <legend></legend>
+                                                        <div class="row mx-1">
+                                                            {% for k,v in metabolic.START.NEW.items %}
+                                                                <div class="form-check col-lg-4 col-md-6 col-sm-12 ">
+                                                                    <label class="form-check-label">
+                                                                        <input type="checkbox"
+                                                                               name="{{ k }}"
+                                                                               value="{{ v }}"
+                                                                               class="form-check-input-styled-danger"
+                                                                               data-fouc>
+                                                                        {{ v }}
+                                                                    </label>
+                                                                </div>
+                                                            {% endfor %}
+
+                                                        </div>
+                                                    </fieldset>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card col-lg-12">
+                                            <div class="card-header">
+                                                <h6 class="card-title">
+                                                    <a class="text-success collapsed font-weight-bold"
+                                                       data-toggle="collapse"
+                                                       href="#collapsible-control-group12"
+                                                       aria-expanded="false"><i
+                                                            class="icon-arrow-down15 text-success mr-3"></i>
+                                                        Orta Seviye</a>
+                                                </h6>
+                                            </div>
+
+                                            <div id="collapsible-control-group12"
+                                                 class="collapse" style="">
+                                                <div class="card-body">
+                                                    <fieldset>
+                                                        <legend></legend>
+                                                        <div class="row mx-1">
+                                                            {% for k,v in metabolic.START.MIDDLE.items %}
+                                                                <div class="form-check col-lg-4 col-md-6 col-sm-12 ">
+                                                                    <label class="form-check-label">
+                                                                        <input type="checkbox"
+                                                                               name="{{ k }}"
+                                                                               value="{{ v }}"
+                                                                               class="form-check-input-styled-success"
+                                                                               data-fouc>
+                                                                        {{ v }}
+                                                                    </label>
+                                                                </div>
+                                                            {% endfor %}
+
+                                                        </div>
+                                                    </fieldset>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card col-lg-12">
+                                            <div class="card-header">
+                                                <h6 class="card-title">
+                                                    <a class="text-info collapsed font-weight-bold"
+                                                       data-toggle="collapse"
+                                                       href="#collapsible-control-group13"
+                                                       aria-expanded="false"><i
+                                                            class="icon-arrow-down15 text-info mr-3"></i>
+                                                        İleri Seviye</a>
+                                                </h6>
+                                            </div>
+
+                                            <div id="collapsible-control-group13"
+                                                 class="collapse" style="">
+                                                <div class="card-body">
+                                                    <fieldset>
+                                                        <legend></legend>
+                                                        <div class="row mx-1">
+                                                            {% for k,v in metabolic.START.HIGH.items %}
+                                                                <div class="form-check col-lg-4 col-md-6 col-sm-12 ">
+                                                                    <label class="form-check-label">
+                                                                        <input type="checkbox"
+                                                                               name="{{ k }}"
+                                                                               value="{{ v }}"
+                                                                               class="form-check-input-styled-info"
+                                                                               data-fouc>
+                                                                        {{ v }}
+                                                                    </label>
+                                                                </div>
+                                                            {% endfor %}
+
+                                                        </div>
+                                                    </fieldset>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" name="_save" value="_save" class="btn bg-primary">KAYDET
+                                <i class="icon-paperplane ml-2"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        $('.ion-basic').ionRangeSlider({
+            min: 1,
+            max: 10,
+        });
+
+        $('.ion-basic1').ionRangeSlider({
+            min: 1,
+            max: 20,
+        });
+
+    </script>
+    <!-- /corporate table -->
+{% endblock page_content %}

@@ -83,7 +83,7 @@
                                 <div class="team-desc">
                                     <h3>{{ tm.title |default_if_none:'' }}</h3>
                                     <span>{{ tm.job |default_if_none:'' }}</span>
-                                    <p>{{ tm.personal_descriptions | truncatewords:10 |default_if_none:'' }}</p>
+                                    <span style="text-align: justify">{{ tm.personal_descriptions | truncatewords:10 |default_if_none:'' }}</span>
                                     <div class="align-center">
                                         <a class="btn btn-xs btn-slide btn-light" href="{{ tm.facebook |default_if_none:'' }}">
                                             <i class="fab fa-facebook-f"></i>

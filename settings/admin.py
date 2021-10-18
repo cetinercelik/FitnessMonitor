@@ -36,12 +36,12 @@ class HomepageAdmin(admin.ModelAdmin):
     list_display_links = ['corporate_main_title']
 
     # Admin Kısmında yeni veri ekleme butonununu Kapatır
-   # def has_add_permission(self, request):
-      #  return False
+    def has_add_permission(self, request):
+        return False
 
     # Silme Butonunu Kaldırı yalnızca veri Üzerinde Guncelleme Yapabilirsin
-   # def has_delete_permission(self, request, obj=None):
-     #   return False
+    def has_delete_permission(self, request, obj=None):
+        return False
 
     class Meta:
         model = homemodel
@@ -85,12 +85,12 @@ class AboutAdmin(admin.ModelAdmin):
     list_display_links = ['title']
 
     # Admin Kısmında yeni veri ekleme butonununu Kapatır
-  #  def has_add_permission(self, request):
-     #   return False
+    def has_add_permission(self, request):
+        return False
 
     # Silme Butonunu Kaldırı yalnızca veri Üzerinde Guncelleme Yapabilirsin
- #   def has_delete_permission(self, request, obj=None):
-    #    return False
+    def has_delete_permission(self, request, obj=None):
+        return False
 
     class Meta:
         model = About
@@ -115,12 +115,12 @@ class FounderAdmin(admin.ModelAdmin):
     extra = 1
 
     # Admin Kısmında yeni veri ekleme butonununu Kapatır
-  #  def has_add_permission(self, request):
-   #     return False
+    def has_add_permission(self, request):
+        return False
 
     # Silme Butonunu Kaldırı yalnızca veri Üzerinde Guncelleme Yapabilirsin
- #   def has_delete_permission(self, request, obj=None):
-   #     return False
+    def has_delete_permission(self, request, obj=None):
+        return False
 
     class Meta:
         model = Founder
@@ -133,12 +133,12 @@ class Corporate_solveAdmin(admin.ModelAdmin):
     list_display_links = ['main_title']
 
     # Admin Kısmında yeni veri ekleme butonununu Kapatır
-  #  def has_add_permission(self, request):
-     #   return False
+    def has_add_permission(self, request):
+        return False
 
     # Silme Butonunu Kaldırı yalnızca veri Üzerinde Guncelleme Yapabilirsin
- #   def has_delete_permission(self, request, obj=None):
-  #      return False
+    def has_delete_permission(self, request, obj=None):
+        return False
 
     class Meta:
         model = Corporate_solve
@@ -152,12 +152,12 @@ class PhilosophyAdmin(admin.ModelAdmin):
     list_display_links = ['title']
 
     # Admin Kısmında yeni veri ekleme butonununu Kapatır
- #   def has_add_permission(self, request):
-  #      return False
+    def has_add_permission(self, request):
+        return False
 
     # Silme Butonunu Kaldırı yalnızca veri Üzerinde Guncelleme Yapabilirsin
-  #  def has_delete_permission(self, request, obj=None):
-    #    return False
+    def has_delete_permission(self, request, obj=None):
+        return False
 
     class Meta:
         model = Philosophy
@@ -190,12 +190,12 @@ class sendMessageAdmin(admin.ModelAdmin):
     list_display_links = ['name_surname']
 
     # Admin Kısmında yeni veri ekleme butonununu Kapatır
-   # def has_add_permission(self, request):
-   #     return False
+    def has_add_permission(self, request):
+        return False
 
     # Güncelleme Butonunu Kaldırı yalnızca veri Üzerinde Guncelleme Yapabilirsin
-  #  def has_update_permission(self, request):
-    #    return False
+    def has_update_permission(self, request):
+        return False
 
 
     class Meta:

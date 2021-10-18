@@ -10,7 +10,7 @@ from registration.views import user_checking
 
 trainer_content_template_path = 'modules/trainer_content/prescriptions/'
 
-
+# Burası bir deneme alanıdır
 def trainer_metabolic_exercise_home(request):
     user = request.user
     user_control_data = user_checking(user.id)

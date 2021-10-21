@@ -25,7 +25,7 @@ SECRET_KEY = 'gg%01(nckh2_@_-ip8mv(=)5w)4_#q+bhcaox8pj7^6cz0d5m-'
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-ALLOWED_HOSTS = ['188.166.79.193','fitnessmonitor.com.tr','www.fitnessmonitor.com.tr']
+ALLOWED_HOSTS = []
 
 # Application definition
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240

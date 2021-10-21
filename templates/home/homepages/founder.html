@@ -10,10 +10,17 @@
             <div class="header-inner">
                 <div class="container">
                     <!--Logo-->
-                    <div id="logo">
+                     <div id="logo">
                         <a href="{% url 'home-page' %}">
-                            <span class="logo-default">FitnessMonitor</span>
-                            <span class="logo-dark">FitnessMonitor</span>
+                            {% if homes %}
+                                {% for hms in homes %}
+
+                                    <span class="logo-default mt-0"><img alt="" height="70" width="70" src="{{ hms.corporate_logo.url | default_if_none:'' }}"></span>
+                                    <span class="logo-dark mt-0"><img alt=""  height="70" width="70"  src="{{ hms.corporate_logo.url | default_if_none:'' }}"></span>
+                                {% endfor %}
+
+                            {% endif %}
+
                         </a>
                     </div>
                     <!--End: Logo-->
@@ -56,7 +63,7 @@
                         <div class="container">
                             <nav>
                                 <ul>
-                                    <li><a href="{% url 'home-page' %}">Home</a></li>
+                                    <li><a href="{% url 'home-page' %}">Anasayfa</a></li>
                                     <li class="dropdown"><a href="#">Hakkımızda </a>
                                         <ul class="dropdown-menu">
                                             <li><a href="{% url 'home-about' %}">FitnessMonitor Hakkında</a></li>

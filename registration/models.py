@@ -25,6 +25,11 @@ class Corporate(models.Model):
     authorized_image = models.ImageField(upload_to='corporate', max_length=255, blank=True, null=True,
                                          verbose_name='Yetkili Fotoğrafı')
 
+    def delete(self, using=None, keep_parents=False):
+        self.authorized_image.storage.delete(self.authorized_image.name)
+        self.logo.storage.delete(self.logo.name)
+        super().delete()
+
     def __str__(self):  # Bu metodun anlamı burdaki adları arayuzde görebilmek
         return self.user.get_full_name() if self.user else ""
 
@@ -66,6 +71,13 @@ class Trainer(models.Model):
     contract_start_date = models.DateField(verbose_name='Sözleşme Başlangıç tarihi', null=True, blank=True)
     contract_end_date = models.DateField(verbose_name='Sözleşme Başlangıç tarihi', null=True, blank=True)
 
+    def delete(self, using=None, keep_parents=False):
+        self.avatar.storage.delete(self.avatar.name)
+        self.cv.storage.delete(self.cv.name)
+        self.trainer_document.storage.delete(self.trainer_document.name)
+        self.certificate.storage.delete(self.certificate.name)
+        super().delete()
+
     def __str__(self):  # Bu metodun anlamı burdaki adları arayuzde görebilmek
         return self.user.get_full_name() if self.user else ""
 
@@ -103,6 +115,10 @@ class Personal(models.Model):
     contract = models.TextField(verbose_name="Sözleşme", blank=True, null=True)
     contract_start_date = models.DateField(verbose_name='Sözleşme Başlangıç tarihi', null=True, blank=True)
     contract_end_date = models.DateField(verbose_name='Sözleşme Başlangıç tarihi', null=True, blank=True)
+
+    def delete(self, using=None, keep_parents=False):
+        self.avatar.storage.delete(self.avatar.name)
+        super().delete()
 
     def __str__(self):  # Bu metodun anlamı burdaki adları arayuzde görebilmek
         return self.user.get_full_name() if self.user else ""

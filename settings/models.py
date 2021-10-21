@@ -32,6 +32,10 @@ class homemodel(models.Model):
     facebook = models.CharField(verbose_name='Kurum Facebook Link', max_length=100, blank=True, null=True)
     mail = models.CharField(verbose_name='Kurum Mail Address', max_length=100, blank=True, null=True)
 
+    def delete(self, using=None, keep_parents=False):
+        self.corporate_logo.storage.delete(self.corporate_logo.name)
+        super().delete()
+
     class Meta:
         verbose_name = "Anasayfa Bilgileri"
         verbose_name_plural = 'Anasayfa Bilgileri'
@@ -41,7 +45,7 @@ class ImagePost(models.Model):
     main_title = models.CharField(verbose_name='Slider Ana Başlık', max_length=100, blank=True,
                                   null=True)
     sub_title = models.CharField(verbose_name='Slider Alt Başlık', max_length=600, blank=True, null=True)
-    image = StdImageField(upload_to='home_page/upload_image/slider_image', max_length=255,
+    image = StdImageField(upload_to='home_page/upload_image/slider_image', max_length=255, blank=True,
                           verbose_name='Slider Resimleri',
                           null=True, variations={
             'thumbnail': (1920, 1280, True),
@@ -61,11 +65,15 @@ class Team(models.Model):
     twitter = models.CharField(verbose_name='Twitter Link', max_length=100, blank=True, null=True)
     facebook = models.CharField(verbose_name='Facebook Link', max_length=100, blank=True, null=True)
     mail = models.CharField(verbose_name='Mail Address', max_length=100, blank=True, null=True)
-    image = StdImageField(upload_to='home_page/upload_image/team_image', max_length=255,
+    image = StdImageField(upload_to='home_page/upload_image/team_image', max_length=255,blank=True,
                           verbose_name='Slider Resimleri',
                           null=True, variations={
             'thumbnail': (525, 350, True),
         }, delete_orphans=True)
+
+    def delete(self, using=None, keep_parents=False):
+        self.image.storage.delete(self.image.name)
+        super().delete()
 
     class Meta:
         verbose_name = "Ekip Adaylarını Ekle"
@@ -77,11 +85,15 @@ class Blog(models.Model):
     blog_descriptions = models.TextField(verbose_name='Blog Haber Kısa Açıklaması', max_length=250, blank=True,
                                          null=True)
     blog_date = models.DateField(default=datetime.now())
-    blog_image = StdImageField(upload_to='home_page/upload_image/blog_image', max_length=255,
+    blog_image = StdImageField(upload_to='home_page/upload_image/blog_image', max_length=255,blank=True,
                                verbose_name='Slider Resimleri',
                                null=True, variations={
-            'thumbnail': (1920, 1280, True),
+            'thumbnail': (525, 350, True),
         }, delete_orphans=True)
+
+    def delete(self, using=None, keep_parents=False):
+        self.blog_image.storage.delete(self.blog_image.name)
+        super().delete()
 
     class Meta:
         verbose_name = 'Blog Haberleri Ekle'
@@ -91,11 +103,15 @@ class Blog(models.Model):
 class About(models.Model):
     title = models.CharField(verbose_name='Başlık', max_length=150, blank=True, null=True)
     description = RichTextField(verbose_name='Hakkımızda Açıklama')
-    image = StdImageField(upload_to='home_page/upload_image/about_image', max_length=255,
+    image = StdImageField(upload_to='home_page/upload_image/about_image', max_length=255,blank=True,
                           verbose_name='Hakkımızda Resim',
                           null=True, variations={
             'thumbnail': (1920, 1280, True),
         }, delete_orphans=True)
+
+    def delete(self, using=None, keep_parents=False):
+        self.image.storage.delete(self.image.name)
+        super().delete()
 
     class Meta:
         verbose_name = 'Hakkımzda Alanı Bilgileri'
@@ -105,11 +121,15 @@ class About(models.Model):
 class FitnessMonitor(models.Model):
     title = models.CharField(verbose_name='Yazılım Başlığı', max_length=150, blank=True, null=True)
     description = RichTextField(verbose_name='Yazılım Açıklaması', blank=True, null=True)
-    image = StdImageField(upload_to='home_page/upload_image/fitnessmonitor_image', max_length=255,
+    image = StdImageField(upload_to='home_page/upload_image/fitnessmonitor_image', max_length=255,blank=True,
                           verbose_name='Kurumsal Resimler',
                           null=True, variations={
             'thumbnail': (1920, 1280, True),
         }, delete_orphans=True)
+
+    def delete(self, using=None, keep_parents=False):
+        self.image.storage.delete(self.image.name)
+        super().delete()
 
     class Meta:
         verbose_name = 'FitnessMonitor Keşfet Alanı Bilgileri'
@@ -126,11 +146,15 @@ class Founder(models.Model):
     twitter = models.CharField(verbose_name='Twitter Link', max_length=100, blank=True, null=True)
     facebook = models.CharField(verbose_name='Facebook Link', max_length=100, blank=True, null=True)
     mail = models.CharField(verbose_name='Mail Address', max_length=100, blank=True, null=True)
-    image = StdImageField(upload_to='home_page/upload_image/founder_image', max_length=255,
+    image = StdImageField(upload_to='home_page/upload_image/founder_image', max_length=255,blank=True,
                           verbose_name='Kurucu Fotoğraf',
                           null=True, variations={
             'thumbnail': (1920, 1280, True),
         }, delete_orphans=True)
+
+    def delete(self, using=None, keep_parents=False):
+        self.image.storage.delete(self.image.name)
+        super().delete()
 
     class Meta:
         verbose_name = 'Kurucu Alanı Bilgileri'
@@ -144,21 +168,27 @@ class Corporate_solve(models.Model):
     sub_description1 = RichTextField(verbose_name='Birinci Alt Açıklama', blank=True, null=True)
     sub_title2 = models.CharField(verbose_name='İkinci Alt Başlık', max_length=150, blank=True, null=True)
     sub_description = RichTextField(verbose_name='İkinci Alt Açıklama', blank=True, null=True)
-    image_1 = StdImageField(upload_to='home_page/upload_image/corporate_image', max_length=255,
+    image_1 = StdImageField(upload_to='home_page/upload_image/corporate_image', max_length=255,blank=True,
                             verbose_name='Resim 1',
                             null=True, variations={
             'thumbnail': (1920, 1280, True),
         }, delete_orphans=True)
-    image_2 = StdImageField(upload_to='home_page/upload_image/corporate_image', max_length=255,
+    image_2 = StdImageField(upload_to='home_page/upload_image/corporate_image', max_length=255,blank=True,
                             verbose_name='Resim 2',
                             null=True, variations={
             'thumbnail': (1920, 1280, True),
         }, delete_orphans=True)
-    image_3 = StdImageField(upload_to='home_page/upload_image/corporate_image', max_length=255,
+    image_3 = StdImageField(upload_to='home_page/upload_image/corporate_image', max_length=255,blank=True,
                             verbose_name='Resim 3',
                             null=True, variations={
             'thumbnail': (1920, 1280, True),
         }, delete_orphans=True)
+
+    def delete(self, using=None, keep_parents=False):
+        self.image_1.storage.delete(self.image_1.name)
+        self.image_2.storage.delete(self.image_2.name)
+        self.image_3.storage.delete(self.image_3.name)
+        super().delete()
 
     class Meta:
         verbose_name = 'Kurumsal Çözümleme Alanı Bilgileri'
@@ -168,12 +198,16 @@ class Corporate_solve(models.Model):
 class Philosophy(models.Model):
     title = models.CharField(verbose_name='Başlık', max_length=150, blank=True, null=True)
     first_description = RichTextField(verbose_name='İlk Açıklama', blank=True, null=True)
-    image = StdImageField(upload_to='home_page/upload_image/philosophy_image', max_length=255,
+    image = StdImageField(upload_to='home_page/upload_image/philosophy_image', max_length=255,blank=True,
                           verbose_name='Felsefe Fotoğraf',
                           null=True, variations={
             'thumbnail': (1920, 1280, True),
         }, delete_orphans=True)
     last_description = RichTextField(verbose_name='Son Açıklama', blank=True, null=True)
+
+    def delete(self, using=None, keep_parents=False):
+        self.image.storage.delete(self.image.name)
+        super().delete()
 
     class Meta:
         verbose_name = 'FitnessMonitor Felsefesi Alanı Bilgileri'
@@ -198,11 +232,15 @@ class Sub_Philosophy(models.Model):
     philosopy = models.ForeignKey(to=Philosophy, on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(verbose_name='Adım Başlık', max_length=150, blank=True, null=True)
     description = RichTextField(verbose_name='Adım Açıklama', blank=True, null=True)
-    image = StdImageField(upload_to='home_page/upload_image/philosophy_image', max_length=255,
+    image = StdImageField(upload_to='home_page/upload_image/philosophy_image', max_length=255,blank=True,
                           verbose_name='Adım Fotoğraf',
                           null=True, variations={
             'thumbnail': (1920, 1280, True),
         }, delete_orphans=True)
+
+    def delete(self, using=None, keep_parents=False):
+        self.image.storage.delete(self.image.name)
+        super().delete()
 
     class Meta:
         verbose_name = 'Felsefe Adım Ekleme Alanı'

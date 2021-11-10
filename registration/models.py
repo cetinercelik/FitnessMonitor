@@ -1,8 +1,11 @@
+import os
+
 from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
 from django.urls import reverse
+from django.utils.safestring import mark_safe
 
 
 class Corporate(models.Model):
@@ -25,10 +28,51 @@ class Corporate(models.Model):
     authorized_image = models.ImageField(upload_to='corporate', max_length=255, blank=True, null=True,
                                          verbose_name='Yetkili Fotoğrafı')
 
-    def delete(self, using=None, keep_parents=False):
-        self.authorized_image.storage.delete(self.authorized_image.name)
-        self.logo.storage.delete(self.logo.name)
-        super().delete()
+    @property
+    def corporate_logo_admin(self):
+        if self.logo:
+            return mark_safe(
+                '<img src="{}" width="70" height="70" style=" border-radius: 50%;" />'.format(self.logo.url))
+        return ""
+
+    @property
+    def authorized_image_admin(self):
+        if self.authorized_image:
+            return mark_safe(
+                '<img src="{}" width="70" height="70" style=" border-radius: 50%;" />'.format(self.authorized_image.url))
+        return ""
+
+    def corporate_avatar_path(instance, avatar):
+        corporate_instance = Corporate.objects.get(pk=instance.pk)
+        if corporate_instance.logo:
+            logo = corporate_instance.logo
+            if logo.file:
+                if os.path.isfile(logo.path):
+                    logo.file.close()
+                    os.remove(logo.path)
+
+    def authorized_image_path(instance, avatar):
+        authorized_instance = Corporate.objects.get(pk=instance.pk)
+        if authorized_instance.authorized_image:
+            authorized_image = authorized_instance.authorized_image
+            if authorized_image.file:
+                if os.path.isfile(authorized_image.path):
+                    authorized_image.file.close()
+                    os.remove(authorized_image.path)
+
+    @property
+    def get_authorized_image_url(self):
+        if self.authorized_image and hasattr(self.authorized_image, 'url'):
+            return self.authorized_image.url
+        else:
+            return "/static/home_static/static_img/personal/user.png"
+
+    @property
+    def get_corp_logo_url(self):
+        if self.logo and hasattr(self.logo, 'url'):
+            return self.logo.url
+        else:
+            return "/static/home_static/static_img/logo/corplogo2.png"
 
     def __str__(self):  # Bu metodun anlamı burdaki adları arayuzde görebilmek
         return self.user.get_full_name() if self.user else ""
@@ -71,12 +115,22 @@ class Trainer(models.Model):
     contract_start_date = models.DateField(verbose_name='Sözleşme Başlangıç tarihi', null=True, blank=True)
     contract_end_date = models.DateField(verbose_name='Sözleşme Başlangıç tarihi', null=True, blank=True)
 
-    def delete(self, using=None, keep_parents=False):
-        self.avatar.storage.delete(self.avatar.name)
-        self.cv.storage.delete(self.cv.name)
-        self.trainer_document.storage.delete(self.trainer_document.name)
-        self.certificate.storage.delete(self.certificate.name)
-        super().delete()
+    @property
+    def get_trainer_avatar_url(self):
+        if self.avatar and hasattr(self.avatar, 'url'):
+            return self.avatar.url
+        else:
+            return "/static/home_static/static_img/personal/user.png"
+
+
+    def trainer_avatar_path(instance, avatar):
+        trainer_instance = Trainer.objects.get(pk=instance.pk)
+        if trainer_instance.avatar:
+            avatar = trainer_instance.avatar
+            if avatar.file:
+                if os.path.isfile(avatar.path):
+                    avatar.file.close()
+                    os.remove(avatar.path)
 
     def __str__(self):  # Bu metodun anlamı burdaki adları arayuzde görebilmek
         return self.user.get_full_name() if self.user else ""
@@ -111,14 +165,34 @@ class Personal(models.Model):
     gender = models.CharField(verbose_name="Cinsiyet", max_length=50, choices=Gender, blank=True, null=True)
     marital_status = models.CharField(verbose_name="Medeni Durum", max_length=50, choices=Marital_Status, blank=True,
                                       null=True)
-    avatar = models.ImageField(upload_to='personal', max_length=255, blank=True,null=True, verbose_name='Profil Fotoğrafı')
+    avatar = models.ImageField(upload_to='personal', max_length=255, blank=True, null=True,
+                               verbose_name='Profil Fotoğrafı')
     contract = models.TextField(verbose_name="Sözleşme", blank=True, null=True)
     contract_start_date = models.DateField(verbose_name='Sözleşme Başlangıç tarihi', null=True, blank=True)
     contract_end_date = models.DateField(verbose_name='Sözleşme Başlangıç tarihi', null=True, blank=True)
 
-    def delete(self, using=None, keep_parents=False):
-        self.avatar.storage.delete(self.avatar.name)
-        super().delete()
+    def personal_avatar_path(instance, avatar):
+        personal_instance = Personal.objects.get(pk=instance.pk)
+        if personal_instance.avatar:
+            avatar = personal_instance.avatar
+            if avatar.file:
+                if os.path.isfile(avatar.path):
+                    avatar.file.close()
+                    os.remove(avatar.path)
+
+    @property
+    def personal_image_admin(self):
+        if self.avatar:
+            return mark_safe(
+                '<img src="{}" width="70" height="70" style=" border-radius: 50%;" />'.format(self.avatar.url))
+        return ""
+
+    @property
+    def get_personal_avatar_url(self):
+        if self.avatar and hasattr(self.avatar, 'url'):
+            return self.avatar.url
+        else:
+            return "/static/home_static/static_img/personal/user.png"
 
     def __str__(self):  # Bu metodun anlamı burdaki adları arayuzde görebilmek
         return self.user.get_full_name() if self.user else ""

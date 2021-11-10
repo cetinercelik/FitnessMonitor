@@ -1,4 +1,7 @@
+from datetime import datetime
+
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
@@ -30,7 +33,8 @@ def homepage(request):
     corporate_data = Corporate_solve.objects.all()
     pricing_data = Pricing.objects.all()
     sub_pricings = Sub_Pricing.objects.all()
-    blog_data = Blog.objects.all()
+    blog_ids=[blog_id.id for blog_id in Blog.objects.all()]
+    blog_data = Blog.objects.all().order_by('-id')[:3]
     team_data = Team.objects.all()
     social_data = SocialMedia.objects.all()
     context = {

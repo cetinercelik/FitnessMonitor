@@ -1,6 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 # Create your views here.
+# pdf library/
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+# /
 from athletic.models import AthleticInpt
 from corrective_exercise.models import corrective_exercise
 from exercise_prescription.models import exercise_prescription
@@ -58,6 +63,7 @@ def corporate_forms_home(request):
 def corporate_forms_analysis_results_home(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
+    personal_data = Personal.objects.filter(id=id).all()
     it_data = InterviewInput.objects.filter(personal_id=id).all()  # Ön Görüşme Formu
     ct_data = ContractInput.objects.filter(personal_id=id).all()  # Teklif ve Sözleşme Formu
     mc_data = MedikalInpt.objects.filter(personal_id=id).all()  # Medikal izin Formu
@@ -73,6 +79,7 @@ def corporate_forms_analysis_results_home(request, id):
     template = corporate_content_template_path + 'reporting_analysis/forms/form_results.html'
 
     context = {
+        'personals': personal_data,
         'interviews': it_data,
         'contracts': ct_data,
         'medicals': mc_data,
@@ -107,12 +114,12 @@ def corporate_measurements_home(request, id):
 def corp_meas_fitness_analysis_results(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
-    pt_data = Personal.objects.filter(personal_id=id)
+    personal_data = Personal.objects.filter(id=id).all()
     ft_data = FitnessInputs.objects.filter(personal_id=id).all()
     template = corporate_content_template_path + 'reporting_analysis/measurements/fitness/fitness_analysis_results.html'
     context = {
         'id': id,
-        'personals': pt_data,
+        'personals': personal_data,
         'fitness': ft_data,
         'user_control_data': user_control_data,
     }
@@ -122,11 +129,13 @@ def corp_meas_fitness_analysis_results(request, id):
 def corporate_measurements_athletic_results(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
+    personal_data = Personal.objects.filter(id=id).all()
     at_data = AthleticInpt.objects.filter(personal_id=id).all()
     template = corporate_content_template_path + 'reporting_analysis/measurements/athletic_performance/athletic_performance_results.html'
     context = {
         'id': id,
         'athletics': at_data,
+        'personals': personal_data,
         'user_control_data': user_control_data,
     }
     return render(request=request, template_name=template, context=context)
@@ -135,11 +144,13 @@ def corporate_measurements_athletic_results(request, id):
 def corporate_measurements_postural_results_home(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
+    personal_data = Personal.objects.filter(id=id).all()
     pst_data = PosturInputs.objects.filter(personal_id=id).all()
     template = corporate_content_template_path + 'reporting_analysis/measurements/postural/postural_results.html'
     context = {
         'id': id,
         'posturals': pst_data,
+        'personals': personal_data,
         'user_control_data': user_control_data,
     }
     return render(request=request, template_name=template, context=context)
@@ -148,11 +159,13 @@ def corporate_measurements_postural_results_home(request, id):
 def corporate_measurements_medical_results_home(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
+    personal_data = Personal.objects.filter(id=id).all()
     mdc_data = MedikalInpt.objects.filter(personal_id=id).all()
     template = corporate_content_template_path + 'reporting_analysis/measurements/medical/medical_results.html'
     context = {
         'id': id,
         'medicals': mdc_data,
+        'personals': personal_data,
         'user_control_data': user_control_data,
     }
     return render(request=request, template_name=template, context=context)
@@ -193,10 +206,12 @@ def corporate_prescriptions_corrective_exercise_results(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
     cor_data = corrective_exercise.objects.filter(personal_id=id).all()
+    personal_data = Personal.objects.filter(id=id).all()
     template = corporate_content_template_path + 'reporting_analysis/prescriptions/corrective_exercise/corrective_exercise_result.html'
     context = {
         'id': id,
         'correctives': cor_data,
+        'personals': personal_data,
         'user_control_data': user_control_data,
     }
     return render(request=request, template_name=template, context=context)
@@ -206,10 +221,12 @@ def corporate_prescriptions_exercise_prescription_results_home(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
     ex_data = exercise_prescription.objects.filter(personal_id=id).all()
+    personal_data = Personal.objects.filter(id=id).all()
     template = corporate_content_template_path + 'reporting_analysis/prescriptions/exercise_prescription/exercise_prescription_results.html'
     context = {
         'id': id,
         'exercises': ex_data,
+        'personals': personal_data,
         'user_control_data': user_control_data,
     }
     return render(request=request, template_name=template, context=context)
@@ -219,10 +236,12 @@ def corpoarate_prescriptions_pilates_prescription_results(request, id):
     user = request.user
     user_control_dt = user_checking(user.id)
     pt_data = personalTrainingInput1.objects.filter(personal_id=id).all()
+    personal_data = Personal.objects.filter(id=id).all()
     template = corporate_content_template_path + 'reporting_analysis/prescriptions/pilates_prescription/pilates_prescription_results.html'
     context = {
         'id': id,
         'pilates': pt_data,
+        'personals': personal_data,
         'user_control_data': user_control_dt
     }
 
@@ -233,10 +252,12 @@ def corporate_prescriptions_medical_exercise_results(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
     mdcl_data1 = medical_exercise1.objects.filter(personal_id=id).all()
+    personal_data = Personal.objects.filter(id=id).all()
     template = corporate_content_template_path + 'reporting_analysis/prescriptions/medical_exercise/medical_exercise.html'
     context = {
         'id': id,
         'medical1': mdcl_data1,
+        'personals': personal_data,
         'user_control_data': user_control_data,
     }
     return render(request=request, template_name=template, context=context)
@@ -246,10 +267,12 @@ def corporate_metabolic_exercise_results(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
     mtblc_data = Metabolic.objects.filter(personal_id=id).all()
+    personal_data = Personal.objects.filter(id=id).all()
     template = corporate_content_template_path + 'reporting_analysis/prescriptions/metabolic_exercise/metabolic_exercise.html'
     context = {
         'id': id,
         'metabolic': mtblc_data,
+        'personals': personal_data,
         'user_control_data': user_control_data,
     }
     return render(request=request, template_name=template, context=context)
@@ -346,15 +369,19 @@ def trainer_measurements_fitness_analysis_results(request, id):
     return render(request=request, template_name=template, context=context)
 
 
+
+
 def trainer_measurements_athletic_analysis_results(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
+    pt_data = Personal.objects.filter(id=id).all()
     athletic_data = AthleticInpt.objects.filter(personal_id=id).all()
     template = trainer_content_template_path + 'reporting_analysis/measurements/athletic_performance/athletic_performance_results.html'
 
     context = {
         'id': id,
         'athletics': athletic_data,
+        'personals': pt_data,
         'user_control_data': user_control_data,
     }
     return render(request=request, template_name=template, context=context)
@@ -380,12 +407,14 @@ def trainer_measurements_postural_analysis_results(request, id):
 def trainer_measurement_medical_analysis_results(request, id):
     user = request.user
     user_control = user_checking(user.id)
+    pt_data = Personal.objects.filter(id=id).all()
     medical_data = MedicalInputModel1.objects.filter(personal_id=id).all()
     template = trainer_content_template_path + 'reporting_analysis/measurements/medical/medical_results.html'
 
     context = {
         'id': id,
         'medicals': medical_data,
+        'personals': pt_data,
         'user_control_data': user_control
     }
     return render(request, template_name=template, context=context)
@@ -425,12 +454,14 @@ def trainer_prescriptions_athletic_development_home(request):
 def trainer_prescriptions_corrective_exercise_results(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
+    pt_data = Personal.objects.filter(id=id).all()
     cor_data = corrective_exercise.objects.filter(personal_id=id).all()
     template = trainer_content_template_path + 'reporting_analysis/prescriptions/corrective_exercise/corrective_exercise_result.html'
 
     context = {
         'id': id,
         'correctives': cor_data,
+        'personals': pt_data,
         'user_control_data': user_control_data,
     }
     return render(request=request, template_name=template, context=context)
@@ -439,11 +470,13 @@ def trainer_prescriptions_corrective_exercise_results(request, id):
 def trainer_prescriptions_exercise_prescription_results(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
+    pt_data = Personal.objects.filter(id=id).all()
     ex_data = exercise_prescription.objects.filter(personal_id=id).all()
     template = trainer_content_template_path + 'reporting_analysis/prescriptions/exercise_prescription/exercise_prescription_results.html'
     context = {
         'id': id,
         'exercises': ex_data,
+        'personals': pt_data,
         'user_control_data': user_control_data,
     }
     return render(request=request, template_name=template, context=context)
@@ -453,10 +486,12 @@ def trainer_prescriptions_pilates_prescription_results(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
     pl_data = personalTrainingInput1.objects.filter(personal_id=id).all()
+    pt_data = Personal.objects.filter(id=id).all()
     template = trainer_content_template_path + 'reporting_analysis/prescriptions/pilates_prescription/pilates_prescription_results.html'
     context = {
         'id': id,
         'pilates': pl_data,
+        'personals': pt_data,
         'user_control_data': user_control_data,
     }
     return render(request=request, template_name=template, context=context)
@@ -465,11 +500,13 @@ def trainer_prescriptions_pilates_prescription_results(request, id):
 def trainer_prescriptions_medical_exercise_results(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
+    pt_data = Personal.objects.filter(id=id).all()
     mdcl_data1 = medical_exercise1.objects.filter(personal_id=id).all()
     template = trainer_content_template_path + 'reporting_analysis/prescriptions/medical_exercise/medical_exercise.html'
     context = {
         'id': id,
-         'medical1': mdcl_data1,
+        'personals': pt_data,
+        'medical1': mdcl_data1,
         'user_control_data': user_control_data,
     }
     return render(request=request, template_name=template, context=context)
@@ -478,11 +515,13 @@ def trainer_prescriptions_medical_exercise_results(request, id):
 def trainer_metabolic_exercise_results(request, id):
     user = request.user
     user_control_data = user_checking(user.id)
+    pt_data = Personal.objects.filter(id=id).all()
     mtblc_data = Metabolic.objects.filter(personal_id=id).all()
     template = trainer_content_template_path + 'reporting_analysis/prescriptions/metabolic_exercise/metabolic_exercise.html'
     context = {
         'id': id,
         'metabolic': mtblc_data,
+        'personals': pt_data,
         'user_control_data': user_control_data,
     }
     return render(request=request, template_name=template, context=context)

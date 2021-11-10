@@ -20,13 +20,13 @@
             <div id="slider" class="inspiro-slider dots-creative" data-height-xs="360">
 
                 <!-- Slide 2 -->
-                <div class="slide kenburns" style="background-image:url('{{ abt.image.url |default_if_none:'' }}');">
+                <div class="slide kenburns" style="background-image:url('{{ abt.get_about_image_url }}');">
                     <div class="bg-overlay"></div>
                     <div class="container">
                         <div class="slide-captions text-center text-light">
                             <!-- Captions -->
-                            <span class="strong">Biz Kimiz</span>
-                            <h1>{{ abt.title | default_if_none:'' }}</h1>
+{#                            <span class="strong">Biz Kimiz</span>#}
+{#                            <h1>{{ abt.title | default_if_none:'' }}</h1>#}
                             <!-- end: Captions -->
                         </div>
                     </div>
@@ -70,34 +70,38 @@
                         <span class="lead">{{ hms.team_main_title | default_if_none:'' }}</span>
                     {% endfor %}
                 {% endif %}
-
             </div>
-            <div class="row team-members">
+    <div class="row team-members">
                 {% if teams %}
-                    {% for tm in teams %}
+                    {% for tms in teams %}
                         <div class="col-lg-3">
                             <div class="team-member">
                                 <div class="team-image">
-                                    <img height="200px" src="{{ tm.image.url |default_if_none:'' }}">
+                                    <img height="200px" src="{{ tms.get_team_image_url | default_if_none:'' }}">
                                 </div>
                                 <div class="team-desc">
-                                    <h3>{{ tm.title |default_if_none:'' }}</h3>
-                                    <span>{{ tm.job |default_if_none:'' }}</span>
-                                    <span style="text-align: justify">{{ tm.personal_descriptions | truncatewords:10 |default_if_none:'' }}</span>
+                                    <h3>{{ tms.name_surname  | default_if_none:'' }}</h3>
+                                    <span>{{ tms.job | default_if_none:'' }}</span>
+                                    <p style="height: 125px">{{ tms.personal_descriptions | truncatewords:10 | default_if_none:'' }}</p>
                                     <div class="align-center">
-                                        <a class="btn btn-xs btn-slide btn-light" href="{{ tm.facebook |default_if_none:'' }}">
+                                        <a class="btn btn-xs btn-slide btn-light"
+                                           href="{{ tms.facebook  | default_if_none:'' }}">
                                             <i class="fab fa-facebook-f"></i>
                                             <span>Facebook</span>
                                         </a>
-                                        <a class="btn btn-xs btn-slide btn-light" href="{{ tm.twitter |default_if_none:'' }}" data-width="100">
+                                        <a class="btn btn-xs btn-slide btn-light"
+                                           href="{{ tms.twitter  | default_if_none:'' }}" data-width="100">
                                             <i class="fab fa-twitter"></i>
                                             <span>Twitter</span>
                                         </a>
-                                        <a class="btn btn-xs btn-slide btn-light" href="{{ tm.instagram |default_if_none:'' }}" data-width="118">
+                                        <a class="btn btn-xs btn-slide btn-light"
+                                           href="{{ tms.instagram  | default_if_none:'' }}" data-width="118">
                                             <i class="fab fa-instagram"></i>
                                             <span>Instagram</span>
                                         </a>
-                                        <a class="btn btn-xs btn-slide btn-light" href="mailto:{{ tm.mail |default_if_none:'' }}" data-width="80">
+                                        <a class="btn btn-xs btn-slide btn-light"
+                                           href="mailto:{{ tms.mail  | default_if_none:'' }}"
+                                           data-width="80">
                                             <i class="fas fa-envelope-square"></i>
                                             <span>Mail</span>
                                         </a>

@@ -3934,7 +3934,7 @@ th .form-check .form-check-input, td .form-check .form-check-input { float: none
 
 .accordion .ac-item .ac-title { font-weight: 500; position: relative; padding-right: 10px; margin: 0; font-size: 1em; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 
-.accordion .ac-item .ac-title:before { font-size: 18px; content: "\e9be"; font-family: "inspiro-icons"; right: 0; position: absolute; }
+.accordion .ac-item .ac-title:before { font-size: 18px;  font-family: "inspiro-icons"; right: 0; position: absolute; }
 
 .accordion .ac-item .ac-title > i { margin-right: 8px; }
 
@@ -3942,7 +3942,7 @@ th .form-check .form-check-input, td .form-check .form-check-input { float: none
 
 .accordion .ac-item .ac-content > p:last-child { margin-bottom: 6px; }
 
-.accordion .ac-item.ac-active .ac-title:before { content: "\e9a1"; }
+.accordion .ac-item.ac-active .ac-title:before {  }
 
 .accordion.accordion-shadow .ac-item { box-shadow: 0 6px 12px rgba(140, 152, 164, 0.075); }
 

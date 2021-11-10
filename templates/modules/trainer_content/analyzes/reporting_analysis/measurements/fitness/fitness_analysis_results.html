@@ -64,8 +64,8 @@
                 <table class="table">
                     <tr>
                         <td>
-                            <a href="{{ ps.avatar.url }}" data-popup="lightbox">
-                                <img src="{{ ps.avatar.url }}" alt=""
+                            <a href="{{ ps.get_personal_avatar_url }}" data-popup="lightbox">
+                                <img src="{{ ps.get_personal_avatar_url }}" alt=""
                                      class="img-preview rounded" width="50px" height="50px">
                             </a>
                         </td>
@@ -104,58 +104,50 @@
             </div>
         </div>
         {% if fitness %}
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                    <thead>
+            {#            <div class="table-responsive">#}
+            <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                <thead>
+                <tr>
+                    <th>Pdf Adı</th>
+                    <th>Kayıt Tarihi</th>
+                    <th>İşlemler</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ft in fitness %}
                     <tr>
-                        <th>Yaş</th>
-                        <th>Boy</th>
-                        <th>Vucut Ağırlığı</th>
-                        <th>Kayıt Tarihi</th>
-                        <th>İşlemler</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for ft in fitness %}
-                        <tr>
-                            <td>
-                                {{ ft.age | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ ft.height | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ ft.weight   | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ ft.date }}
-                            </td>
-                            <td>
-                                <div class="list-icons">
-                                    <div class="dropdown">
-                                        <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                            <i class="icon-menu9"></i>
-                                        </a>
+                        <td>
+                            {{ ft.personal.user.first_name }}_{{ ft.personal.user.last_name }}_{{ ft.id }}_fitness.pdf
+                        </td>
+                        <td>
+                            {{ ft.date }}
+                        </td>
 
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                Export to
-                                                .pdf</a>
-                                            <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                Export to
-                                                .csv</a>
-                                            <a href="{{ ft.get_trainer_fitness_delete_url }}"
-                                               class="dropdown-item "><i
-                                                    class="fas fa-trash text-danger"></i> Sil</a>
-                                        </div>
+                        <td>
+                            <div class="list-icons">
+                                <div class="dropdown">
+                                    <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                        <i class="icon-menu9"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="{% url 'trainer-measurements-fitness-pdf' id=ft.id %}"
+                                           class="dropdown-item"><i class="icon-file-pdf"></i>
+                                            Export to
+                                            .pdf</a>
+
+                                        <a href="{{ ft.get_trainer_fitness_delete_url }}"
+                                           class="dropdown-item "><i
+                                                class="fas fa-trash text-danger"></i> Sil</a>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {#            </div>#}
         {% else %}
             <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
         {% endif %}

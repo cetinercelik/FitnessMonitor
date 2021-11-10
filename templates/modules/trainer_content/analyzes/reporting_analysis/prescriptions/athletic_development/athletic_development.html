@@ -56,67 +56,39 @@
 
 {% block page_content %}
     <!-- Highlighting rows and columns -->
-    <!-- Highlighting rows and columns -->
-    <div class="card">
-        <div class="card-header bg-danger header-elements-inline">
-            <h5 class="card-title">Atletik Performans Gelişim Analiz Sonuçları</h5>
-            <div class="header-elements">
-                <div class="list-icons">
-                    <a class="list-icons-item" data-action="collapse"></a>
-                    <a class="list-icons-item" data-action="reload"></a>
-                    <a class="list-icons-item" data-action="remove"></a>
-                </div>
-            </div>
-        </div>
-
+       <div class="card">
         {% if personals %}
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                    <thead>
+            {% for ps in personals %}
+                <table class="table">
                     <tr>
-                        <th>Fotoğraf</th>
-                        <th>Ad</th>
-                        <th>Soyad</th>
-                        <th>Mail</th>
-                        <th>Telefon</th>
-                        <th>Form Sonuçlar</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for personal in personals %}
-                        <tr>
-                            <td> {% if personal.avatar %}
-                                <a href="{{ personal.avatar.url }}">
-                                    <img src="{{ personal.avatar.url }} "
-                                         class="rounded-round" width="50px" height="50px"/></a>
-                            {% endif %}
-                            </td>
-                            <td>
-                                {{ personal.user.first_name | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ personal.user.last_name | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ personal.user.email | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ personal.phone | default_if_none:"" }}
-                            </td>
+                        <td>
+                            <a href="{{ ps.get_personal_avatar_url }}" data-popup="lightbox">
+                                <img src="{{ ps.get_personal_avatar_url }}" alt=""
+                                     class="img-preview rounded" width="50px" height="50px">
+                            </a>
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Ad:</span> {{ ps.user.first_name | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Soyad:</span> {{ ps.user.last_name | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Email:</span> {{ ps.user.email | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Telefon:</span> {{ ps.phone   | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Cinsiyet:</span>{{ ps.gender_value   | default_if_none:"" }}
+                        </td>
 
-                            <td>
-                                <a href="#"
-                                   type="button"
-                                   class="btn bg-teal btn-labeled btn-labeled-left"><b><i
-                                        class="icon-menu7"></i></b>Sonuçlar</a>
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
+                    </tr>
                 </table>
-            </div>
+            {% endfor %}
         {% endif %}
+
     </div>
-    <!-- /corporate table -->
+
+
 {% endblock page_content %}

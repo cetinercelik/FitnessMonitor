@@ -10,17 +10,14 @@
             <div class="header-inner">
                 <div class="container">
                     <!--Logo-->
-                     <div id="logo">
+                    <div id="logo">
                         <a href="{% url 'home-page' %}">
-                            {% if homes %}
-                                {% for hms in homes %}
-
-                                    <span class="logo-default mt-0"><img alt="" height="70" width="70" src="{{ hms.corporate_logo.url | default_if_none:'' }}"></span>
-                                    <span class="logo-dark mt-0"><img alt=""  height="70" width="70"  src="{{ hms.corporate_logo.url | default_if_none:'' }}"></span>
-                                {% endfor %}
-
-                            {% endif %}
-
+                            {% for hms in homes %}
+                                <span class="logo-default mt-0"><img alt="" height="70" width="70"
+                                                                     src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
+                                <span class="logo-dark mt-0"><img alt="" height="70" width="70"
+                                                                  src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
+                            {% endfor %}
                         </a>
                     </div>
                     <!--End: Logo-->
@@ -123,7 +120,8 @@
                                             <div class="post-item-wrap row">
                                                 <div class="post-image col-lg-5">
                                                     <a href="#">
-                                                        <img alt="" src="{{ fnd.image.url | default_if_none:'' }}">
+                                                        <img alt=""
+                                                             src="{{ fnd.get_founder_image_url | default_if_none:'' }}">
                                                     </a>
                                                 </div>
                                                 <div class="post-item-description col-lg-6 ml-4">
@@ -185,9 +183,11 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="widget">
-                                <div class="widget-title">FitnessMonitor Logo</div>
-                                <img src="{{ tms.image.url | default_if_none:'' }}">
+                                {% for hms in homes %}
+                                    <span class="logo-default mt-0"><img alt="" height="100" width="100"
+                                                                         src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
 
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="col-lg-8">
@@ -219,7 +219,9 @@
             </div>
             <div class="copyright-content">
                 <div class="container">
-                    <div class="copyright-text text-center">&copy;<a class="mx-2" id="demo"></a> FitnessMonitor - Bütün Hakları Saklıdır.</div>
+                    <div class="copyright-text text-center">&copy;<a class="mx-2" id="demo"></a> FitnessMonitor - Bütün
+                        Hakları Saklıdır.
+                    </div>
                 </div>
             </div>
         </footer>
@@ -228,7 +230,7 @@
         <!-- /page content -->
     </div>
     <a id="scrollTop"><i class="fas fa-chevron-up"></i><i class="fas fa-chevron-up"></i></a>
-        <script>
+    <script>
         const d = new Date();
         document.getElementById("demo").innerHTML = d.getFullYear();
     </script>

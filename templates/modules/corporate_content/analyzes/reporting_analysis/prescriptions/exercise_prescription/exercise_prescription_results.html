@@ -26,8 +26,10 @@
                 <div class="breadcrumb">
                     <a href="{% url 'corporate-home' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
                         Anasayfa</a>
-                    <a href="{% url 'corporate-reporting-analysis-home' %}" class="breadcrumb-item">Analiz & Raporlama</a>
-                    <a href="{% url 'corporate-prescriptions-analysis-home' id=id %}" class="breadcrumb-item ">Reçete Analiz &
+                    <a href="{% url 'corporate-reporting-analysis-home' %}" class="breadcrumb-item">Analiz &
+                        Raporlama</a>
+                    <a href="{% url 'corporate-prescriptions-analysis-home' id=id %}" class="breadcrumb-item ">Reçete
+                        Analiz &
                         Raporlama</a>
 
                     <a href="#"
@@ -55,6 +57,39 @@
 
 
 {% block page_content %}
+    <div class="card">
+        {% if personals %}
+            {% for ps in personals %}
+                <table class="table">
+                    <tr>
+                        <td>
+                            <a href="{{ ps.get_personal_avatar_url }}" data-popup="lightbox">
+                                <img src="{{ ps.get_personal_avatar_url }}" alt=""
+                                     class="img-preview rounded" width="50px" height="50px">
+                            </a>
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Ad:</span> {{ ps.user.first_name | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Soyad:</span> {{ ps.user.last_name | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Email:</span> {{ ps.user.email | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Telefon:</span> {{ ps.phone   | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Cinsiyet:</span>{{ ps.gender_value   | default_if_none:"" }}
+                        </td>
+
+                    </tr>
+                </table>
+            {% endfor %}
+        {% endif %}
+
+    </div>
 
     <div class="card">
         <div class="card-header bg-success-600 header-elements-inline">
@@ -68,15 +103,11 @@
             </div>
         </div>
         {% if exercises %}
-            <div class="table-responsive">
+{#            <div class="table-responsive">#}
                 <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                     <thead>
                     <tr>
-                        <th>Fotoğraf</th>
-                        <th>Ad</th>
-                        <th>Soyad</th>
-                        <th>Mail</th>
-                        <th>Cinsiyet</th>
+                        <th>Pdf Adı</th>
                         <th>Kayıt Tarihi</th>
                         <th>İşlemler</th>
                     </tr>
@@ -84,23 +115,8 @@
                     <tbody>
                     {% for ex in exercises %}
                         <tr>
-                            <td> {% if ex.personal.avatar %}
-                                <a href="{{ ex.personal.avatar.url }}">
-                                    <img src="{{ ex.personal.avatar.url }} "
-                                         class="rounded-round" width="50px" height="50px"/></a>
-                            {% endif %}
-                            </td>
                             <td>
-                                {{ ex.personal.user.first_name | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ ex.personal.user.last_name | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ ex.personal.user.email | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ ex.personal.gender_value   | default_if_none:"" }}
+                                {{ ex.personal.user.first_name }}_{{ ex.personal.user.last_name }}_{{ ex.id }}_fitness.pdf
                             </td>
                             <td>
                                 {{ ex.date }}
@@ -113,13 +129,10 @@
                                         </a>
 
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                Export to
-                                                .pdf</a>
-                                            <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                Export to
-                                                .csv</a>
-                                                <a href="{{ ex.get_corporate_exercise_prescription_delete_url }}"
+                                            <a href="{% url 'corporate-prescriptions-exercise-pdf' id=ex.id %}"
+                                               class="dropdown-item"><i class="icon-file-pdf"></i>
+                                               Pdf indir</a>
+                                            <a href="{{ ex.get_corporate_exercise_prescription_delete_url }}"
                                                class="dropdown-item "><i
                                                     class="fas fa-trash text-danger"></i> Sil</a>
                                         </div>
@@ -130,7 +143,7 @@
                     {% endfor %}
                     </tbody>
                 </table>
-            </div>
+{#            </div>#}
         {% else %}
             <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
         {% endif %}

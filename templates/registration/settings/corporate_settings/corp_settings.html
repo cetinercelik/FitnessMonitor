@@ -459,8 +459,8 @@
                         <div class="card-body text-center">
                             <div class="card-img-actions d-inline-block mb-3">
                                 {% if form.authorized_image %}
-                                    <a href="{{ form.authorized_image.url }}">
-                                        <img src="{{ request.user.corporate.authorized_image.url }} "
+                                    <a href="{{ form.get_authorized_image_url }}">
+                                        <img src="{{ request.user.corporate.get_authorized_image_url }} "
                                              class="rounded-round" width="120" height="120"/></a>
                                 {% endif %}
                             </div>
@@ -477,7 +477,7 @@
                         </div>
                     </div>
                     <!-- /user card -->
-                    <!-- Navigation -->
+                    <!-- Navigation -->s
                     <div class="card">
                         <div class="card-header bg-transparent header-elements-inline">
                             <span class="card-title font-weight-semibold">Panel</span>

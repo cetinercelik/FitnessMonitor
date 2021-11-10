@@ -6,7 +6,8 @@
     <div class="navbar navbar-expand-md  navbar-dark">
         <div class="navbar-brand">
             <a href="#" class="d-inline-block">
-                <img src="{% static 'global_assets/images/logo_light.png' %}" alt=""/>
+                 <span class="logo-default mt-0"><img alt="" height="100" width="100"
+                                                                             src="{% static '/home_static/static_img/logo/homelogo.png' %}"></span>
             </a>
         </div>
 
@@ -32,7 +33,7 @@
                     <li class="nav-item dropdown dropdown-user">
                         <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle"
                            data-toggle="dropdown">
-                            <img src="{{ request.user.corporate.logo.url }}"
+                            <img src="{{ request.user.corporate.get_corp_logo_url }}"
                                  class="rounded-circle mr-2" width="38" height="38" alt="">
                             <span>{{ request.user.corporate.corporate_name | default_if_none:"" }}</span>
                         </a>
@@ -48,7 +49,7 @@
                     <li class="nav-item dropdown dropdown-user">
                         <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle"
                            data-toggle="dropdown">
-                            <img src="{{ request.user.trainer.avatar.url }}"
+                            <img src="{{ request.user.trainer.get_trainer_avatar_url }}"
                                  class="rounded-circle mr-2" width="38" height="38" alt="">
                             <span>{{ user.first_name }} {{ user.last_name }}</span>
                         </a>
@@ -67,7 +68,7 @@
                     <li class="nav-item dropdown dropdown-user">
                         <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle"
                            data-toggle="dropdown">
-                            <img src="{{ request.user.personal.avatar.url  | default_if_none:"" }}"
+                            <img src="{{ request.user.personal.get_personal_avatar_url  | default_if_none:"" }}"
                                  class="rounded-circle mr-2" width="38" height="38" alt="">
                             <span>{{ user.first_name  | default_if_none:"" }} {{ user.last_name | default_if_none:""  }}</span>
                         </a>
@@ -109,8 +110,8 @@
                         {% if user_control_data.corporate_c %}
                             <div class="media">
                                 <div class="mr-3">
-                                    <a href="{{ request.user.corporate.logo.url  | default_if_none:"" }}">
-                                        <img src="{{ request.user.corporate.logo.url | default_if_none:"" }}"
+                                    <a href="{{ request.user.corporate.get_corp_logo_url  | default_if_none:"" }}">
+                                        <img src="{{ request.user.corporate.get_corp_logo_url | default_if_none:"" }}"
                                              width="38" height="38" class="rounded-circle" alt="">
                                     </a>
                                 </div>
@@ -129,8 +130,8 @@
                         {% elif user_control_data.trainer_c %}
                             <div class="media">
                                 <div class="mr-3">
-                                    <a href="{{ request.user.trainer.avatar.url  | default_if_none:"" }}">
-                                        <img src="{{ request.user.trainer.avatar.url  | default_if_none:"" }}"
+                                    <a href="{{ request.user.trainer.get_trainer_avatar_url  | default_if_none:"" }}">
+                                        <img src="{{ request.user.trainer.get_trainer_avatar_url  | default_if_none:"" }}"
                                              width="38" height="38" class="rounded-circle" alt="">
                                     </a>
                                 </div>
@@ -149,8 +150,8 @@
                         {% elif user_control_data.personal_c %}
                             <div class="media">
                                 <div class="mr-3">
-                                    <a href="{{ request.user.personal.avatar.url  | default_if_none:"" }}">
-                                        <img src="{{ request.user.personal.avatar.url  | default_if_none:"" }}"
+                                    <a href="{{ request.user.personal.get_personal_avatar_url  | default_if_none:"" }}">
+                                        <img src="{{ request.user.personal.get_personal_avatar_url  | default_if_none:"" }}"
                                              width="38" height="38" class="rounded-circle" alt="">
                                     </a>
                                 </div>

@@ -54,6 +54,40 @@
 
 
 {% block page_content %}
+    <div class="card">
+        {% if personals %}
+            {% for ps in personals %}
+                <table class="table">
+                    <tr>
+                        <td>
+                            <a href="{{ ps.get_personal_avatar_url }}" data-popup="lightbox">
+                                <img src="{{ ps.get_personal_avatar_url }}" alt=""
+                                     class="img-preview rounded" width="50px" height="50px">
+                            </a>
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Ad:</span> {{ ps.user.first_name | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Soyad:</span> {{ ps.user.last_name | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Email:</span> {{ ps.user.email | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Telefon:</span> {{ ps.phone   | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Cinsiyet:</span>{{ ps.gender_value   | default_if_none:"" }}
+                        </td>
+
+                    </tr>
+                </table>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+
     <!-- Corporate Table -->
     <div class="card">
         <div class="card-header bg-danger-600 header-elements-inline">
@@ -75,15 +109,11 @@
             <div class="card-body">
 
                 {% if interviews %}
-                    <div class="table-responsive">
+{#                    <div class="table-responsive">#}
                         <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                             <thead>
                             <tr>
-                                <th>Fotoğraf</th>
-                                <th>Ad</th>
-                                <th>Soyad</th>
-                                <th>Mail</th>
-                                <th>Cinsiyet</th>
+
                                 <th>Kayıt Tarihi</th>
                                 <th>İşlemler</th>
                             </tr>
@@ -91,24 +121,7 @@
                             <tbody>
                             {% for interview in interviews %}
                                 <tr>
-                                    <td> {% if interview.personal.avatar %}
-                                        <a href="{{ interview.personal.avatar.url }}">
-                                            <img src="{{ interview.personal.avatar.url }} "
-                                                 class="rounded-round" width="50px" height="50px"/></a>
-                                    {% endif %}
-                                    </td>
-                                    <td>
-                                        {{ interview.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ interview.personal.user.last_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ interview.personal.user.email | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ interview.personal.gender_value   | default_if_none:"" }}
-                                    </td>
+
                                     <td>
                                         {{ interview.date }}
                                     </td>
@@ -138,7 +151,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
+{#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -164,15 +177,11 @@
             <div class="card-body">
 
                 {% if contracts %}
-                    <div class="table-responsive">
+{#                    <div class="table-responsive">#}
                         <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                             <thead>
                             <tr>
-                                <th>Fotoğraf</th>
-                                <th>Ad</th>
-                                <th>Soyad</th>
-                                <th>Mail</th>
-                                <th>Cinsiyet</th>
+
                                 <th>Kayıt Tarihi</th>
                                 <th>İşlemler</th>
                             </tr>
@@ -180,24 +189,7 @@
                             <tbody>
                             {% for contract in contracts %}
                                 <tr>
-                                    <td> {% if contract.personal.avatar %}
-                                        <a href="{{ contract.personal.avatar.url }}">
-                                            <img src="{{ contract.personal.avatar.url }} "
-                                                 class="rounded-round" width="50px" height="50px"/></a>
-                                    {% endif %}
-                                    </td>
-                                    <td>
-                                        {{ contract.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ contract.personal.user.last_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ contract.personal.user.email | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ contract.personal.gender_value   | default_if_none:"" }}
-                                    </td>
+
                                     <td>
                                         {{ contract.date }}
                                     </td>
@@ -226,7 +218,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
+{#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -252,15 +244,11 @@
             <div class="card-body">
 
                 {% if medicals %}
-                    <div class="table-responsive">
+{#                    <div class="table-responsive">#}
                         <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                             <thead>
                             <tr>
-                                <th>Fotoğraf</th>
-                                <th>Ad</th>
-                                <th>Soyad</th>
-                                <th>Mail</th>
-                                <th>Cinsiyet</th>
+
                                 <th>Kayıt Tarihi</th>
                                 <th>İşlemler</th>
                             </tr>
@@ -268,24 +256,7 @@
                             <tbody>
                             {% for medical in medicals %}
                                 <tr>
-                                    <td> {% if medical.personal.avatar %}
-                                        <a href="{{ medical.personal.avatar.url }}">
-                                            <img src="{{ medical.personal.avatar.url }} "
-                                                 class="rounded-round" width="50px" height="50px"/></a>
-                                    {% endif %}
-                                    </td>
-                                    <td>
-                                        {{ medical.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ medical.personal.user.last_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ medical.personal.user.email | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ medical.personal.gender_value   | default_if_none:"" }}
-                                    </td>
+
                                     <td>
                                         {{ medical.date }}
                                     </td>
@@ -314,7 +285,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
+{#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -340,15 +311,11 @@
             <div class="card-body">
 
                 {% if voluntarys %}
-                    <div class="table-responsive">
+{#                    <div class="table-responsive">#}
                         <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                             <thead>
                             <tr>
-                                <th>Fotoğraf</th>
-                                <th>Ad</th>
-                                <th>Soyad</th>
-                                <th>Mail</th>
-                                <th>Cinsiyet</th>
+
                                 <th>Kayıt Tarihi</th>
                                 <th>İşlemler</th>
                             </tr>
@@ -356,24 +323,7 @@
                             <tbody>
                             {% for voluntary in voluntarys %}
                                 <tr>
-                                    <td> {% if voluntary.personal.avatar %}
-                                        <a href="{{ voluntary.personal.avatar.url }}">
-                                            <img src="{{ voluntary.personal.avatar.url }} "
-                                                 class="rounded-round" width="50px" height="50px"/></a>
-                                    {% endif %}
-                                    </td>
-                                    <td>
-                                        {{ voluntary.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ voluntary.personal.user.last_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ voluntary.personal.user.email | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ voluntary.personal.gender_value   | default_if_none:"" }}
-                                    </td>
+
                                     <td>
                                         {{ voluntary.date }}
                                     </td>
@@ -402,7 +352,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
+{#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -428,13 +378,10 @@
         <div id="collapsible-styled-group5" class="collapse">
             <div class="card-body">
                 {% if familys %}
-                    <div class="table-responsive">
+{#                    <div class="table-responsive">#}
                         <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                             <thead>
                             <tr>
-
-                                <th>Meslek</th>
-                                <th>Yaş</th>
                                 <th>Kayıt Tarihi</th>
                                 <th>İşlemler</th>
                             </tr>
@@ -442,12 +389,7 @@
                             <tbody>
                             {% for family in familys %}
                                 <tr>
-                                    <td>
-                                        {{ family.personal.user.job | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ family.date }}
-                                    </td>
+
                                     <td>
                                         {{ family.date }}
                                     </td>
@@ -476,7 +418,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
+{#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -504,12 +446,10 @@
         <div id="collapsible-styled-group7" class="collapse" style="">
             <div class="card-body">
                 {% if exercises %}
-                    <div class="table-responsive">
+{#                    <div class="table-responsive">#}
                         <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                             <thead>
                             <tr>
-                                <th>Yürüyüş Mesafesi</th>
-                                <th>Egzersiz Aralığı</th>
                                 <th>Kayıt Tarihi</th>
                                 <th>İşlemler</th>
                             </tr>
@@ -517,14 +457,6 @@
                             <tbody>
                             {% for exercise in exercises %}
                                 <tr>
-
-
-                                    <td>
-                                        {{ exercise.walk | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ exercise.regularexercise   | default_if_none:"" }}
-                                    </td>
                                     <td>
                                         {{ exercise.date }}
                                     </td>
@@ -553,7 +485,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
+{#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -580,13 +512,10 @@
             <div class="card-body">
 
                 {% if parqs %}
-                    <div class="table-responsive">
+{#                    <div class="table-responsive">#}
                         <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                             <thead>
                             <tr>
-                                <th>Ad</th>
-                                <th>Soyad</th>
-                                <th>Mail</th>
                                 <th>Kayıt Tarihi</th>
                                 <th>İşlemler</th>
                             </tr>
@@ -594,16 +523,6 @@
                             <tbody>
                             {% for parq in parqs %}
                                 <tr>
-
-                                    <td>
-                                        {{ parq.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ parq.personal.user.last_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ parq.personal.user.email | default_if_none:"" }}
-                                    </td>
                                     <td>
                                         {{ parq.date }}
                                     </td>
@@ -632,7 +551,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
+{#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -659,12 +578,10 @@
             <div class="card-body">
 
                 {% if moods %}
-                    <div class="table-responsive">
+{#                    <div class="table-responsive">#}
                         <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                             <thead>
                             <tr>
-                                <th>Ad</th>
-                                <th>Soyad</th>
                                 <th>Kayıt Tarihi</th>
                                 <th>İşlemler</th>
                             </tr>
@@ -672,12 +589,6 @@
                             <tbody>
                             {% for mood in moods %}
                                 <tr>
-                                    <td>
-                                        {{ mood.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ mood.personal.user.last_name | default_if_none:"" }}
-                                    </td>
                                     <td>
                                         {{ mood.date }}
                                     </td>
@@ -706,7 +617,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
+{#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -732,12 +643,10 @@
         <div id="collapsible-styled-group10" class="collapse">
             <div class="card-body">
                 {% if sleeps %}
-                    <div class="table-responsive">
+{#                    <div class="table-responsive">#}
                         <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                             <thead>
                             <tr>
-                                <th>Ad</th>
-                                <th>Soyad</th>
                                 <th>Kayıt Tarihi</th>
                                 <th>İşlemler</th>
                             </tr>
@@ -745,14 +654,6 @@
                             <tbody>
                             {% for sleep in sleeps %}
                                 <tr>
-
-                                    <td>
-                                        {{ sleep.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ sleep.personal.user.last_name | default_if_none:"" }}
-                                    </td>
-
                                     <td>
                                         {{ sleep.date }}
                                     </td>
@@ -781,7 +682,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
+{#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -808,12 +709,10 @@
         <div id="collapsible-styled-group12" class="collapse">
             <div class="card-body">
                 {% if nutritions %}
-                    <div class="table-responsive">
+{#                    <div class="table-responsive">#}
                         <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                             <thead>
                             <tr>
-                                <th>Kahvaltı</th>
-                                <th>Öğün Sayısı</th>
                                 <th>Kayıt Tarihi</th>
                                 <th>İşlemler</th>
                             </tr>
@@ -821,13 +720,6 @@
                             <tbody>
                             {% for nutrition in nutritions %}
                                 <tr>
-
-                                    <td>
-                                        {{ nutrition.breakfast | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ nutrition.meal | default_if_none:"" }}
-                                    </td>
                                     <td>
                                         {{ nutrition.date }}
                                     </td>
@@ -856,7 +748,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
+{#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -884,15 +776,10 @@
             <div class="card-body">
 
                 {% if curriculums %}
-                    <div class="table-responsive">
+{#                    <div class="table-responsive">#}
                         <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                             <thead>
                             <tr>
-                                <th>Fotoğraf</th>
-                                <th>Ad</th>
-                                <th>Soyad</th>
-                                <th>Mail</th>
-                                <th>Cinsiyet</th>
                                 <th>Kayıt Tarihi</th>
                                 <th>İşlemler</th>
                             </tr>
@@ -900,24 +787,6 @@
                             <tbody>
                             {% for curriculum in curriculums %}
                                 <tr>
-                                    <td> {% if curriculum.personal.avatar %}
-                                        <a href="{{ curriculum.personal.avatar.url }}">
-                                            <img src="{{ curriculum.personal.avatar.url }} "
-                                                 class="rounded-round" width="50px" height="50px"/></a>
-                                    {% endif %}
-                                    </td>
-                                    <td>
-                                        {{ curriculum.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ curriculum.personal.user.last_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ curriculum.personal.user.email | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ curriculum.personal.gender_value   | default_if_none:"" }}
-                                    </td>
                                     <td>
                                         {{ curriculum.date }}
                                     </td>
@@ -946,7 +815,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
+{#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -971,12 +840,10 @@
         <div id="collapsible-styled-group14" class="collapse" style="">
             <div class="card-body">
                 {% if eudaimonias %}
-                    <div class="table-responsive">
+{#                    <div class="table-responsive">#}
                         <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                             <thead>
                             <tr>
-                                <th>Ad</th>
-                                <th>Soyad</th>
                                 <th>Kayıt Tarihi</th>
                                 <th>İşlemler</th>
                             </tr>
@@ -984,13 +851,6 @@
                             <tbody>
                             {% for eudaimonia in eudaimonias %}
                                 <tr>
-
-                                    <td>
-                                        {{ eudaimonia.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ eudaimonia.personal.user.last_name | default_if_none:"" }}
-                                    </td>
                                     <td>
                                         {{ eudaimonia.date }}
                                     </td>
@@ -1019,7 +879,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
+{#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}

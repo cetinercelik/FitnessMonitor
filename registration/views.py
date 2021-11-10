@@ -155,6 +155,7 @@ def trainer_personal_delete(request, id):
     if personal.avatar:
         personal.avatar.delete()
     personal.delete()
+    personal.user.delete()
     return redirect('trainer-personal-home')
 
 

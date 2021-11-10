@@ -20,14 +20,14 @@
             <div id="slider" class="inspiro-slider dots-creative" data-height-xs="360">
 
                 <!-- Slide 2 -->
-                <div class="slide kenburns" style="background-image:url('{{ crps.image_1.url |default_if_none:'' }}');">
+                <div class="slide kenburns" data-bg-video="{{ crps.get_vido1_url |default_if_none:'' }}">
                     <div class="bg-overlay"></div>
                     <div class="container">
                         <div class="slide-captions text-center text-light">
-                            <!-- Captions -->
-                            <span class="strong">Kurumsal Çözümlemelerimiz</span>
-                            <h1>{{ crps.main_title | default_if_none:'' }}</h1>
-                            <!-- end: Captions -->
+{#                            <!-- Captions -->#}
+{#                            <span class="strong">Kurumsal Çözümlemelerimiz</span>#}
+{#                            <h1>{{ crps.main_title | default_if_none:'' }}</h1>#}
+{#                            <!-- end: Captions -->#}
                         </div>
                     </div>
                 </div>
@@ -43,9 +43,10 @@
 
                             </div>
                         </div>
-                        <div class="col-lg-9">
-                            <div class="row">
-                                <span  style="text-align: justify" class="col-lg-12">{{ crps.description | safe | default_if_none:'' }}
+                        <div class="">
+                            <div class="">
+                                <span style="text-align: justify"
+                                      class="col-lg-12">{{ crps.description | safe | default_if_none:'' }}
                                 </span>
                             </div>
                         </div>
@@ -55,56 +56,56 @@
             </section>
 
 
-    <!-- Page Content -->
-        <section id="page-content" class="sidebar-right">
-            <div class="container">
-                <div class="row">
-                    <!-- content -->
-                    <div class="content col-lg-9">
-                        <!-- Blog -->
-                        <div id="blog" class="single-post">
-                            <!-- Post single item-->
-                            <div class="post-item">
-                                <div class="post-item-wrap">
-                                    <div class="post-image">
-                                        <a href="#">
-                                            <img alt="" src="{{ crps.image_2.url |default_if_none:'' }}">
-                                        </a>
+            <!-- Page Content -->
+            <section id="page-content" class="sidebar-right">
+                <div class="container">
+                    <div class="row">
+                        <!-- content -->
+                        <div class="content">
+                            <!-- Blog -->
+                            <div id="blog" class="single-post">
+                                <!-- Post single item-->
+                                <div class="post-item">
+                                    <div class="post-item-wrap">
+                                        <div class="post-image">
+                                            <a href="#">
+                                                <img alt="" src="{{ crps.get_image2_url |default_if_none:'' }}">
+                                            </a>
+                                        </div>
+                                        <div class="post-item-description">
+                                            <h2>{{ crps.sub_title1 | default_if_none:'' | safe }}</h2>
+
+                                            <span style="text-align: justify">{{ crps.sub_description1 | safe | default_if_none:'' }}</span>
+
+                                        </div>
+
                                     </div>
-                                    <div class="post-item-description">
-                                        <h2>{{ crps.sub_title1 | safe | default_if_none:'' }}</h2>
-
-                                        <span style="text-align: justify">{{ crps.sub_description1 | safe | default_if_none:'' }}</span>
-
-                                    </div>
-
                                 </div>
-                            </div>
-                               <div class="post-item">
-                                <div class="post-item-wrap">
-                                    <div class="post-image">
-                                        <a href="#">
-                                            <img alt="" src="{{ crps.image_3.url |default_if_none:'' }}">
-                                        </a>
+                                <div class="post-item">
+                                    <div class="post-item-wrap">
+                                        <div class="post-image">
+                                            <a href="#">
+                                                <img alt="" src="{{ crps.get_image3_url |default_if_none:'' }}">
+                                            </a>
+                                        </div>
+                                        <div class="post-item-description">
+                                            <h2>{{ crps.sub_title2 | default_if_none:'' | safe }}</h2>
+
+                                            <span style="text-align: justify">{{ crps.sub_description | safe | default_if_none:'' }}</span>
+
+                                        </div>
+
                                     </div>
-                                    <div class="post-item-description">
-                                        <h2>{{ crps.sub_title2 | safe | default_if_none:'' }}</h2>
-
-                                        <span style="text-align: justify">{{ crps.sub_description | safe | default_if_none:'' }}</span>
-
-                                    </div>
-
                                 </div>
+                                <!-- end: Post single item-->
                             </div>
-                            <!-- end: Post single item-->
                         </div>
-                    </div>
-                    <!-- end: content -->
+                        <!-- end: content -->
 
+                    </div>
                 </div>
-            </div>
-        </section>
-        <!-- end: Page Content -->
+            </section>
+            <!-- end: Page Content -->
 
         {% endfor %}
     {% endif %}

@@ -9,14 +9,13 @@
                     <!--Logo-->
                     <div id="logo">
                         <a href="{% url 'home-page' %}">
-                            {% if homes %}
-                                {% for hms in homes %}
+                            {% for hms in homes %}
+                                    <span class="logo-default mt-0"><img alt="" height="70" width="70"
+                                                                         src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
+                                    <span class="logo-dark mt-0"><img alt="" height="70" width="70"
+                                                                      src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
 
-                                    <span class="logo-default mt-0"><img alt="" height="70" width="70" src="{{ hms.corporate_logo.url | default_if_none:'' }}"></span>
-                                    <span class="logo-dark mt-0"><img alt=""  height="70" width="70"  src="{{ hms.corporate_logo.url | default_if_none:'' }}"></span>
-                                {% endfor %}
-
-                            {% endif %}
+                            {% endfor %}
 
                         </a>
                     </div>
@@ -115,8 +114,12 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="widget">
-                                <div class="widget-title">FitnessMonitor Logo</div>
-                                <img src="{{ tms.image.url | default_if_none:'' }}">
+
+                                {% for hms in homes %}
+                                        <span class="logo-default mt-0"><img alt="" height="100" width="100"
+                                                                             src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
+
+                                {% endfor %}
 
                             </div>
                         </div>

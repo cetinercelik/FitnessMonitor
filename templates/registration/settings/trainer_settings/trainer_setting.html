@@ -184,7 +184,8 @@
                                                 <div class="custom-control  custom-radio custom-control-inline">
                                                     <input type="radio" class="custom-control-input"
                                                            name="trainer_gender" id="custom_radio_inline_unchecked"
-                                                           value="male">
+                                                           value="male"
+                                                           {% if form_tr_setting.trainer_gender.value == "male" %}checked="checked"{% endif %}>
                                                     <label class="custom-control-label"
                                                            for="custom_radio_inline_unchecked">Erkek</label>
                                                 </div>
@@ -192,7 +193,8 @@
                                                 <div class="custom-control custom-radio custom-control-inline  mx-4">
                                                     <input type="radio" class="custom-control-input"
                                                            name="trainer_gender" id="custom_radio_inline_checked"
-                                                           value="female">
+                                                           value="female"
+                                                           {% if form_tr_setting.trainer_gender.value == "female" %}checked="checked"{% endif %}>
                                                     <label class="custom-control-label "
                                                            for="custom_radio_inline_checked">Kadın</label>
                                                 </div>
@@ -219,7 +221,7 @@
                                                 <input type="text" name="phone"
                                                        class="form-control {% if form_tr_setting.phone.errors %}border-danger-800{% endif %}"
                                                        value="{{ form_tr_setting.phone.value | default_if_none:"" }}"
-                                                placeholder="Telefon numaranızı giriniz">
+                                                       placeholder="Telefon numaranızı giriniz">
                                                 {% if form_tr_setting.phone.errors %}
                                                     {% for error in form_tr_setting.phone.errors %}
                                                         <small class="text-danger-800">* {{ error }}</small><br/>
@@ -232,7 +234,7 @@
                                                 <input type="text" name="iban"
                                                        class="form-control {% if form_tr_setting.iban.errors %}border-danger-800{% endif %}"
                                                        value="{{ form_tr_setting.iban.value | default_if_none:"" }}"
-                                                      placeholder="IBAN alanını doldurunuz." >
+                                                       placeholder="IBAN alanını doldurunuz.">
                                                 {% if form_tr_setting.iban.errors %}
                                                     {% for error in form_tr_setting.iban.errors %}
                                                         <small class="text-danger-800">* {{ error }}</small><br/>
@@ -335,7 +337,7 @@
                                                 <label class="font-weight-bold">Mezuniyet Yılınız:</label>
                                                 <input class="form-control {% if form_tr_setting.graduation_year.errors %} border-danger-800{% endif %}"
                                                        type="date" name="graduation_year"
-                                                       value="{{ form_tr_setting.graduation_year.value | date:"Y-m-d"  }}">
+                                                       value="{{ form_tr_setting.graduation_year.value | date:"Y-m-d" }}">
                                                 {% if form_tr_setting.last_name.errors %}
                                                     {% for error in form_tr_setting.last_name.errors %}
                                                         <small class="text-danger-800">* {{ error }}</small><br/>
@@ -381,6 +383,9 @@
                                                     <legend class="font-weight-bold"><i
                                                             class="icon-file-upload2 mx-2"></i> CV Yükleme Alanı
                                                     </legend>
+                                                    {% for cv in trainers %}
+                                                        <p>{{ cv.cv.url }}</p>
+                                                    {% endfor %}
 
                                                     <input type="file" name="cv" multiple="multiple"
                                                            class="file-input {% if form_tr_setting.cv.errors %}border-danger-800{% endif %}"
@@ -394,7 +399,7 @@
                                                     {% endif %}
                                                 </fieldset>
                                             </div>
-                                        <div></div>
+                                            <div></div>
                                         </div>
                                     </div>
 
@@ -471,8 +476,8 @@
                                 <div class="card-img-actions d-inline-block mb-3">
 
                                     {% if form_tr_setting.avatar %}
-                                        <a href="{{ request.user.trainer.avatar.url  }}">
-                                            <img src="{{ request.user.trainer.avatar.url }} "
+                                        <a href="{{ request.user.trainer.get_trainer_avatar_url }}">
+                                            <img src="{{ request.user.trainer.get_trainer_avatar_url }} "
                                                  class="rounded-round" width="120" height="120"/></a>
                                     {% endif %}
 

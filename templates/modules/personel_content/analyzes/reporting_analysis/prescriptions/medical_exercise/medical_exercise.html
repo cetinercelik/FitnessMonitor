@@ -69,15 +69,11 @@
             </div>
         </div>
         {% if medical1 %}
-            <div class="table-responsive">
+{#            <div class="table-responsive">#}
                 <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
                     <thead>
                     <tr>
-                        <th>Fotoğraf</th>
-                        <th>Ad</th>
-                        <th>Soyad</th>
-                        <th>Mail</th>
-                        <th>Cinsiyet</th>
+                        <th>Pdf Adı</th>
                         <th>Kayıt Tarihi</th>
                         <th>İşlemler</th>
                     </tr>
@@ -85,23 +81,8 @@
                     <tbody>
                     {% for mdcl in medical1 %}
                         <tr>
-                            <td> {% if mdcl.personal.avatar %}
-                                <a href="{{ mdcl.personal.avatar.url }}">
-                                    <img src="{{ mdcl.personal.avatar.url }} "
-                                         class="rounded-round" width="50px" height="50px"/></a>
-                            {% endif %}
-                            </td>
                             <td>
-                                {{ mdcl.personal.user.first_name | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ mdcl.personal.user.last_name | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ mdcl.personal.user.email | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ mdcl.personal.gender_value   | default_if_none:"" }}
+                                {{ mdcl.personal.user.first_name }}_{{ mdcl.personal.user.last_name }}_{{ mdcl.id }}_fitness.pdf
                             </td>
                             <td>
                                 {{ mdcl.date }}
@@ -114,12 +95,9 @@
                                         </a>
 
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                Export to
-                                                .pdf</a>
-                                            <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                Export to
-                                                .csv</a>
+                                            <a href="{% url 'personal-prescriptions-mdical-pdf' id=mdcl.id %}"
+                                               class="dropdown-item"><i class="icon-file-pdf"></i>
+                                               Pdf indir</a>
                                             <a href="{{ mdcl.get_personal_medical_exercise1_delete_url }}"
                                                class="dropdown-item "><i
                                                     class="fas fa-trash text-danger"></i> Sil</a>
@@ -131,7 +109,7 @@
                     {% endfor %}
                     </tbody>
                 </table>
-            </div>
+{#            </div>#}
         {% else %}
             <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
         {% endif %}

@@ -204,55 +204,51 @@
                             </div>
                         </div>
 
-                        {% if  trainers %}
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                                    <thead>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                                <thead>
+                                <tr>
+                                    <th>Fotoğraf</th>
+                                    <th>Ad</th>
+                                    <th>Soyad</th>
+                                    <th>Mail</th>
+                                    <th>Sözleşme Başlangıç</th>
+                                    <th>Sözleşme Bitiş</th>
+                                    <th>Üyelik</th>
+                                    <th>Gelir</th>
+                                    <th>Gider</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for trainer in trainers %}
                                     <tr>
-                                        <th>Fotoğraf</th>
-                                        <th>Ad</th>
-                                        <th>Soyad</th>
-                                        <th>Mail</th>
-                                        <th>Sözleşme Başlangıç</th>
-                                        <th>Sözleşme Bitiş</th>
-                                        <th>Üyelik</th>
-                                        <th>Gelir</th>
-                                        <th>Gider</th>
+                                        <td>
+                                            <a href="{{ trainer.get_trainer_avatar_url }}">
+                                                <img src="{{ trainer.get_trainer_avatar_url }} "
+                                                     class="rounded-round" width="50px" height="50px"/></a>
+                                        </td>
+                                        <td>
+                                            {{ trainer.user.first_name | default_if_none:"" }}
+                                        </td>
+                                        <td>
+                                            {{ trainer.user.last_name | default_if_none:"" }}
+                                        </td>
+                                        <td>
+                                            {{ trainer.user.email | default_if_none:"" }}
+                                        </td>
+                                        <td>
+                                            {{ trainer.user.contract_start_date | default_if_none:"" }}
+                                        </td>
+                                        <td>
+                                            {{ trainer.user.contract_end_date | default_if_none:"" }}
+                                        </td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for trainer in trainers %}
-                                        <tr>
-                                            <td>
-                                                {% if trainer.avatar %}
-                                                    <a href="{{ trainer.avatar.url }}">
-                                                        <img src="{{ trainer.avatar.url }} "
-                                                             class="rounded-round" width="50px" height="50px"/></a>
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {{ trainer.user.first_name | default_if_none:"" }}
-                                            </td>
-                                            <td>
-                                                {{ trainer.user.last_name | default_if_none:"" }}
-                                            </td>
-                                            <td>
-                                                {{ trainer.user.email | default_if_none:"" }}
-                                            </td>
-                                            <td>
-                                                {{ trainer.user.contract_start_date | default_if_none:"" }}
-                                            </td>
-                                            <td>
-                                                {{ trainer.user.contract_end_date | default_if_none:"" }}
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -264,59 +260,55 @@
 
                             </div>
                         </div>
-                        {% if  personals %}
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                                    <thead>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                                <thead>
+                                <tr>
+                                    <th>Fotoğraf</th>
+                                    <th>Ad</th>
+                                    <th>Soyad</th>
+                                    <th>Mail</th>
+                                    <th>Antrenör</th>
+                                    <th>Sözleşme Başlangıç</th>
+                                    <th>Sözleşme Bitiş</th>
+                                    <th>Üyelik</th>
+                                    <th>Gelir</th>
+                                    <th>Gider</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for personal in personals %}
                                     <tr>
-                                        <th>Fotoğraf</th>
-                                        <th>Ad</th>
-                                        <th>Soyad</th>
-                                        <th>Mail</th>
-                                        <th>Antrenör</th>
-                                        <th>Sözleşme Başlangıç</th>
-                                        <th>Sözleşme Bitiş</th>
-                                        <th>Üyelik</th>
-                                        <th>Gelir</th>
-                                        <th>Gider</th>
+                                        <td>
+                                            <a href="{{ personal.get_personal_avatar_url }}">
+                                                <img src="{{ personal.get_personal_avatar_url }} "
+                                                     class="rounded-round" width="50px" height="50px"/></a>
+                                        </td>
+                                        <td>
+                                            {{ personal.user.first_name | default_if_none:"" }}
+                                        </td>
+                                        <td>
+                                            {{ personal.user.last_name | default_if_none:"" }}
+                                        </td>
+                                        <td>
+                                            {{ personal.user.email | default_if_none:"" }}
+                                        </td>
+                                        <td>
+                                            {{ personal.trainer }}
+                                        </td>
+                                        <td>
+                                            {{ personal.user.contract_start_date | default_if_none:"" }}
+                                        </td>
+                                        <td>
+                                            {{ personal.user.contract_end_date | default_if_none:"" }}
+                                        </td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for personal in personals %}
-                                        <tr>
-                                            <td>
-                                                {% if personal.avatar %}
-                                                    <a href="{{ personal.avatar.url }}">
-                                                        <img src="{{ personal.avatar.url }} "
-                                                             class="rounded-round" width="50px" height="50px"/></a>
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {{ personal.user.first_name | default_if_none:"" }}
-                                            </td>
-                                            <td>
-                                                {{ personal.user.last_name | default_if_none:"" }}
-                                            </td>
-                                            <td>
-                                                {{ personal.user.email | default_if_none:"" }}
-                                            </td>
-                                            <td>
-                                                {{ personal.trainer }}
-                                            </td>
-                                            <td>
-                                                {{ personal.user.contract_start_date | default_if_none:"" }}
-                                            </td>
-                                            <td>
-                                                {{ personal.user.contract_end_date | default_if_none:"" }}
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 

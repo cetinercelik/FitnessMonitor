@@ -110,76 +110,75 @@
                             class="icon-plus3"></i></b>Danışan Ekle</a>
                 </div>
             </div>
-
-            {% if personals %}
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                        <thead>
-                        <tr>
-                            <th>Profil fotoğrafı</th>
-                            <th>Kullanıcı Adı</th>
-                            <th>Adı</th>
-                            <th>Soyadı</th>
-                            <th>Telefon</th>
-                            <th>E-mail</th>
-                            <th>Adres</th>
-                            <th class="text-center">İşlemler</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        {% for personal in personals %}
+            <div class="container col-lg-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                            <thead>
                             <tr>
-                                <td>
-                                    {% if personal.avatar %}
-                                        <a href="{{ personal.avatar.url }}">
-                                            <img src="{{ personal.avatar.url }} "
+                                <th>Profil fotoğrafı</th>
+                                <th>Kullanıcı Adı</th>
+                                <th>Adı</th>
+                                <th>Soyadı</th>
+                                <th>Telefon</th>
+                                <th>E-mail</th>
+                                <th>Adres</th>
+                                <th class="text-center">İşlemler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for personal in personals %}
+                                <tr>
+                                    <td>
+
+                                        <a href="{{ personal.get_personal_avatar_url }}">
+                                            <img src="{{ personal.get_personal_avatar_url }} "
                                                  class="rounded-round" width="50px" height="50px"/></a>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {{ personal.user.username | default_if_none:"" }}
-                                </td>
-                                <td>
-                                    {{ personal.user.first_name | default_if_none:"" }}
-                                </td>
-                                <td>
-                                    {{ personal.user.last_name | default_if_none:"" }}
-                                </td>
-                                <td>
-                                    {{ personal.phone | default_if_none:"" }}
-                                </td>
-                                <td>
-                                    {{ personal.user.email | default_if_none:"" }}
-                                </td>
-                                <td>
-                                    {{ personal.address | default_if_none:"" }}
-                                </td>
-                                <td class="text-center">
-                                    <div class="list-icons">
-                                        <div class="dropdown">
-                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                <i class="icon-menu9"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="{{ personal.get_update_url }}"
-                                                   class="dropdown-item "><i
-                                                        class="fas fa-edit text-info"></i> Düzenle</a>
-                                                <a href="{{ personal.get_delete_url }}"
-                                                   class="dropdown-item "><i
-                                                        class="fas fa-trash text-danger"></i> Sil</a>
+
+                                    </td>
+                                    <td>
+                                        {{ personal.user.username | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ personal.user.first_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ personal.user.last_name | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ personal.phone | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ personal.user.email | default_if_none:"" }}
+                                    </td>
+                                    <td>
+                                        {{ personal.address | default_if_none:"" }}
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="{{ personal.get_update_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-edit text-info"></i> Düzenle</a>
+                                                    <a href="{{ personal.get_delete_url }}"
+                                                       class="dropdown-item "><i
+                                                            class="fas fa-trash text-danger"></i> Sil</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    {% else %}
-                    <h4 class="text-danger text-center">Malesef bireysel kayıt verisi yok!</h4>
-                </div>
-            {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+            </div>
+
 
         </div>
 

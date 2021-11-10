@@ -63,8 +63,8 @@
                 <table class="table">
                     <tr>
                         <td>
-                            <a href="{{ ps.avatar.url }}" data-popup="lightbox">
-                                <img src="{{ ps.avatar.url }}" alt=""
+                            <a href="{{ ps.get_personal_avatar_url }}" data-popup="lightbox">
+                                <img src="{{ ps.get_personal_avatar_url }}" alt=""
                                      class="img-preview rounded" width="50px" height="50px">
                             </a>
                         </td>
@@ -103,69 +103,47 @@
             </div>
         </div>
         {% if posturals %}
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                    <thead>
+            {#            <div class="table-responsive">#}
+            <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                <thead>
+                <tr>
+                    <th>Pdf Adı</th>
+                    <th>Kayıt Tarihi</th>
+                    <th>İşlemler</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for pt in posturals %}
                     <tr>
-                        <th>Fotoğraf</th>
-                        <th>Ad</th>
-                        <th>Soyad</th>
-                        <th>Mail</th>
-                        <th>Cinsiyet</th>
-                        <th>Kayıt Tarihi</th>
-                        <th>İşlemler</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for pt in posturals %}
-                        <tr>
-                            <td> {% if pt.personal.avatar %}
-                                <a href="{{ pt.personal.avatar.url }}">
-                                    <img src="{{ pt.personal.avatar.url }} "
-                                         class="rounded-round" width="50px" height="50px"/></a>
-                            {% endif %}
-                            </td>
-                            <td>
-                                {{ pt.personal.user.first_name | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ pt.personal.user.last_name | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ pt.personal.user.email | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ pt.personal.gender_value   | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ pt.date }}
-                            </td>
-                            <td>
-                                <div class="list-icons">
-                                    <div class="dropdown">
-                                        <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                            <i class="icon-menu9"></i>
-                                        </a>
+                        <td>
+                            {{ pt.personal.user.first_name }}_{{ pt.personal.user.last_name }}_{{ pt.id }}_postural_ölçüm.pdf
+                        </td>
+                        <td>
+                            {{ pt.date }}
+                        </td>
+                        <td>
+                            <div class="list-icons">
+                                <div class="dropdown">
+                                    <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                        <i class="icon-menu9"></i>
+                                    </a>
 
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                Export to
-                                                .pdf</a>
-                                            <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                Export to
-                                                .csv</a>
-                                            <a href="{{ pt.get_trainer_postural_delete_url }}"
-                                               class="dropdown-item "><i
-                                                    class="fas fa-trash text-danger"></i> Sil</a>
-                                        </div>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="{% url 'trainer-measurements-postural-pdf' id=pt.id %}"
+                                           class="dropdown-item"><i class="icon-file-pdf"></i>
+                                            Pdf indir</a>
+                                        <a href="{{ pt.get_trainer_postural_delete_url }}"
+                                           class="dropdown-item "><i
+                                                class="fas fa-trash text-danger"></i> Sil</a>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {#            </div>#}
         {% else %}
             <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
         {% endif %}

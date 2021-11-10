@@ -327,9 +327,9 @@
                             <div class="card-img-actions d-inline-block mb-3">
                                 <div class="card-img-actions d-inline-block mb-3">
                                     {% if form.avatar %}
-                                        <a href="{{ request.user.personal.avatar.url }}">
+                                        <a href="{{ request.user.personal.get_personal_avatar_url }}">
                                             <img class="img-fluid rounded-circle"
-                                                 src="{{ request.user.personal.avatar.url }}" width="120"
+                                                 src="{{ request.user.personal.get_personal_avatar_url }}" width="120"
                                                  class="rounded-round"
                                                  height="120" alt="">
                                         </a>

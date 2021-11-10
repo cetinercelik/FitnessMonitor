@@ -1,6 +1,6 @@
 from django.urls import path
 
-from reporting_analysis import views
+from reporting_analysis import views, pdfmaker
 
 urlpatterns = [
 
@@ -170,4 +170,266 @@ urlpatterns = [
          name='personal-metabolic-exercise-results'),
     # /End Prescriptions Urls
     # /End Corporate
+
+    # Pdf maker fields***********************************
+    # Trains form pdf maker
+    # Interview form Pdf Maker field
+    path('trainer/forms/interview/pdf/<int:id>/', pdfmaker.trainer_interview_forms_pdf_view,
+         name='trainer-forms-interview-pdf'),
+
+    # medikal form Pdf Maker field
+    path('trainer/forms/medikal/pdf/<int:id>/', pdfmaker.trainer_medikalInpt_forms_pdf_view,
+         name='trainer-forms-medikalInpt-pdf'),
+
+    # contract form Pdf Maker field
+    path('trainer/forms/contract/pdf/<int:id>/', pdfmaker.trainer_contractInput_forms_pdf_view,
+         name='trainer-forms-contractInput-pdf'),
+
+    # voluntary form Pdf Maker field
+    path('trainer/forms/voluntary/pdf/<int:id>/', pdfmaker.trainer_voluntaryInput_forms_pdf_view,
+         name='trainer-forms-voluntaryInput-pdf'),
+
+    # Interview form Pdf Maker field
+    path('trainer/forms/familyInput/pdf/<int:id>/', pdfmaker.trainer_familyInput_forms_pdf_view,
+         name='trainer-forms-familyInput-pdf'),
+
+    # exercisehistory form Pdf Maker field
+    path('trainer/forms/exercisehistory/pdf/<int:id>/', pdfmaker.trainer_exercisehistoryInput_forms_pdf_view,
+         name='trainer-forms-exercisehistoryInput-pdf'),
+
+    # parq form Pdf Maker field
+    path('trainer/forms/parq/pdf/<int:id>/', pdfmaker.trainer_parqInput_forms_pdf_view,
+         name='trainer-forms-parqInput-pdf'),
+
+    # mood form Pdf Maker field
+    path('trainer/forms/mood/pdf/<int:id>/', pdfmaker.trainer_moodInput_forms_pdf_view,
+         name='trainer-forms-moodInput-pdf'),
+
+    # sleepquality form Pdf Maker field
+    path('trainer/forms/sleepquality/pdf/<int:id>/', pdfmaker.trainer_sleepqualityInput_forms_pdf_view,
+         name='trainer-forms-sleepqualityInput-pdf'),
+
+    # nutrition form Pdf Maker field
+    path('trainer/forms/nutrition/pdf/<int:id>/', pdfmaker.trainer_nutritionInput_forms_pdf_view,
+         name='trainer-forms-nutritionInput-pdf'),
+
+    # eudaimonia form Pdf Maker field
+    path('trainer/forms/eudaimonia/pdf/<int:id>/', pdfmaker.trainer_eudaimoniaInput_forms_pdf_view,
+         name='trainer-forms-eudaimoniaInput-pdf'),
+
+    # curriculum form Pdf Maker field
+    path('trainer/forms/curriculum/pdf/<int:id>/', pdfmaker.trainer_curriculum_forms_pdf_view,
+         name='trainer-forms-curriculum-pdf'),
+
+
+
+    # Mesurements Pdf Maker field
+    # Athletic Measuremnt Pdf make url
+    path('trainer/measurements/athletic/pdf/<int:id>/', pdfmaker.trainer_measurements_athletic_pdf_view,
+         name='trainer-measurements-athletic-pdf'),
+
+    # Fitness Measurements pdf make url
+    path('trainer/measurements/fitness/pdf/<int:id>/', pdfmaker.trainer_measurements_fitness_pdf_view,
+         name='trainer-measurements-fitness-pdf'),
+
+    # Medical Measurements pdf make url
+    path('trainer/measurements/medical/pdf/<int:id>/', pdfmaker.trainer_measurements_medical_pdf_view,
+         name='trainer-measurements-medical-pdf'),
+
+    # Postural Measurements pdf make url
+    path('trainer/measurements/postural/pdf/<int:id>/', pdfmaker.trainer_measurements_postural_pdf_view,
+         name='trainer-measurements-postural-pdf'),
+
+    # Prescriptions pdf Make field
+    # Exercise Prescriptions pdf make url
+    path('trainer/prescriptions/exercise/pdf/<int:id>/', pdfmaker.trainer_prescriptions_exercise_pdf_view,
+         name='trainer-prescriptions-exercise-pdf'),
+
+    # Exercise Prescriptions pdf make url
+    path('trainer/prescriptions/mdical/pdf/<int:id>/', pdfmaker.trainer_prescriptions_medical_pdf_view,
+         name='trainer-prescriptions-mdical-pdf'),
+
+    # Exercise Prescriptions pdf make url
+    path('trainer/prescriptions/metabolic/pdf/<int:id>/', pdfmaker.trainer_prescriptions_metabolic_pdf_view,
+         name='trainer-prescriptions-metabolic-pdf'),
+
+    # personalTraining Prescriptions pdf make url
+    path('trainer/prescriptions/personalTraining/pdf/<int:id>/', pdfmaker.trainer_prescriptions_personalTraining_pdf_view,
+         name='trainer-prescriptions-personalTraining-pdf'),
+
+    # Corporate form pdf maker
+    # Corporate Interview form Pdf Maker field
+    path('corporate/forms/interview/pdf/<int:id>/', pdfmaker.corporate_interview_forms_pdf_view,
+         name='corporate-forms-interview-pdf'),
+
+    # medikal form Pdf Maker field
+    path('corporate/forms/medikal/pdf/<int:id>/', pdfmaker.corporate_medikalInpt_forms_pdf_view,
+         name='corporate-forms-medikalInpt-pdf'),
+
+    # contract form Pdf Maker field
+    path('corporate/forms/contract/pdf/<int:id>/', pdfmaker.corporate_contractInput_forms_pdf_view,
+         name='corporate-forms-contractInput-pdf'),
+
+    # voluntary form Pdf Maker field
+    path('corporate/forms/voluntary/pdf/<int:id>/', pdfmaker.corporate_voluntaryInput_forms_pdf_view,
+         name='corporate-forms-voluntaryInput-pdf'),
+
+    # Interview form Pdf Maker field
+    path('corporate/forms/familyInput/pdf/<int:id>/', pdfmaker.corporate_familyInput_forms_pdf_view,
+         name='corporate-forms-familyInput-pdf'),
+
+    # exercisehistory form Pdf Maker field
+    path('corporate/forms/exercisehistory/pdf/<int:id>/', pdfmaker.corporate_exercisehistoryInput_forms_pdf_view,
+         name='corporate-forms-exercisehistoryInput-pdf'),
+
+    # parq form Pdf Maker field
+    path('corporate/forms/parq/pdf/<int:id>/', pdfmaker.corporate_parqInput_forms_pdf_view,
+         name='corporate-forms-parqInput-pdf'),
+
+    # mood form Pdf Maker field
+    path('corporate/forms/mood/pdf/<int:id>/', pdfmaker.corporate_moodInput_forms_pdf_view,
+         name='corporate-forms-moodInput-pdf'),
+
+    # sleepquality form Pdf Maker field
+    path('corporate/forms/sleepquality/pdf/<int:id>/', pdfmaker.corporate_sleepqualityInput_forms_pdf_view,
+         name='corporate-forms-sleepqualityInput-pdf'),
+
+    # nutrition form Pdf Maker field
+    path('corporate/forms/nutrition/pdf/<int:id>/', pdfmaker.corporate_nutritionInput_forms_pdf_view,
+         name='corporate-forms-nutritionInput-pdf'),
+
+    # eudaimonia form Pdf Maker field
+    path('corporate/forms/eudaimonia/pdf/<int:id>/', pdfmaker.corporate_eudaimoniaInput_forms_pdf_view,
+         name='corporate-forms-eudaimoniaInput-pdf'),
+
+    # curriculum form Pdf Maker field
+    path('corporate/forms/curriculum/pdf/<int:id>/', pdfmaker.corporate_curriculum_forms_pdf_view,
+         name='corporate-forms-curriculum-pdf'),
+
+    # Mesurements Pdf Maker field
+    # Athletic Measuremnt Pdf make url
+    path('corporate/measurements/athletic/pdf/<int:id>/', pdfmaker.corporate_measurements_athletic_pdf_view,
+         name='corporate-measurements-athletic-pdf'),
+
+    # Fitness Measurements pdf make url
+    path('corporate/measurements/fitness/pdf/<int:id>/', pdfmaker.corporate_measurements_fitness_pdf_view,
+         name='corporate-measurements-fitness-pdf'),
+
+    # Medical Measurements pdf make url
+    path('corporate/measurements/medical/pdf/<int:id>/', pdfmaker.corporate_measurements_medical_pdf_view,
+         name='corporate-measurements-medical-pdf'),
+
+    # Postural Measurements pdf make url
+    path('corporate/measurements/postural/pdf/<int:id>/', pdfmaker.corporate_measurements_postural_pdf_view,
+         name='corporate-measurements-postural-pdf'),
+
+    # Prescriptions pdf Make field
+    # Exercise Prescriptions pdf make url
+    path('corporate/prescriptions/exercise/pdf/<int:id>/', pdfmaker.corporate_prescriptions_exercise_pdf_view,
+         name='corporate-prescriptions-exercise-pdf'),
+
+    # Exercise Prescriptions pdf make url
+    path('corporate/prescriptions/mdical/pdf/<int:id>/', pdfmaker.corporate_prescriptions_medical_pdf_view,
+         name='corporate-prescriptions-mdical-pdf'),
+
+    # Exercise Prescriptions pdf make url
+    path('corporate/prescriptions/metabolic/pdf/<int:id>/', pdfmaker.corporate_prescriptions_metabolic_pdf_view,
+         name='corporate-prescriptions-metabolic-pdf'),
+
+    # personalTraining Prescriptions pdf make url
+    path('corporate/prescriptions/personalTraining/pdf/<int:id>/',pdfmaker.corporate_prescriptions_personalTraining_pdf_view,
+         name='corporate-prescriptions-personalTraining-pdf'),
+
+    # Corrective Prescriptions pdf make url
+    path('corporate/prescriptions/corrective/pdf/<int:id>/', pdfmaker.corporate_prescriptions_corrective_pdf_view,
+         name='corporate-prescriptions-corrective-pdf'),
+
+    # Corporate form pdf maker
+    # Corporate Interview form Pdf Maker field
+    path('personal/forms/interview/pdf/<int:id>/', pdfmaker.personal_interview_forms_pdf_view,
+         name='personal-forms-interview-pdf'),
+
+    # medikal form Pdf Maker field
+    path('personal/forms/medikal/pdf/<int:id>/', pdfmaker.personal_medikalInpt_forms_pdf_view,
+         name='personal-forms-medikalInpt-pdf'),
+
+    # contract form Pdf Maker field
+    path('personal/forms/contract/pdf/<int:id>/', pdfmaker.personal_contractInput_forms_pdf_view,
+         name='personal-forms-contractInput-pdf'),
+
+    # voluntary form Pdf Maker field
+    path('personal/forms/voluntary/pdf/<int:id>/', pdfmaker.personal_voluntaryInput_forms_pdf_view,
+         name='personal-forms-voluntaryInput-pdf'),
+
+    # Interview form Pdf Maker field
+    path('personal/forms/familyInput/pdf/<int:id>/', pdfmaker.personal_familyInput_forms_pdf_view,
+         name='personal-forms-familyInput-pdf'),
+
+    # exercisehistory form Pdf Maker field
+    path('personal/forms/exercisehistory/pdf/<int:id>/', pdfmaker.personal_exercisehistoryInput_forms_pdf_view,
+         name='personal-forms-exercisehistoryInput-pdf'),
+
+    # parq form Pdf Maker field
+    path('personal/forms/parq/pdf/<int:id>/', pdfmaker.personal_parqInput_forms_pdf_view,
+         name='personal-forms-parqInput-pdf'),
+
+    # mood form Pdf Maker field
+    path('personal/forms/mood/pdf/<int:id>/', pdfmaker.personal_moodInput_forms_pdf_view,
+         name='personal-forms-moodInput-pdf'),
+
+    # sleepquality form Pdf Maker field
+    path('personal/forms/sleepquality/pdf/<int:id>/', pdfmaker.personal_sleepqualityInput_forms_pdf_view,
+         name='personal-forms-sleepqualityInput-pdf'),
+
+    # nutrition form Pdf Maker field
+    path('personal/forms/nutrition/pdf/<int:id>/', pdfmaker.personal_nutritionInput_forms_pdf_view,
+         name='personal-forms-nutritionInput-pdf'),
+
+    # eudaimonia form Pdf Maker field
+    path('personal/forms/eudaimonia/pdf/<int:id>/', pdfmaker.personal_eudaimoniaInput_forms_pdf_view,
+         name='personal-forms-eudaimoniaInput-pdf'),
+
+    # curriculum form Pdf Maker field
+    path('personal/forms/curriculum/pdf/<int:id>/', pdfmaker.personal_curriculum_forms_pdf_view,
+         name='personal-forms-curriculum-pdf'),
+
+    # Mesurements Pdf Maker field
+    # Athletic Measuremnt Pdf make url
+    path('personal/measurements/athletic/pdf/<int:id>/', pdfmaker.personal_measurements_athletic_pdf_view,
+         name='personal-measurements-athletic-pdf'),
+
+    # Fitness Measurements pdf make url
+    path('personal/measurements/fitness/pdf/<int:id>/', pdfmaker.personal_measurements_fitness_pdf_view,
+         name='personal-measurements-fitness-pdf'),
+
+    # Medical Measurements pdf make url
+    path('personal/measurements/medical/pdf/<int:id>/', pdfmaker.personal_measurements_medical_pdf_view,
+         name='personal-measurements-medical-pdf'),
+
+    # Postural Measurements pdf make url
+    path('personal/measurements/postural/pdf/<int:id>/', pdfmaker.personal_measurements_postural_pdf_view,
+         name='personal-measurements-postural-pdf'),
+
+    # Prescriptions pdf Make field
+    # Exercise Prescriptions pdf make url
+    path('personal/prescriptions/exercise/pdf/<int:id>/', pdfmaker.personal_prescriptions_exercise_pdf_view,
+         name='personal-prescriptions-exercise-pdf'),
+
+    # Exercise Prescriptions pdf make url
+    path('personal/prescriptions/mdical/pdf/<int:id>/', pdfmaker.personal_prescriptions_medical_pdf_view,
+         name='personal-prescriptions-mdical-pdf'),
+
+    # Exercise Prescriptions pdf make url
+    path('personal/prescriptions/metabolic/pdf/<int:id>/', pdfmaker.personal_prescriptions_metabolic_pdf_view,
+         name='personal-prescriptions-metabolic-pdf'),
+
+    # personalTraining Prescriptions pdf make url
+    path('personal/prescriptions/personalTraining/pdf/<int:id>/',
+         pdfmaker.personal_prescriptions_personalTraining_pdf_view,
+         name='personal-prescriptions-personalTraining-pdf'),
+
+    # Corrective Prescriptions pdf make url
+    path('personal/prescriptions/corrective/pdf/<int:id>/', pdfmaker.personal_prescriptions_corrective_pdf_view,
+         name='personal-prescriptions-corrective-pdf'),
+
 ]

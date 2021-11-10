@@ -1,10 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% block meta %}
+    {% endblock meta %}
+
+    <title>{% block title %} {{ fnames }} {% endblock title %}</title>
+
+    {% load static %}
+
+    <!-- Global stylesheets -->
+    {#    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet"#}
+    {#          type="text/css">#}
+    {#    <link href="{% static 'global_assets/css/icons/icomoon/styles.min.css' %}" rel="stylesheet" type="text/css">#}
+    {#    <link href="{% static 'global_assets/css/icons/fontawesome/styles.min.css' %}" rel="stylesheet" type="text/css">#}
+    {#    <link href="{% static 'global_assets/css/icons/material/styles.min.css' %}" rel="stylesheet" type="text/css">#}
+    {#    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">#}
+    {#    <link href="{% static 'assets/css/bootstrap_limitless.min.css' %}" rel="stylesheet" type="text/css">#}
+    {#    <link href="{% static 'assets/css/colors.min.css' %}" rel="stylesheet" type="text/css">#}
+    <!-- /global stylesheets -->
+
+
+    <!-- /core JS files -->
+
+
+    <!-- Theme JS files -->
+    {% block javascript %}
+
+    {% endblock javascript %}
+    <!-- /theme JS files -->
+
+    {% block css %}
+    {% endblock css %}
 </head>
-<body>
-$END$
+<body class="{% block body_class %}{% endblock body_class %}">
+{% block body %}
+    {% if fitness %}
+        <p>burası fitness alanıdır</p>
+        <p>{{ fitness.age | default_if_none:'' }}</p>
+
+    {% elif athletics %}
+        <p>Burası Atletik Ölçüm alanıdır</p>
+        <p>{{ athletics.shoulder }}</p>
+
+    {% elif mdcls %}
+        <p>Burası Medical Alanıdır</p>
+        <p>{{ mdcls.sole1 }}</p>
+
+    {% elif  posturals %}
+        <p>Burası Postural alanıdır</p>
+        <p>{{ posturals.normal_leg }}</p>
+    {% endif %}
+{% endblock body %}
 </body>
 </html>

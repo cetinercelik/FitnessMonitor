@@ -57,6 +57,39 @@
 
 
 {% block page_content %}
+    <div class="card">
+        {% if personals %}
+            {% for ps in personals %}
+                <table class="table">
+                    <tr>
+                        <td>
+                            <a href="{{ ps.get_personal_avatar_url }}" data-popup="lightbox">
+                                <img src="{{ ps.get_personal_avatar_url }}" alt=""
+                                     class="img-preview rounded" width="50px" height="50px">
+                            </a>
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Ad:</span> {{ ps.user.first_name | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Soyad:</span> {{ ps.user.last_name | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Email:</span> {{ ps.user.email | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Telefon:</span> {{ ps.phone   | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Cinsiyet:</span>{{ ps.gender_value   | default_if_none:"" }}
+                        </td>
+
+                    </tr>
+                </table>
+            {% endfor %}
+        {% endif %}
+
+    </div>
 
     <div class="card">
         <div class="card-header bg-danger header-elements-inline">
@@ -70,69 +103,47 @@
             </div>
         </div>
         {% if athletics %}
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                    <thead>
+            {#            <div class="table-responsive">#}
+            <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                <thead>
+                <tr>
+                    <th>Pdf Adı</th>
+                    <th>Kayıt Tarihi</th>
+                    <th>İşlemler</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for at in athletics %}
                     <tr>
-                        <th>Fotoğraf</th>
-                        <th>Ad</th>
-                        <th>Soyad</th>
-                        <th>Mail</th>
-                        <th>Cinsiyet</th>
-                        <th>Kayıt Tarihi</th>
-                        <th>İşlemler</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for at in athletics %}
-                        <tr>
-                            <td> {% if at.personal.avatar %}
-                                <a href="{{ at.personal.avatar.url }}">
-                                    <img src="{{ at.personal.avatar.url }} "
-                                         class="rounded-round" width="50px" height="50px"/></a>
-                            {% endif %}
-                            </td>
-                            <td>
-                                {{ at.personal.user.first_name | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ at.personal.user.last_name | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ at.personal.user.email | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ at.personal.gender_value   | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ at.date }}
-                            </td>
-                            <td>
-                                <div class="list-icons">
-                                    <div class="dropdown">
-                                        <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                            <i class="icon-menu9"></i>
-                                        </a>
+                        <td>
+                            {{ at.personal.user.first_name }}_{{ at.personal.user.last_name }}_{{ at.id }}_athletik_performans_ölçüm.pdf
+                        </td>
+                        <td>
+                            {{ at.date }}
+                        </td>
+                        <td>
+                            <div class="list-icons">
+                                <div class="dropdown">
+                                    <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                        <i class="icon-menu9"></i>
+                                    </a>
 
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                Export to
-                                                .pdf</a>
-                                            <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                Export to
-                                                .csv</a>
-                                            <a href="{{ at.get_corporate_athletic_delete_url }}"
-                                               class="dropdown-item "><i
-                                                    class="fas fa-trash text-danger"></i> Sil</a>
-                                        </div>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="{% url 'corporate-measurements-pdf' id=at.id %}"
+                                           class="dropdown-item"><i class="icon-file-pdf"></i>
+                                            Pdf indir</a>
+                                        <a href="{{ at.get_corporate_athletic_delete_url }}"
+                                           class="dropdown-item "><i
+                                                class="fas fa-trash text-danger"></i> Sil</a>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {#            </div>#}
         {% else %}
             <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
         {% endif %}

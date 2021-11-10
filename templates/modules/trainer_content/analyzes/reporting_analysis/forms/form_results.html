@@ -7,6 +7,7 @@
 {% block javascript %}
     <script src="{% static 'global_assets/js/plugins/tables/datatables/datatables.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/forms/styling/switchery.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms_contents/selects/select2.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js' %}"></script>
@@ -58,8 +59,8 @@
                 <table class="table">
                     <tr>
                         <td>
-                            <a href="{{ ps.avatar.url }}" data-popup="lightbox">
-                                <img src="{{ ps.avatar.url }}" alt=""
+                            <a href="{{ ps.get_personal_avatar_url }}" data-popup="lightbox">
+                                <img src="{{ ps.get_personal_avatar_url }}" alt=""
                                      class="img-preview rounded" width="50px" height="50px">
                             </a>
                         </td>
@@ -106,55 +107,48 @@
             <div class="card-body">
 
                 {% if interviews %}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                            <thead>
+                    {#                    <div class="table-responsive">#}
+                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                        <thead>
+                        <tr>
+                            <th>Pdf Adı</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for interview in interviews %}
                             <tr>
-                                <th>Danışmanlık Türü</th>
-                                <th>Egzersiz Süresi</th>
-                                <th>Kayıt Tarihi</th>
-                                <th>İşlemler</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for interview in interviews %}
-                                <tr>
-                                    <td>
-                                        {{ interview.interview_conculancy   | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ interview.exerciseday | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ interview.date }}
-                                    </td>
+                                <td>
+                                    {{ interview.personal.user.first_name }}_{{ interview.personal.user.last_name }}_{{ interview.id }}_öngörüşme_formu.pdf
+                                </td>
+                                <td>
+                                    {{ interview.date }}
+                                </td>
 
-                                    <td>
-                                        <div class="list-icons">
-                                            <div class="dropdown">
-                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                    <i class="icon-menu9"></i>
-                                                </a>
+                                <td>
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
 
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                        Export to
-                                                        .pdf</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                        Export to
-                                                        .csv</a>
-                                                    <a href="{{ interview.get_trainer_interview_delete_url }}"
-                                                       class="dropdown-item "><i
-                                                            class="fas fa-trash text-danger"></i> Sil</a>
-                                                </div>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{% url 'trainer-forms-interview-pdf' id=interview.id %}"
+                                                   class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                    Pdf indir</a>
+                                                <a href="{{ interview.get_trainer_interview_delete_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-trash text-danger"></i> Sil</a>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -180,58 +174,47 @@
             <div class="card-body">
 
                 {% if contracts %}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                            <thead>
+                    {#                    <div class="table-responsive">#}
+                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                        <thead>
+                        <tr>
+                            <th>Pdf Adı</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for contract in contracts %}
                             <tr>
-                                <th>Danışmanlık Türü</th>
-                                <th>Sözleşme Başlama Tarihi</th>
-                                <th>Sözleşme Bitiş Tarihi</th>
-                                <th>Kayıt Tarihi</th>
-                                <th>İşlemler</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for contract in contracts %}
-                                <tr>
-                                    <td>
-                                        {{ contract.contract_conculancy | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ contract.contract_start_date | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ contract.contract_finish_date   | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ contract.date }}
-                                    </td>
-                                    <td>
-                                        <div class="list-icons">
-                                            <div class="dropdown">
-                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                    <i class="icon-menu9"></i>
-                                                </a>
+                                <td>
+                                    {{ contract.personal.user.first_name }}_{{ contract.personal.user.last_name }}_{{ contract.id }}_teklif_sözleşme_formu.pdf
+                                </td>
+                                <td>
+                                    {{ contract.date }}
+                                </td>
+                                <td>
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
 
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                        Export to
-                                                        .pdf</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                        Export to
-                                                        .csv</a>
-                                                    <a href="{{ contract.get_trainer_contract_delete_url }}"
-                                                       class="dropdown-item "><i
-                                                            class="fas fa-trash text-danger"></i> Sil</a>
-                                                </div>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{% url 'trainer-forms-contractInput-pdf' id=contract.id %}"
+                                                   class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                    Pdf indir</a>
+                                                <a href="{{ contract.get_trainer_contract_delete_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-trash text-danger"></i> Sil</a>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -257,58 +240,47 @@
             <div class="card-body">
 
                 {% if medicals %}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                            <thead>
+                    {#                    <div class="table-responsive">#}
+                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                        <thead>
+                        <tr>
+                            <th>Pdf Adı</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for medical in medicals %}
                             <tr>
-                                <th>Doktorunuzun Adı ve Soyadı</th>
-                                <th>Doktorunuzun Telefonu</th>
-                                <th>Doktorunuzun Emaili</th>
-                                <th>Kayıt Tarihi</th>
-                                <th>İşlemler</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for medical in medicals %}
-                                <tr>
-                                    <td>
-                                        {{ medical.doctor_name_surname | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ medical.doctor_phone | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ medical.doctor_email   | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ medical.date }}
-                                    </td>
-                                    <td>
-                                        <div class="list-icons">
-                                            <div class="dropdown">
-                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                    <i class="icon-menu9"></i>
-                                                </a>
+                                <td>
+                                    {{ medical.personal.user.first_name }}_{{ medical.personal.user.last_name }}_{{ medical.id }}_medikal_formu.pdf
+                                </td>
+                                <td>
+                                    {{ medical.date }}
+                                </td>
+                                <td>
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
 
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                        Export to
-                                                        .pdf</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                        Export to
-                                                        .csv</a>
-                                                    <a href="{{ medical.get_trainer_medical_delete_url }}"
-                                                       class="dropdown-item "><i
-                                                            class="fas fa-trash text-danger"></i> Sil</a>
-                                                </div>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{% url 'trainer-forms-medikalInpt-pdf' id=medical.id %}"
+                                                   class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                    Pdf indir</a>
+                                                <a href="{{ medical.get_trainer_medical_delete_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-trash text-danger"></i> Sil</a>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -334,54 +306,47 @@
             <div class="card-body">
 
                 {% if voluntaris %}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                            <thead>
+                    {#                    <div class="table-responsive">#}
+                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                        <thead>
+                        <tr>
+                            <th>Pdf Adı</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for voluntary in voluntaris %}
                             <tr>
-                                <th>Tanık Adı Soyadı</th>
-                                <th>Tanık Telefon</th>
-                                <th>Kayıt Tarihi</th>
-                                <th>İşlemler</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for voluntary in voluntaris %}
-                                <tr>
-                                    <td>
-                                        {{ voluntary.witness_name_surname | default_if_none:"" }}
-                                    </td>
-                                     <td>
-                                        {{ voluntary.witness_phone | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ voluntary.date }}
-                                    </td>
-                                    <td>
-                                        <div class="list-icons">
-                                            <div class="dropdown">
-                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                    <i class="icon-menu9"></i>
-                                                </a>
+                                <td>
+                                    {{ voluntary.personal.user.first_name }}_{{ voluntary.personal.user.last_name }}_{{ voluntary.id }}_gönüllü_formu.pdf
+                                </td>
+                                <td>
+                                    {{ voluntary.date }}
+                                </td>
+                                <td>
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
 
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                        Export to
-                                                        .pdf</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                        Export to
-                                                        .csv</a>
-                                                    <a href="{{ voluntary.get_trainer_voluntary_delete_url }}"
-                                                       class="dropdown-item "><i
-                                                            class="fas fa-trash text-danger"></i> Sil</a>
-                                                </div>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{% url 'trainer-forms-voluntaryInput-pdf' id=voluntary.id %}"
+                                                   class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                    Pdf indir</a>
+                                                <a href="{{ voluntary.get_trainer_voluntary_delete_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-trash text-danger"></i> Sil</a>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -407,55 +372,47 @@
         <div id="collapsible-styled-group5" class="collapse">
             <div class="card-body">
                 {% if familys %}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                            <thead>
+                    {#                    <div class="table-responsive">#}
+                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                        <thead>
+                        <tr>
+                            <th>Pdf Adı</th>
+                            <th>Form Kayıt Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for family in familys %}
                             <tr>
+                                <td>
+                                    {{ family.personal.user.first_name }}_{{ family.personal.user.last_name }}_{{ family.id }}_aile_öyküsü_formu.pdf
+                                </td>
+                                <td>
+                                    {{ family.date }}
+                                </td>
+                                <td>
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
 
-                                <th>Baba BKI</th>
-                                <th>Anne BKI</th>
-                                <th>Form Kayıt Tarihi</th>
-                                <th>İşlemler</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for family in familys %}
-                                <tr>
-                                    <td>
-                                        {{ family.babaBki | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ family.anneBki }}
-                                    </td>
-                                    <td>
-                                        {{ family.date }}
-                                    </td>
-                                    <td>
-                                        <div class="list-icons">
-                                            <div class="dropdown">
-                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                    <i class="icon-menu9"></i>
-                                                </a>
-
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                        Export to
-                                                        .pdf</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                        Export to
-                                                        .csv</a>
-                                                    <a href="{{ family.get_trainer_family_delete_url }}"
-                                                       class="dropdown-item "><i
-                                                            class="fas fa-trash text-danger"></i> Sil</a>
-                                                </div>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{% url 'trainer-forms-familyInput-pdf' id=family.id %}"
+                                                   class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                    Pdf indir</a>
+                                                <a href="{{ family.get_trainer_family_delete_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-trash text-danger"></i> Sil</a>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -483,56 +440,47 @@
         <div id="collapsible-styled-group7" class="collapse" style="">
             <div class="card-body">
                 {% if exercises %}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                            <thead>
+                    {#                    <div class="table-responsive">#}
+                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                        <thead>
+                        <tr>
+                            <th>Pdf Adı</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for exercise in exercises %}
                             <tr>
-                                <th>Yürüyüş Mesafesi</th>
-                                <th>Egzersiz Aralığı</th>
-                                <th>Kayıt Tarihi</th>
-                                <th>İşlemler</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for exercise in exercises %}
-                                <tr>
+                                <td>
+                                    {{ exercise.personal.user.first_name }}_{{ exercise.personal.user.last_name }}_{{ exercise.id }}_egzersiz_geçmişi_formu.pdf
+                                </td>
+                                <td>
+                                    {{ exercise.date }}
+                                </td>
+                                <td>
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
 
-
-                                    <td>
-                                        {{ exercise.walk | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ exercise.regularexercise   | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ exercise.date }}
-                                    </td>
-                                    <td>
-                                        <div class="list-icons">
-                                            <div class="dropdown">
-                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                    <i class="icon-menu9"></i>
-                                                </a>
-
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                        Export to
-                                                        .pdf</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                        Export to
-                                                        .csv</a>
-                                                    <a href="{{ exercise.get_trainer_exercisehistory_delete_url }}"
-                                                       class="dropdown-item "><i
-                                                            class="fas fa-trash text-danger"></i> Sil</a>
-                                                </div>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{% url 'trainer-forms-exercisehistoryInput-pdf' id=exercise.id %}"
+                                                   class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                    Pdf indir</a>
+                                                <a href="{{ exercise.get_trainer_exercisehistory_delete_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-trash text-danger"></i> Sil</a>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -558,59 +506,47 @@
             <div class="card-body">
 
                 {% if parqs %}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                            <thead>
+                    {#                    <div class="table-responsive">#}
+                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                        <thead>
+                        <tr>
+                            <th>Pdf Adı</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for parq in parqs %}
                             <tr>
-                                <th>Ad</th>
-                                <th>Soyad</th>
-                                <th>Mail</th>
-                                <th>Kayıt Tarihi</th>
-                                <th>İşlemler</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for parq in parqs %}
-                                <tr>
+                                <td>
+                                    {{ parq.personal.user.first_name }}_{{ parq.personal.user.last_name }}_{{ parq.id }}_parq_formu.pdf
+                                </td>
+                                <td>
+                                    {{ parq.date }}
+                                </td>
+                                <td>
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
 
-                                    <td>
-                                        {{ parq.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ parq.personal.user.last_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ parq.personal.user.email | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ parq.date }}
-                                    </td>
-                                    <td>
-                                        <div class="list-icons">
-                                            <div class="dropdown">
-                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                    <i class="icon-menu9"></i>
-                                                </a>
-
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                        Export to
-                                                        .pdf</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                        Export to
-                                                        .csv</a>
-                                                    <a href="{{ parq.get_trainer_parq_delete_url }}"
-                                                       class="dropdown-item "><i
-                                                            class="fas fa-trash text-danger"></i> Sil</a>
-                                                </div>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{% url 'trainer-forms-parqInput-pdf' id=parq.id %}"
+                                                   class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                    Pdf indir</a>
+                                                <a href="{{ parq.get_trainer_parq_delete_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-trash text-danger"></i> Sil</a>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -636,53 +572,46 @@
             <div class="card-body">
 
                 {% if moods %}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                            <thead>
-                                <th>Ad</th>
-                                <th>Soyad</th>
-                                <th>Kayıt Tarihi</th>
-                                <th>İşlemler</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for mood in moods %}
-                                <tr>
-                                    <td>
-                                        {{ mood.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ mood.personal.user.last_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ mood.date }}
-                                    </td>
-                                    <td>
-                                        <div class="list-icons">
-                                            <div class="dropdown">
-                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                    <i class="icon-menu9"></i>
-                                                </a>
+                    {#                    <div class="table-responsive">#}
+                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                        <thead>
+                        <th>Pdf Adı</th>
+                        <th>Kayıt Tarihi</th>
+                        <th>İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for mood in moods %}
+                            <tr>
+                                <td>
+                                    {{ mood.personal.user.first_name }}_{{ mood.personal.user.last_name }}_{{ mood.id }}_duygu_durumu_formu.pdf
+                                </td>
+                                <td>
+                                    {{ mood.date }}
+                                </td>
+                                <td>
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
 
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                        Export to
-                                                        .pdf</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                        Export to
-                                                        .csv</a>
-                                                    <a href="{{ mood.get_trainer_mood_delete_url }}"
-                                                       class="dropdown-item "><i
-                                                            class="fas fa-trash text-danger"></i> Sil</a>
-                                                </div>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{% url 'trainer-forms-moodInput-pdf' id=mood.id %}"
+                                                   class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                    Pdf indir</a>
+                                                <a href="{{ mood.get_trainer_mood_delete_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-trash text-danger"></i> Sil</a>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -708,55 +637,47 @@
         <div id="collapsible-styled-group10" class="collapse">
             <div class="card-body">
                 {% if sleeps %}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                            <thead>
+                    {#                    <div class="table-responsive">#}
+                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                        <thead>
+                        <tr>
+                            <th>Pdf Adı</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for sleep in sleeps %}
                             <tr>
-                                <th>Ad</th>
-                                <th>Soyad</th>
-                                <th>Kayıt Tarihi</th>
-                                <th>İşlemler</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for sleep in sleeps %}
-                                <tr>
+                                <td>
+                                    {{ sleep.personal.user.first_name }}_{{ sleep.personal.user.last_name }}_{{ sleep.id }}_uyku_kalitesi_formu.pdf
+                                </td>
+                                <td>
+                                    {{ sleep.date }}
+                                </td>
+                                <td>
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
 
-                                    <td>
-                                        {{ sleep.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ sleep.personal.user.last_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ sleep.date }}
-                                    </td>
-                                    <td>
-                                        <div class="list-icons">
-                                            <div class="dropdown">
-                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                    <i class="icon-menu9"></i>
-                                                </a>
-
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                        Export to
-                                                        .pdf</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                        Export to
-                                                        .csv</a>
-                                                    <a href="{{ sleep.get_trainer_sleepquality_delete_url }}"
-                                                       class="dropdown-item "><i
-                                                            class="fas fa-trash text-danger"></i> Sil</a>
-                                                </div>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{% url 'trainer-forms-sleepqualityInput-pdf' id=sleep.id %}"
+                                                   class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                    Pdf indir</a>
+                                                <a href="{{ sleep.get_trainer_sleepquality_delete_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-trash text-danger"></i> Sil</a>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -782,55 +703,47 @@
         <div id="collapsible-styled-group12" class="collapse">
             <div class="card-body">
                 {% if nutritions %}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                            <thead>
+                    {#                    <div class="table-responsive">#}
+                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                        <thead>
+                        <tr>
+                            <th>Pdf Adı</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for nutrition in nutritions %}
                             <tr>
-                                <th>Kahvaltı</th>
-                                <th>Öğün Sayısı</th>
-                                <th>Kayıt Tarihi</th>
-                                <th>İşlemler</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for nutrition in nutritions %}
-                                <tr>
+                                <td>
+                                    {{ nutrition.personal.user.first_name }}_{{ nutrition.personal.user.last_name }}_{{ nutrition.id }}_beslenme_formu.pdf
+                                </td>
+                                <td>
+                                    {{ nutrition.date }}
+                                </td>
+                                <td>
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
 
-                                    <td>
-                                        {{ nutrition.breakfast | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ nutrition.meal | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ nutrition.date }}
-                                    </td>
-                                    <td>
-                                        <div class="list-icons">
-                                            <div class="dropdown">
-                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                    <i class="icon-menu9"></i>
-                                                </a>
-
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                        Export to
-                                                        .pdf</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                        Export to
-                                                        .csv</a>
-                                                    <a href="{{ nutrition.get_trainer_nutrition_delete_url }}"
-                                                       class="dropdown-item "><i
-                                                            class="fas fa-trash text-danger"></i> Sil</a>
-                                                </div>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{% url 'trainer-forms-nutritionInput-pdf' id=nutrition.id %}"
+                                                   class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                    Pdf indir</a>
+                                                <a href="{{ nutrition.get_trainer_nutrition_delete_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-trash text-danger"></i> Sil</a>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -858,69 +771,47 @@
             <div class="card-body">
 
                 {% if curriculums %}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                            <thead>
+                    {#                    <div class="table-responsive">#}
+                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                        <thead>
+                        <tr>
+                            <th>Pdf Adı</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for curriculum in curriculums %}
                             <tr>
-                                <th>Fotoğraf</th>
-                                <th>Ad</th>
-                                <th>Soyad</th>
-                                <th>Mail</th>
-                                <th>Cinsiyet</th>
-                                <th>Kayıt Tarihi</th>
-                                <th>İşlemler</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for curriculum in curriculums %}
-                                <tr>
-                                    <td> {% if curriculum.personal.avatar %}
-                                        <a href="{{ curriculum.personal.avatar.url }}">
-                                            <img src="{{ curriculum.personal.avatar.url }} "
-                                                 class="rounded-round" width="50px" height="50px"/></a>
-                                    {% endif %}
-                                    </td>
-                                    <td>
-                                        {{ curriculum.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ curriculum.personal.user.last_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ curriculum.personal.user.email | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ curriculum.personal.gender_value   | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ curriculum.date }}
-                                    </td>
-                                    <td>
-                                        <div class="list-icons">
-                                            <div class="dropdown">
-                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                    <i class="icon-menu9"></i>
-                                                </a>
+                                <td>
+                                    {{ curriculum.personal.user.first_name }}_{{ curriculum.personal.user.last_name }}_{{ curriculum.id }}_izlence_formu.pdf
+                                </td>
+                                <td>
+                                    {{ curriculum.date }}
+                                </td>
+                                <td>
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
 
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                        Export to
-                                                        .pdf</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                        Export to
-                                                        .csv</a>
-                                                    <a href="{{ curriculum.get_trainer_curriculum_delete_url }}"
-                                                       class="dropdown-item "><i
-                                                            class="fas fa-trash text-danger"></i> Sil</a>
-                                                </div>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{% url 'trainer-forms-curriculum-pdf' id=curriculum.id %}"
+                                                   class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                    Pdf indir</a>
+                                                <a href="{{ curriculum.get_trainer_curriculum_delete_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-trash text-danger"></i> Sil</a>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}
@@ -945,55 +836,47 @@
         <div id="collapsible-styled-group14" class="collapse" style="">
             <div class="card-body">
                 {% if eudaimonias %}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                            <thead>
+                    {#                    <div class="table-responsive">#}
+                    <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                        <thead>
+                        <tr>
+                            <th>Pdf Adı</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for eudaimonia in eudaimonias %}
                             <tr>
-                                <th>Ad</th>
-                                <th>Soyad</th>
-                                <th>Kayıt Tarihi</th>
-                                <th>İşlemler</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for eudaimonia in eudaimonias %}
-                                <tr>
+                                <td>
+                                    {{ eudaimonia.personal.user.first_name }}_{{ eudaimonia.personal.user.last_name }}_{{ eudaimonia.id }}_eudaimonia_formu.pdf
+                                </td>
+                                <td>
+                                    {{ eudaimonia.date }}
+                                </td>
+                                <td>
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
 
-                                    <td>
-                                        {{ eudaimonia.personal.user.first_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ eudaimonia.personal.user.last_name | default_if_none:"" }}
-                                    </td>
-                                    <td>
-                                        {{ eudaimonia.date }}
-                                    </td>
-                                    <td>
-                                        <div class="list-icons">
-                                            <div class="dropdown">
-                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                    <i class="icon-menu9"></i>
-                                                </a>
-
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                        Export to
-                                                        .pdf</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                        Export to
-                                                        .csv</a>
-                                                    <a href="{{ eudaimonia.get_corporate_eudaimonia_delete_url }}"
-                                                       class="dropdown-item "><i
-                                                            class="fas fa-trash text-danger"></i> Sil</a>
-                                                </div>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{% url 'trainer-forms-eudaimoniaInput-pdf' id=eudaimonia.id %}"
+                                                   class="dropdown-item"><i class="icon-file-pdf"></i>
+                                                    Pdf indir</a>
+                                                <a href="{{ eudaimonia.get_corporate_eudaimonia_delete_url }}"
+                                                   class="dropdown-item "><i
+                                                        class="fas fa-trash text-danger"></i> Sil</a>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {#                    </div>#}
                 {% else %}
                     <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
                 {% endif %}

@@ -55,6 +55,39 @@
 
 
 {% block page_content %}
+    <div class="card">
+        {% if personals %}
+            {% for ps in personals %}
+                <table class="table">
+                    <tr>
+                        <td>
+                            <a href="{{ ps.get_personal_avatar_url }}" data-popup="lightbox">
+                                <img src="{{ ps.get_personal_avatar_url }}" alt=""
+                                     class="img-preview rounded" width="50px" height="50px">
+                            </a>
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Ad:</span> {{ ps.user.first_name | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Soyad:</span> {{ ps.user.last_name | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Email:</span> {{ ps.user.email | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Telefon:</span> {{ ps.phone   | default_if_none:"" }}
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Cinsiyet:</span>{{ ps.gender_value   | default_if_none:"" }}
+                        </td>
+
+                    </tr>
+                </table>
+            {% endfor %}
+        {% endif %}
+
+    </div>
 
     <div class="card">
         <div class="card-header bg-primary header-elements-inline">
@@ -68,69 +101,47 @@
             </div>
         </div>
         {% if medical1 %}
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
-                    <thead>
+            {#            <div class="table-responsive">#}
+            <table class="table table-bordered table-hover datatable-highlight table-responsive-lg">
+                <thead>
+                <tr>
+                    <th>Pdf Adı</th>
+                    <th>Kayıt Tarihi</th>
+                    <th>İşlemler</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for mdcl in medical1 %}
                     <tr>
-                        <th>Fotoğraf</th>
-                        <th>Ad</th>
-                        <th>Soyad</th>
-                        <th>Mail</th>
-                        <th>Cinsiyet</th>
-                        <th>Kayıt Tarihi</th>
-                        <th>İşlemler</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for mdcl in medical1 %}
-                        <tr>
-                            <td> {% if mdcl.personal.avatar %}
-                                <a href="{{ mdcl.personal.avatar.url }}">
-                                    <img src="{{ mdcl.personal.avatar.url }} "
-                                         class="rounded-round" width="50px" height="50px"/></a>
-                            {% endif %}
-                            </td>
-                            <td>
-                                {{ mdcl.personal.user.first_name | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ mdcl.personal.user.last_name | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ mdcl.personal.user.email | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ mdcl.personal.gender_value   | default_if_none:"" }}
-                            </td>
-                            <td>
-                                {{ mdcl.date }}
-                            </td>
-                            <td>
-                                <div class="list-icons">
-                                    <div class="dropdown">
-                                        <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                            <i class="icon-menu9"></i>
-                                        </a>
+                        <td>
+                            {{ mdcl.personal.user.first_name }}_{{ mdcl.personal.user.last_name }}_{{ mdcl.id }}_medikal_egzersiz_reçetesi.pdf
+                        </td>
+                        <td>
+                            {{ mdcl.date }}
+                        </td>
+                        <td>
+                            <div class="list-icons">
+                                <div class="dropdown">
+                                    <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                        <i class="icon-menu9"></i>
+                                    </a>
 
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i>
-                                                Export to
-                                                .pdf</a>
-                                            <a href="#" class="dropdown-item"><i class="icon-file-excel"></i>
-                                                Export to
-                                                .csv</a>
-                                            <a href="{{ mdcl.get_trainer_medical_exercise1_delete_url }}"
-                                               class="dropdown-item "><i
-                                                    class="fas fa-trash text-danger"></i> Sil</a>
-                                        </div>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="{% url 'trainer-prescriptions-mdical-pdf' id=mdcl.id %}"
+                                           class="dropdown-item"><i class="icon-file-pdf"></i>
+                                            Pdf indir</a>
+                                        <a href="{{ mdcl.get_trainer_medical_exercise1_delete_url }}"
+                                           class="dropdown-item "><i
+                                                class="fas fa-trash text-danger"></i> Sil</a>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {#            </div>#}
         {% else %}
             <h4 class="text-danger text-center my-4">Bu Form ile ilgili Kayıt Bulunmamaktadır!!!</h4>
         {% endif %}

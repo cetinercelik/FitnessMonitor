@@ -17,7 +17,7 @@
     {% if corpsolves %}
         {% for crps in corpsolves %}
             <!-- Inspiro Slider -->
-            <div id="slider" class="inspiro-slider dots-creative" data-height-xs="360">
+            <div id="slider" class="inspiro-slider slider-fullscreen dots-creative" data-height-xs="360">
 
                 <!-- Slide 2 -->
                 <div class="slide kenburns" data-bg-video="{{ crps.get_vido1_url |default_if_none:'' }}">
@@ -25,8 +25,8 @@
                     <div class="container">
                         <div class="slide-captions text-center text-light">
 {#                            <!-- Captions -->#}
-{#                            <span class="strong">Kurumsal Çözümlemelerimiz</span>#}
-{#                            <h1>{{ crps.main_title | default_if_none:'' }}</h1>#}
+                            <span class="strong">Kurumsal Çözümlemelerimiz</span>
+                            <h1>{{ crps.main_title | default_if_none:'' }}</h1>
 {#                            <!-- end: Captions -->#}
                         </div>
                     </div>

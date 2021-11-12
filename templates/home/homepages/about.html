@@ -17,7 +17,7 @@
     {% if abouts %}
         {% for abt in abouts %}
             <!-- Inspiro Slider -->
-            <div id="slider" class="inspiro-slider dots-creative" data-height-xs="360">
+            <div id="slider" class="inspiro-slider slider-fullscreen dots-creative" data-height-xs="360">
 
                 <!-- Slide 2 -->
                 <div class="slide kenburns" style="background-image:url('{{ abt.get_about_image_url }}');">
@@ -25,8 +25,8 @@
                     <div class="container">
                         <div class="slide-captions text-center text-light">
                             <!-- Captions -->
-{#                            <span class="strong">Biz Kimiz</span>#}
-{#                            <h1>{{ abt.title | default_if_none:'' }}</h1>#}
+                            <span class="strong">Biz Kimiz</span>
+                            <h1>{{ abt.title | default_if_none:'' }}</h1>
                             <!-- end: Captions -->
                         </div>
                     </div>

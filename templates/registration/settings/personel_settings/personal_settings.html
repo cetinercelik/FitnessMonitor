@@ -223,7 +223,7 @@
                                                            name="gender"
                                                            value="male"
                                                            id="custom_radio_inline_unchecked"
-                                                           checked="">
+                                                           {% if form.gender.value == "male" %}checked="checked"{% endif %}>
                                                     <label class="custom-control-label"
                                                            for="custom_radio_inline_unchecked">Erkek</label>
                                                 </div>
@@ -232,7 +232,8 @@
                                                     <input type="radio" class="custom-control-input"
                                                            name="gender"
                                                            value="female"
-                                                           id="custom_radio_inline_checked">
+                                                           id="custom_radio_inline_checked"
+                                                           {% if form.gender.value == "female" %}checked="checked"{% endif %}>
                                                     <label class="custom-control-label "
                                                            for="custom_radio_inline_checked">Kadın</label>
                                                 </div>
@@ -308,7 +309,6 @@
 
 
                             <div class="text-right">
-                                <a class="mx-3" href="{% url 'change-password' %}">Şifreyi değiştir </a>
                                 <button type="submit" class="btn btn-primary">Kaydet</button>
                             </div>
                         </form>
@@ -382,6 +382,12 @@
                                     <a href="{% url 'personal-settings' id=user.id %}" class="nav-link">
                                         <i class="icon-cog3"></i>
                                         Hesap Ayarları
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'change-password' %}" class="nav-link">
+                                        <i class="icon-compass4"></i>
+                                        Şifreyi Değiştir
                                     </a>
                                 </li>
                             </ul>

@@ -62,8 +62,16 @@
         </li>
     {% endif %}
     {% if  user_control_data.trainer_c %}
+    <li class="nav-item ">
+        <a href="{% url 'trainer-forms-home' %}" class="nav-link">
+            <i class="icon-stack2"></i>
+            <span>Formlar</span>
+        </a>
+    </li>
+    {% endif %}
+    {% if  user_control_data.personal_c %}
         <li class="nav-item ">
-            <a href="{% url 'trainer-forms-home' %}" class="nav-link">
+            <a href="{% url 'personal-forms-home' %}" class="nav-link ">
                 <i class="icon-stack2"></i>
                 <span>Formlar</span>
             </a>
@@ -254,30 +262,30 @@
             </a>
         </li>
     {% endif %}
-{% if user_control_data.corporate_c %}
-    <li class="nav-item">
-        <a href="{% url 'corporate-reporting-analysis-home' %}" class="nav-link">
-            <i class="icon-statistics"></i>
-            <span>Raporlama & Analiz Yönetimi </span>
-        </a>
-    </li>
-{% endif %}
+    {% if user_control_data.corporate_c %}
+        <li class="nav-item">
+            <a href="{% url 'corporate-reporting-analysis-home' %}" class="nav-link">
+                <i class="icon-statistics"></i>
+                <span>Raporlama & Analiz Yönetimi </span>
+            </a>
+        </li>
+    {% endif %}
     {% if user_control_data.trainer_c %}
-    <li class="nav-item">
-        <a href="{% url 'trainer-reporting-analysis-home' %}" class="nav-link">
-            <i class="icon-statistics"></i>
-            <span>Raporlama & Analiz Yönetimi </span>
-        </a>
-    </li>
-{% endif %}
+        <li class="nav-item">
+            <a href="{% url 'trainer-reporting-analysis-home' %}" class="nav-link">
+                <i class="icon-statistics"></i>
+                <span>Raporlama & Analiz Yönetimi </span>
+            </a>
+        </li>
+    {% endif %}
     {% if user_control_data.personal_c %}
-    <li class="nav-item">
-        <a href="{% url 'personal-reporting-analysis-home' %}" class="nav-link">
-            <i class="icon-statistics"></i>
-            <span>Raporlama & Analiz Yönetimi </span>
-        </a>
-    </li>
-{% endif %}
+        <li class="nav-item">
+            <a href="{% url 'personal-reporting-analysis-home' %}" class="nav-link">
+                <i class="icon-statistics"></i>
+                <span>Raporlama & Analiz Yönetimi </span>
+            </a>
+        </li>
+    {% endif %}
 
     <li class="nav-item">
         <a href="{% url 'personal-notifications-home' %}" class="nav-link">

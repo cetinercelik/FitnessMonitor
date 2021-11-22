@@ -47,74 +47,157 @@
         {% endfor %}
     </div>
     <!--end: Inspiro Slider -->
-
-    <!-- WHAT WE DO -->
-    <section class="background-grey">
+    <section class="p-b-0">
         <div class="container">
-
-            <div class="heading-text heading-section">
+            <div class="heading-text text-center heading-section">
                 <h2>KURUMSAL</h2>
                 {% for hm in homes %}
                     <span class="lead">{{ hm.corporate_main_title | safe  | default_if_none:"" }}</span>
                 {% endfor %}
             </div>
-            <div class="row">
+        </div>
+        <div class="portfolio mx-2">
+            <!-- Portfolio Items -->
+            <div id="portfolio" class="grid-layout portfolio-4-columns" data-margin="0">
+
+                {#İndex Abouts content#}
                 {% if  abouts %}
                     {% for abts in  abouts %}
-                        <div class="col-lg-6 col-md-12 my-3">
-                            <div data-animate="animate__fadeInUp" data-animate-delay="0">
-                                <h4>Hakkımızda</h4>
-                                <p>{{ abts.description | safe | truncatewords:15  | default_if_none:"" }}</p>
+                        <!-- portfolio item -->
+                        <div class="portfolio-item img-zoom ct-photography ct-media ct-branding ct-Media">
+                            <div class="portfolio-item-wrap">
+                                <div class="portfolio-image">
+                                    <a href="{% url 'home-about' %}"><img style="height:350px;"
+                                                                          src="{{ abts.get_about_image_url }}"
+                                                                          alt=""></a>
+                                </div>
+                                <div class="portfolio-description">
+                                    <a href="{% url 'home-about' %}">
+                                        <h3>Hakkımızda</h3>
+                                        {#                                        <span>{{ abts.description | safe | truncatewords:15  | default_if_none:"" }}</span>#}
+                                    </a>
+                                </div>
                             </div>
-                            <a href="{% url 'home-about' %}" class="item-link">Daha Fazla Oku <i
-                                    class="fas fa-chevron-right"></i></a>
                         </div>
                     {% endfor %}
                 {% endif %}
-
+                {#İndex Founder content#}
                 {% if  founders %}
                     {% for fts in  founders %}
-                        <div class="col-lg-6 col-md-12 my-3">
-                            <div data-animate="animate__fadeInUp" data-animate-delay="0">
-                                <h4>FitnessMonitor Kurucu</h4>
-                                <p>{{ fts.founder_descriptions | safe | truncatewords:15  | default_if_none:"" }}</p>
+                        <!-- portfolio item -->
+                        <div class="portfolio-item img-zoom ct-photography ct-media ct-branding ct-Media">
+                            <div class="portfolio-item-wrap">
+                                <div class="portfolio-image">
+                                    <a href="{% url 'home-founder' %}"><img style="height:350px;"
+                                                                            src="{{ fts.get_founder_image_url }}"
+                                                                            alt=""></a>
+                                </div>
+                                <div class="portfolio-description">
+                                    <a href="{% url 'home-founder' %}">
+                                        <h3>Kurucu</h3>
+                                        {#                                        <span>{{ abts.description | safe | truncatewords:15  | default_if_none:"" }}</span>#}
+                                    </a>
+                                </div>
                             </div>
-                            <a href="{% url 'home-founder' %}" class="item-link">Daha Fazla Oku <i
-                                    class="fas fa-chevron-right"></i></a>
                         </div>
                     {% endfor %}
                 {% endif %}
+                {#İndex Philosophys content#}
                 {% if  philosophys %}
-                    {% for ph in  philosophys %}
-                        <div class="col-lg-6 col-md-12 my-3">
-                            <div data-animate="animate__fadeInUp" data-animate-delay="0">
-                                <h4>Felsefemiz</h4>
-                                <p>{{ ph.first_description | safe | truncatewords:15  | default_if_none:"" }}</p>
+                    {% for phlp in  philosophys %}
+                        <!-- portfolio item -->
+                        <div class="portfolio-item img-zoom ct-photography ct-media ct-branding ct-Media">
+                            <div class="portfolio-item-wrap">
+                                <div class="portfolio-image">
+                                    <a href="{% url 'home-philosophy' %}">
+                                        <div style="height:350px;"
+                                             data-bg-video="{{ phlp.get_philosophy_video_url |default_if_none:'' }}"></div>
+                                    </a>
+                                </div>
+                                <div class="portfolio-description">
+                                    <a href="{% url 'home-philosophy' %}">
+                                        <h3>Felsefemiz</h3>
+                                        {#                                        <span>{{ abts.description | safe | truncatewords:15  | default_if_none:"" }}</span>#}
+                                    </a>
+                                </div>
                             </div>
-                            <a href="{% url 'home-philosophy' %}" class="item-link">Daha Fazla Oku <i
-                                    class="fas fa-chevron-right"></i></a>
                         </div>
                     {% endfor %}
                 {% endif %}
+                {#İndex Philosophys content#}
                 {% if  corporates %}
                     {% for crp in  corporates %}
-                        <div class="col-lg-6 col-md-12 my-3">
-                            <div data-animate="animate__fadeInUp" data-animate-delay="0">
-                                <h4>Kurumsal Çözümlemeler</h4>
-                                <p>{{ crp.description | safe | truncatewords:15  | default_if_none:"" }}</p>
+                        <!-- portfolio item -->
+                        <div class="portfolio-item img-zoom ct-photography ct-media ct-branding ct-Media">
+                            <div class="portfolio-item-wrap">
+                                <div class="portfolio-image">
+                                    <a href="{% url 'home-corpsolve' %}">
+                                        <img style="height:350px;"
+                                             src="{{ crp.get_image2_url |default_if_none:'' }}">
+                                    </a>
+                                </div>
+                                <div class="portfolio-description">
+                                    <a href="{% url 'home-corpsolve' %}">
+                                        <h3>Kurumsal Çözümlemeler</h3>
+                                        {#                                        <span>{{ abts.description | safe | truncatewords:15  | default_if_none:"" }}</span>#}
+                                    </a>
+                                </div>
                             </div>
-                            <a href="{% url 'home-corpsolve' %}" class="item-link">Daha Fazla Oku <i
-                                    class="fas fa-chevron-right"></i></a>
                         </div>
                     {% endfor %}
                 {% endif %}
+                <!-- end: portfolio item -->
             </div>
-
+            <!-- end: Portfolio Items -->
         </div>
     </section>
-    <!-- END WHAT WE DO -->
-    <section id="content" >
+    <!-- WHAT WE DO -->
+    <!-- COUNTERS -->
+    <section class="text-light p-t-150 p-b-150 my-3 " data-bg-parallax="/images/parallax/12.jpg">
+        <div class="bg-overlay"></div>
         <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="text-center">
+
+                        <div class="icon"><i class="fa fa-3x fa-building"></i></div>
+
+                        <div class="counter"><span data-speed="3000" data-refresh-interval="10"
+                                                   data-to="{{ corporates_number }}"
+                                                   data-from="50" data-seperator="true"></span></div>
+                        <div class="seperator seperator-small"></div>
+
+
+                        <p>Kurumlarımız</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="text-center">
+                        <div class="icon"><i class="fa fa-3x  fa-user"></i></div>
+                        <div class="counter"><span data-speed="4500" data-refresh-interval="23" data-to="{{ trainers }}"
+                                                   data-from="200" data-seperator="true"></span></div>
+                        <div class="seperator seperator-small"></div>
+                        <p>Antrenörlermiz</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="text-center">
+
+                        <div class="icon"><i class="fa fa-3x fa-users"></i></div>
+                        <div class="counter"><span data-speed="3000" data-refresh-interval="12" data-to="{{ personals }}"
+                                                   data-from="300" data-seperator="true"></span></div>
+                        <div class="seperator seperator-small"></div>
+                        <p>Danışanlarımız</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- end: COUNTERS -->
+    <!-- END WHAT WE DO -->
+    <section id="content">
+        <div class="container-fluid">
             <!-- Pricing Table Colored  four columns-->
             <div class="heading-text heading-line text-center pb-5">
                 <h4>Fiyatlandırma</h4>
@@ -122,52 +205,51 @@
             <div class="row pricing-table colored">
 
 
-                    {% if pricings %}
-                        {% for prc in pricings %}
-                            <div class="col-lg-4 col-md-6 col-sm-12" >
-                                <div class="plan">
-                                    <div class="plan-header">
-                                        <h4>{{ prc.title | default_if_none:'' }}</h4>
-                                        <p class="text-muted">{{ prc.sub_title | default_if_none:'' }}</p>
-                                        <div class="plan-price"><sup>₺</sup>{{ prc.price | default_if_none:'' }}</div>
-                                        <a class="btn btn-light btn-light btn-light-hover" href="#"><span><i
-                                                class="fas fa-shopping-cart"></i>Kartı Satın Al</span></a>
-                                    </div>
-                                    <div class="plan-list">
-                                        <ul>
-                                            <li><i class="fa fa-user"></i>{{ prc.trainer_panel | default_if_none:'' }}
-                                            </li>
-                                            <li><i class="fa fa-users"></i>{{ prc.personal_panel | default_if_none:'' }}
-                                            </li>
-                                            <li><i class="fas fa-tv"></i>{{ prc.fitnessmonitor | default_if_none:'' }}
-                                            </li>
-                                            <div class="toggle accordion accordion-flat" >
-                                                <div class="ac-item">
-                                                    <h5 class="ac-title text-primary"><i class="fas fa-plus"></i>Devamını
-                                                        İnceleyiniz...
-                                                    </h5>
-                                                    <div class="ac-content">
-                                                        {% if subPricings %}
-                                                            {% for sprc in subPricings %}
-                                                                <li>
-                                                                    <i class="fas fa-angle-double-right"></i>{{ sprc.title | default_if_none:'' }}
-                                                                </li>
-                                                            {% endfor %}
-                                                        {% endif %}
-                                                    </div>
+                {% if pricings %}
+                    {% for prc in pricings %}
+                        <div class="col-lg-2 col-md-4 col-sm-12">
+                            <div class="plan">
+                                <div class="plan-header">
+                                    <h4>{{ prc.title | default_if_none:'' }}</h4>
+                                    <p class="text-muted">{{ prc.sub_title | default_if_none:'' }}</p>
+                                    <div class="plan-price"><sup>₺</sup>{{ prc.price | default_if_none:'' }}</div>
+                                    <a class="btn btn-light btn-light btn-light-hover" href="#"><span><i
+                                            class="fas fa-shopping-cart"></i>Kartı Satın Al</span></a>
+                                </div>
+                                <div class="plan-list">
+                                    <ul>
+                                        <li><i class="fa fa-user"></i>{{ prc.trainer_panel | default_if_none:'' }}
+                                        </li>
+                                        <li><i class="fa fa-users"></i>{{ prc.personal_panel | default_if_none:'' }}
+                                        </li>
+                                        <li><i class="fas fa-tv"></i>{{ prc.fitnessmonitor | default_if_none:'' }}
+                                        </li>
+                                        <div class="toggle accordion accordion-flat">
+                                            <div class="ac-item">
+                                                <h5 class="ac-title text-primary"><i class="fas fa-plus"></i>Devamını
+                                                    İnceleyiniz...
+                                                </h5>
+                                                <div class="ac-content">
+                                                    {% if subPricings %}
+                                                        {% for sprc in subPricings %}
+                                                            <li>
+                                                                <i class="fas fa-angle-double-right"></i>{{ sprc.title | default_if_none:'' }}
+                                                            </li>
+                                                        {% endfor %}
+                                                    {% endif %}
                                                 </div>
-
                                             </div>
 
+                                        </div>
 
-                                        </ul>
-                                    </div>
+
+                                    </ul>
                                 </div>
                             </div>
-                        {% endfor %}
+                        </div>
+                    {% endfor %}
 
-                    {% endif %}
-
+                {% endif %}
 
 
             </div>
@@ -176,8 +258,8 @@
     </section>
     <!-- BLOG -->
     <section class="content background-grey">
-        <div class="container">
-            <div class="heading-text heading-section">
+        <div class="container-fluid">
+            <div class="heading-text text-center heading-section">
                 <h2>BLOG</h2>
                 {% if homes %}
                     {% for hm in homes %}
@@ -187,8 +269,7 @@
 
             </div>
 
-            <div id="blog" class="grid-layout post-3-columns m-b-30" data-item="post-item">
-
+            <div class="carousel" data-items="5">
                 {% if blogs %}
                     {% for blg in blogs %}
                         <!-- Post item-->
@@ -207,22 +288,22 @@
                                     <h2><a href="#">{{ blg.blog_title | default_if_none:'' }}
                                     </a></h2>
                                     <p style="height: 80px">{{ blg.blog_descriptions | safe | truncatewords:10 |default_if_none:'' }}</p>
-                                    <a href="{{ blg.blog_link |default_if_none:'' }}" class="item-link">Daha Fazlası <i class="fas fa-chevron-right"></i></a>
+                                    <a href="{{ blg.blog_link |default_if_none:'' }}" class="item-link">Daha Fazlası <i
+                                            class="fas fa-chevron-right"></i></a>
                                 </div>
                             </div>
                         </div>
                         <!-- end: Post item-->
                     {% endfor %}
-
                 {% endif %}
             </div>
         </div>
     </section>
     <!-- end: BLOG -->
     <!-- TEAM -->
-    <section class="background-grey">
-        <div class="container">
-            <div class="heading-text heading-section text-center">
+    <section class="content background-grey">
+        <div class="container-fluid">
+            <div class="heading-text text-center heading-section text-center">
                 <h2>Ekibimiz</h2>
                 {% if homes %}
                     {% for hm in homes %}
@@ -232,11 +313,11 @@
                 {% endif %}
 
             </div>
-            <div class="row team-members">
+            <div class="row team-members ">
 
                 {% if teams %}
                     {% for tms in teams %}
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             <div class="team-member">
                                 <div class="team-image">
                                     <img height="200px" src="{{ tms.get_team_image_url | default_if_none:'' }}">

@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, Pass
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
 
-from registration.models import Personal, Corporate, Trainer
+from registration.models import Personal, Corporate, Trainer, CV_upload, TrainerDokumantations
 
 
 class CustomUserChangeForm(forms.ModelForm):
@@ -65,10 +65,19 @@ class TrainerForm(forms.ModelForm):
             'graduation_year',
             'old_institution',
             'experience',
-            'cv',
-            'trainer_document',
-            'certificate',
         ]
+
+
+class CvUploadForm(forms.ModelForm):
+    class Meta:
+        model = CV_upload
+        fields = "__all__"
+
+
+class TrainerDokumantationsForms(forms.ModelForm):
+    class Meta:
+        model = TrainerDokumantations
+        fields = "__all__"
 
 
 class PersonalForm(forms.ModelForm):
@@ -88,4 +97,3 @@ class PersonalForm(forms.ModelForm):
             'price',
             'contract',
         ]
-

@@ -149,16 +149,22 @@
                                             <div class="col-lg-6 col-sm-12">
                                                 <h6 class="mb-0 font-weight-semibold">Antrenör Sayısı</h6>
                                                 <div class="progress rounded-round my-2">
-                                                    <div class="progress-bar bg-success" style="width: 60%">
-                                                        <span>30 </span>
+
+                                                    <div class="progress-bar bg-success"
+                                                         style="width: {{ trainers_count }}%">
+                                                        <span>{{ trainers_count }} </span>
+
+
                                                     </div>
+
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-sm-12">
                                                 <h6 class="mb-0 font-weight-semibold">Danışan Sayısı</h6>
                                                 <div class="progress rounded-round my-2">
-                                                    <div class="progress-bar bg-warning" style="width: 30%">
-                                                        <span>15 </span>
+                                                    <div class="progress-bar bg-warning"
+                                                         style="width: {{ personals_count }}%">
+                                                        <span>{{ personals_count }} </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -361,16 +367,18 @@
                                                 <label class="d-block font-weight-bold">Cinsiyet:</label>
                                                 <div class="custom-control  custom-radio custom-control-inline">
                                                     <input type="radio" class="custom-control-input"
-                                                           name="trainer_gender" id="custom_radio_inline_unchecked"
-                                                           value="male">
+                                                           name="authorized_gender" id="custom_radio_inline_unchecked"
+                                                           value="male"
+                                                           {% if form.authorized_gender.value == "male" %}checked="checked"{% endif %}>
                                                     <label class="custom-control-label"
                                                            for="custom_radio_inline_unchecked">Erkek</label>
                                                 </div>
 
                                                 <div class="custom-control custom-radio custom-control-inline  mx-4">
                                                     <input type="radio" class="custom-control-input"
-                                                           name="trainer_gender" id="custom_radio_inline_checked"
-                                                           value="female">
+                                                           name="authorized_gender" id="custom_radio_inline_checked"
+                                                           value="female"
+                                                           {% if form.authorized_gender.value == "female" %}checked="checked"{% endif %}>
                                                     <label class="custom-control-label "
                                                            for="custom_radio_inline_checked">Kadın</label>
                                                 </div>
@@ -442,7 +450,6 @@
                             <!--Belgeler ve sertifikalar-->
 
                             <div class="text-right">
-                                <a class="mx-3" href="{% url 'change-password' %}">Şifreyi değiştir </a>
                                 <button type="submit" class="btn btn-primary">Kaydet</button>
                             </div>
                         </form>
@@ -519,6 +526,12 @@
                                     <a href="{% url 'corporate-settings' id=user.id %}" class="nav-link">
                                         <i class="icon-cog3"></i>
                                         Hesap Ayarları
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'change-password' %}" class="nav-link">
+                                        <i class="icon-compass4"></i>
+                                        Şifreyi Değiştir
                                     </a>
                                 </li>
                             </ul>

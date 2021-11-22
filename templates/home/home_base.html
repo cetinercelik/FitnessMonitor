@@ -3,17 +3,17 @@
 {% block body %}
     <div class="body-inner">
         <!-- Header -->
-        <header id="header" data-transparent="true" data-fullwidth="true" class="dark submenu-light">
+        <header id="header" data-transparent="false" data-fullwidth="true" class="light submenu-light">
             <div class="header-inner">
                 <div class="container">
                     <!--Logo-->
                     <div id="logo">
                         <a href="{% url 'home-page' %}">
                             {% for hms in homes %}
-                                    <span class="logo-default mt-0"><img alt="" height="70" width="70"
-                                                                         src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
-                                    <span class="logo-dark mt-0"><img alt="" height="70" width="70"
-                                                                      src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
+                                <span class="logo-default mt-0"><img alt="" height="70" width="70"
+                                                                     src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
+                                <span class="logo-dark mt-0"><img alt="" height="70" width="70"
+                                                                  src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
 
                             {% endfor %}
 
@@ -21,13 +21,7 @@
                     </div>
                     <!--End: Logo-->
                     <!-- Search -->
-                    <div id="search"><a id="btn-search-close" class="btn-search-close" aria-label="Close search form"><i
-                            class="icon-x"></i></a>
-                        <form class="search-form" action="search-results-page.html" method="get">
-                            <input class="form-control" name="q" type="text" placeholder="Type & Search..."/>
-                            <span class="text-muted">Start typing & press "Enter" or "ESC" to close</span>
-                        </form>
-                    </div>
+
                     <!-- end: search -->
                     <!--Header Extras-->
                     <div class="header-extras">
@@ -36,14 +30,14 @@
                             {#                                <a id="btn-search" href="#"> <i class="fas fa-search"></i></a>#}
                             {#                            </li>#}
                             <li>
-                                <div class="p-dropdown">
-                                    <a href="#"><i class="fas fa-globe"></i><span>EN</span></a>
-                                    <ul class="p-dropdown-content">
-                                        <li><a href="#">Fransızca</a></li>
-                                        <li><a href="#">İspanyolca</a></li>
-                                        <li><a href="#">İngilizce</a></li>
-                                    </ul>
-                                </div>
+                                {#                                <div class="p-dropdown">#}
+                                {#                                    <a href="#"><i class="fas fa-globe"></i><span>EN</span></a>#}
+                                {#                                    <ul class="p-dropdown-content">#}
+                                {#                                        <li><a href="#">Fransızca</a></li>#}
+                                {#                                        <li><a href="#">İspanyolca</a></li>#}
+                                {#                                        <li><a href="#">İngilizce</a></li>#}
+                                {#                                    </ul>#}
+                                {#                                </div>#}
                             </li>
                         </ul>
 
@@ -59,23 +53,27 @@
                         <div class="container">
                             <nav>
                                 <ul>
-                                    <li><a href="{% url 'home-page' %}">Anasayfa</a></li>
-                                    <li class="dropdown"><a href="#">Hakkımızda </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="{% url 'home-about' %}">FitnessMonitor Hakkında</a></li>
-                                            <li><a href="{% url 'home-founder' %}">FitnessMonitor Kurucu</a></li>
-                                            <li><a href="{% url 'home-philosophy' %}">FitnessMonitor Felsefesi</a></li>
-                                            <li><a href="{% url 'home-corpsolve' %}">FitnessMonitor Kurumsal
-                                                Çözümler</a>
+                                    <li class="font-italic"><a href="{% url 'home-page' %}">Anasayfa</a></li>
+                                    <li class="dropdown font-italic"><a href="#">Hakkımızda </a>
+                                        <ul class="dropdown-menu font-italic">
+                                            <li><a href="{% url 'home-about' %}"><span class="font-italic">FitnessMonitor Hakkında</span></a>
+                                            </li>
+                                            <li><a href="{% url 'home-founder' %}"><span class="font-italic">FitnessMonitor Kurucu</span></a>
+                                            </li>
+                                            <li><a href="{% url 'home-philosophy' %}"><span class="font-italic">FitnessMonitor Felsefesi</span></a>
+                                            </li>
+                                            <li><a href="{% url 'home-corpsolve' %}"><span class="font-italic">FitnessMonitor KurumsalÇözümler</span>
+                                            </a>
                                             </li>
                                         </ul>
                                     </li>
-                                    <li class="dropdown"><a href="#">FitnessMonitor Keşfet</a>
+                                    <li class="dropdown font-italic"><a href="#">FitnessMonitor Keşfet</a>
                                         <ul class="dropdown-menu">
                                             {% if fitnessMonitors %}
                                                 {% for fts in fitnessMonitors %}
-                                                    <li>
-                                                        <a href="{% url 'home-fitnessmonitor'  id=fts.id %}">{{ fts.title | default_if_none:'' }}</a>
+                                                    <li class="font-italic">
+                                                        <a href="{% url 'home-fitnessmonitor'  id=fts.id %}"><span
+                                                                class="font-italic">{{ fts.title | default_if_none:'' }}</span></a>
                                                     </li>
                                                 {% endfor %}
 
@@ -83,10 +81,10 @@
 
                                         </ul>
                                     </li>
-                                    <li><a href="{% url 'home-contact' %}">İletişim</a></li>
-                                    <li class="mega-menu-item"><a href="{% url 'login' %}" class=""><i
+                                    <li class="font-italic"><a href="{% url 'home-contact' %}">İletişim</a></li>
+                                    <li class="mega-menu-item font-italic"><a href="{% url 'login' %}" class=""><i
                                             class="fas fa-sign-in-alt"></i>Giriş Yap</a></li>
-                                    <li class="mega-menu-item"><a href="{% url 'personal_register' %}"><i
+                                    <li class="mega-menu-item font-italic"><a href="{% url 'personal_register' %}"><i
                                             class="fas fa-user-plus"></i>Üye Ol</a></li>
                                 </ul>
                             </nav>
@@ -108,56 +106,107 @@
         {% endblock page_content %}
         <!-- /content area -->
         <!-- Footer -->
-        <footer id="footer">
-            <div class="footer-content">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="widget">
+        {% for hms in homes %}
+            <footer id="footer" class="bg">
+                <div class="footer-content" style="background-color: #101010;">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="widget mx-5">
 
-                                {% for hms in homes %}
-                                        <span class="logo-default mt-0"><img alt="" height="100" width="100"
-                                                                             src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
 
-                                {% endfor %}
+                                    <span class=""><img alt="" height="100" width="100"
+                                                        src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
 
+
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-8">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="widget">
-                                        <div class="widget-title">Popüler Bağlantılar</div>
-                                        <ul class="list">
-                                            <li><a href="{% url 'home-philosophy' %}">FitnessMonitor Felsefesi</a></li>
-                                            <li><a href="{% url 'home-founder' %}">FitnessMonitor Kurucu</a></li>
-                                            <li><a href="{% url 'home-corpsolve' %}">Kurumsal Çözümler</a></li>
-                                        </ul>
+                            <div class="col-lg-5">
+                                <div class="row">
+                                    <div class="col-lg-6" style="color:#999 !important">
+                                        <div class="widget">
+                                            <div class="widget-title font-italic">Popüler Bağlantılar</div>
+                                            <ul class="list">
+                                                <li><a class="font-italic" href="{% url 'home-philosophy' %}"
+                                                       style="color:#999 !important">FitnessMonitor
+                                                    Felsefesi</a></li>
+                                                <li><a class="font-italic" href="{% url 'home-founder' %}"
+                                                       style="color:#999 !important">FitnessMonitor
+                                                    Kurucu</a></li>
+                                                <li><a class="font-italic" href="{% url 'home-corpsolve' %}"
+                                                       style="color:#999 !important">Kurumsal
+                                                    Çözümler</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <div class="widget">
+                                            <div class="widget-title font-italic" style="color:#999 !important">Hızlı
+                                                Linkler
+                                            </div>
+                                            <ul class="list">
+                                                <li><a class="font-italic" href="{% url 'home-page' %}"
+                                                       style="color:#999 !important">Anasayfa</a></li>
+                                                <li><a class="font-italic" href="{% url 'home-about' %}"
+                                                       style="color:#999 !important">Hakkımızda</a>
+                                                </li>
+                                                <li><a class="font-italic" href="{% url 'home-contact' %}"
+                                                       style="color:#999 !important">İletişim</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="widget">
-                                        <div class="widget-title">Hızlı Linkler</div>
-                                        <ul class="list">
-                                            <li><a href="{% url 'home-page' %}">Anasayfa</a></li>
-                                            <li><a href="{% url 'home-about' %}">Hakkımızda</a></li>
-                                            <li><a href="{% url 'home-contact' %}">İletişim</a></li>
-                                        </ul>
-                                    </div>
+                            </div>
+                            <div class="col-lg-3">
+
+
+                                <address>
+                                    <strong style="color:#999 !important">İletişim Bilgilerimiz</strong><br>
+                                    <i class="fas fa-map-marker text-info mx-2"></i><span style="color:#999 !important"
+                                                                                          class="font-italic">{{ hms.central_address | default_if_none:'' }}</span><br>
+                                    <i class="fas fa-envelope-square text-danger mx-2"></i><span
+                                        style="color:#999 !important"
+                                        class="font-italic">{{ hms.mail | default_if_none:'' }}</span><br>
+                                    <i class="fas fa-phone text-success mx-2"></i><span style="color:#999 !important"
+                                                                                        class="font-italic">{{ hms.central_phone | default_if_none:'' }}</span><br>
+
+                                </address>
+
+                                <div class="social-icons m-t-30 social-icons-colored">
+                                    <ul>
+                                        <li class="social-facebook"><a
+                                                href="{{ hm.facebook | default_if_none:'' }}"><i
+                                                class="fab fa-facebook-f"></i></a></li>
+                                        <li class="social-twitter"><a
+                                                href="{{ hm.twitter | default_if_none:'' }}"><i
+                                                class="fab fa-twitter"></i></a>
+                                        </li>
+                                        <li class="social-google"><a href="{{ hm.instagram | default_if_none:'' }}"><i
+                                                class="fab fa-instagram"></i></a></li>
+                                        </li>
+                                        <li class="social-google"><a
+                                                href="mailto:{{ hm.mail |default_if_none:'' }}"><i
+                                                class="fas fa-envelope-square"></i></a></li>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="copyright-content">
-                <div class="container">
-                    <div class="copyright-text text-center">&copy; <a class="mx-2" id="demo"></a> FitnessMonitor - Bütün
-                        Hakları Saklıdır.
+                <div class="copyright-content" style="background-color:#1a1a1a">
+                    <div class="container">
+                        <div class="copyright-text text-center font-italic" style="color:#999 !important">&copy; <a
+                                class="mx-2"
+                                id="demo"></a><span
+                        > FitnessMonitor | Telif
+                        Hakkı - MEDFITECH Yazılım Ltd. Şti.</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </footer>
+            </footer>
+        {% endfor %}
         <!-- end: Footer -->
         <!-- /main content -->
         <!-- /page content -->

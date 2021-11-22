@@ -288,9 +288,9 @@ def corporate_metabolic_exercise_results(request, id):
 def trainer_reporting_analysis_home(request):
     user = request.user
     user_control_data = user_checking(user.id)
-    trainers_data = Trainer.objects.filter().all()
-    trainer_ids = [trainers.id for trainers in trainers_data]
-    personal_data = Personal.objects.filter(trainer_id__in=trainer_ids).all()
+    user_control_data = user_checking(user.id)
+    trainer_id = user_control_data['trainer_info'].id
+    personal_data = Personal.objects.filter(trainer_id=trainer_id).all()
     template = trainer_content_template_path + 'reporting_analysis/reporting_analysis.html'
     context = {
         'personals': personal_data,

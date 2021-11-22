@@ -5,6 +5,7 @@ from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
+from registration.models import Corporate, Trainer, Personal
 from registration.views import user_checking
 from settings.models import homemodel, ImagePost, About, FitnessMonitor, Founder, Philosophy, Corporate_solve, Pricing, \
     Sub_Pricing, Blog, Team, SocialMedia
@@ -24,6 +25,9 @@ def home(request):
 
 def homepage(request):
     template = 'home/homepages/index.html'
+    corporate_data=Corporate.objects.all()
+    trainer_data=Trainer.objects.all()
+    personal_data=Personal.objects.all()
     home_data = homemodel.objects.all()
     about_data = About.objects.all()
     images_data = ImagePost.objects.all()
@@ -34,10 +38,13 @@ def homepage(request):
     pricing_data = Pricing.objects.all()
     sub_pricings = Sub_Pricing.objects.all()
     blog_ids=[blog_id.id for blog_id in Blog.objects.all()]
-    blog_data = Blog.objects.all().order_by('-id')[:3]
+    blog_data = Blog.objects.all().order_by('-id')
     team_data = Team.objects.all()
     social_data = SocialMedia.objects.all()
     context = {
+        'corporates_number':corporate_data.count(),
+        'trainers':trainer_data.count(),
+        'personals':personal_data.count(),
         'homes': home_data,
         'abouts': about_data,
         'sliders': images_data,

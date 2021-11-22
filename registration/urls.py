@@ -43,6 +43,13 @@ urlpatterns = [
 
     # Trainer Settings
     path('trainers/trainer_settings/<int:id>', views.trainer_settings, name='trainer-settings'),
+    # CV Uploader
+    path('trainers/cv_ıpload/<int:id>', views.cv_uplaod_view, name='cv-upload-view'),
+    path('trainers/documantation/<int:id>', views.documantations_upload_view, name='documantation-upload-view'),
+
+    # CV and Trainer Documantions delete
+    path('trainer/cv/delete/<int:id>', views.cv_delete, name='cv-delete'),
+    path('trainer/doc/delete/<int:id>', views.doc_delete, name='doc-delete'),
 
     # password reset operations
     path('reset_password/',

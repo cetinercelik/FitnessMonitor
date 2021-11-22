@@ -21,3 +21,4 @@ postural/migrations
 registration/migrations
 reporting_analysis/migrations
 settings/migrations
+requirements.txt

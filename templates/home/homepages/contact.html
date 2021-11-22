@@ -1,301 +1,141 @@
-{% extends '../home_core.html' %}
+{% extends '../home_base.html' %}
 {% block title %}
     İletişim
 {% endblock title %}
 {% load static %}
-{% block body %}
-    <div class="body-inner">
-        <!-- Header -->
-        <header id="header" data-transparent="true" data-fullwidth="true" class="dark text-dark submenu-light">
-            <div class="header-inner">
-                <div class="container">
-                    <!--Logo-->
-                    <div id="logo">
-                        <a href="{% url 'home-page' %}">
 
-                            {% for hms in homes %}
+{% block javascript %}
 
-                                <span class="logo-default mt-0"><img alt="" height="70" width="70"
-                                                                     src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
-                                <span class="logo-dark mt-0"><img alt="" height="70" width="70"
-                                                                  src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
-                            {% endfor %}
+{% endblock javascript %}
+
+{% block page_header %}
+
+{% endblock page_header %}
 
 
-                        </a>
-                    </div>
-                    <!--End: Logo-->
-                    <!-- Search -->
-                    <div id="search"><a id="btn-search-close" class="btn-search-close" aria-label="Close search form"><i
-                            class="icon-x"></i></a>
-                        <form class="search-form" action="search-results-page.html" method="get">
-                            <input class="form-control" name="q" type="text" placeholder="Type & Search..."/>
-                            <span class="text-muted">Start typing & press "Enter" or "ESC" to close</span>
-                        </form>
-                    </div>
-                    <!-- end: search -->
-                    <!--Header Extras-->
-                    <div class="header-extras">
-                        <ul>
-                            {#                            <li>#}
-                            {#                                <a id="btn-search" href="#"> <i class="fas fa-search"></i></a>#}
-                            {#                            </li>#}
-                            <li>
-                                <div class="p-dropdown">
-                                    <a href="#"><i class="fas fa-globe"></i><span>EN</span></a>
-                                    <ul class="p-dropdown-content">
-                                        <li><a href="#">Fransızca</a></li>
-                                        <li><a href="#">İspanyolca</a></li>
-                                        <li><a href="#">İngilizce</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
+{% block page_content %}
+    {% if homes %}
+        {% for hm in homes %}
 
-                    </div>
-                    <!--end: Header Extras-->
-                    <!--Navigation Resposnive Trigger-->
-                    <div id="mainMenu-trigger">
-                        <a class="lines-button x"><span class="lines"></span></a>
-                    </div>
-                    <!--end: Navigation Resposnive Trigger-->
-                    <!--Navigation-->
-                    <div id="mainMenu">
-                        <div class="container">
-                            <nav>
-                                <ul>
-                                    <li><a href="{% url 'home-page' %}">Anasayfa</a></li>
-                                    <li class="dropdown"><a href="#">Hakkımızda </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="{% url 'home-about' %}">FitnessMonitor Hakkında</a></li>
-                                            <li><a href="{% url 'home-founder' %}">FitnessMonitor Kurucu</a></li>
-                                            <li><a href="{% url 'home-philosophy' %}">FitnessMonitor Felsefesi</a></li>
-                                            <li><a href="{% url 'home-corpsolve' %}">FitnessMonitor Kurumsal
-                                                Çözümler</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown"><a href="#">FitnessMonitor Keşfet</a>
-                                        <ul class="dropdown-menu">
-                                            {% if fitnessMonitors %}
-                                                {% for fts in fitnessMonitors %}
-                                                    <li>
-                                                        <a href="{% url 'home-fitnessmonitor'  id=fts.id %}">{{ fts.title | default_if_none:'' }}</a>
-                                                    </li>
-                                                {% endfor %}
-
-                                            {% endif %}
-
-                                        </ul>
-                                    </li>
-                                    <li><a href="{% url 'home-contact' %}">İletişim</a></li>
-                                    <li class="mega-menu-item"><a href="{% url 'login' %}" class=""><i
-                                            class="fas fa-sign-in-alt"></i>Giriş Yap</a></li>
-                                    <li class="mega-menu-item"><a href="{% url 'personal_register' %}"><i
-                                            class="fas fa-user-plus"></i>Üye Ol</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                    <!--end: Navigation-->
+            <!-- Page title -->
+            <section class="no-padding">
+                <!-- Google Map -->
+                <div data-latitude="-37.817240" data-longitude="144.955826" data-style="light"
+                     data-info="Hello from &lt;br&gt; Inspiro Themes" data-height-lg="500" data-height-xs="400"
+                     data-height-sm="600">
+                    <iframe src="{{ hm.central_local_link | default_if_none:'' }}"
+                            height="400px"></iframe>
                 </div>
-            </div>
-        </header>
-        <!-- end: Header -->
-        <!-- Page content -->
-        <!-- Main content -->
-        <!-- Page header area -->
-        {% block page_header %}
-        {% endblock page_header %}
-        <!-- /page header area -->
-        <!-- Content area -->
-        {% block page_content %}
-            {% if homes %}
-                {% for hm in homes %}
-
-                    <!-- Page title -->
-                    <section class="no-padding">
-                        <!-- Google Map -->
-                        <div data-latitude="-37.817240" data-longitude="144.955826" data-style="light"
-                             data-info="Hello from &lt;br&gt; Inspiro Themes" data-height-lg="500" data-height-xs="400"
-                             data-height-sm="600">
-                            <iframe src="{{ hm.central_local_link | default_if_none:'' }}"
-                                    height="400px"></iframe>
-                        </div>
-                        <!-- end: Google Map -->
-                    </section>
-                    <!-- end: Page title -->
-                    <!-- CONTENT -->
-                    <section>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-6">
-
-                                    <div class="row m-t-40">
-                                        <div class="col-lg-12">
-                                            <address>
-                                                <strong>Merkez Ofis Adress Bilgileri</strong><br>
-                                                <i class="fas fa-map-marker mx-2"></i>{{ hm.central_address | default_if_none:'' }}<br>
-                                                <i class="fas fa-envelope-square mx-2"></i>{{ hm.mail | default_if_none:'' }}<br>
-                                                <i class="fas fa-phone mx-2"></i>{{ hm.central_phone | default_if_none:'' }}<br>
-
-                                            </address>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <address>
-                                                <strong>Şube Adress Bilgileri</strong><br>
-                                                <i class="fas fa-map-marker mx-2"></i>{{ hm.branch_adress | default_if_none:'' }}<br>
-                                                <i class="fas fa-envelope-square mx-2"></i>{{ hm.mail | default_if_none:'' }}<br>
-                                                <i class="fas fa-phone mx-2"></i>{{ hm.branch_phone | default_if_none:'' }}<br>
-
-                                            </address>
-                                        </div>
-                                    </div>
-                                    <div class="social-icons m-t-30 social-icons-colored">
-                                        <ul>
-                                            <li class="social-facebook"><a
-                                                    href="{{ hm.facebook | default_if_none:'' }}"><i
-                                                    class="fab fa-facebook-f"></i></a></li>
-                                            <li class="social-twitter"><a
-                                                    href="{{ hm.twitter | default_if_none:'' }}"><i
-                                                    class="fab fa-twitter"></i></a>
-                                            </li>
-                                            <li class="social-google"><a href="{{ hm.instagram | default_if_none:'' }}"><i
-                                                    class="fab fa-instagram"></i></a></li>
-                                            </li>
-                                            <li class="social-google"><a
-                                                    href="mailto:{{ hm.mail |default_if_none:'' }}"><i
-                                                    class="fas fa-envelope-square"></i></a></li>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <form method="post" enctype="multipart/form-data"
-                                          action="{% url 'contact-create' %}">
-                                        {% csrf_token %}
-                                        <div class="row">
-                                            <div class="form-group col-md-6">
-                                                <label class="font-weight-bold">* Adınız:</label>
-                                                <input type="text" name="name_surname"
-                                                       class="form-control {% if form2.first_name.errors %}border-danger-800{% endif %}"
-                                                       value="{{ form2.first_name.value | default_if_none:"" }}"
-                                                       placeholder="adınızı giriniz">
-                                                {% if form2.first_name.errors %}
-                                                    {% for error in form2.first_name.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label class="font-weight-bold">Email:</label>
-                                                <input type="email" name="mail"
-                                                       class="form-control {% if form2.email.errors %}border-danger-800{% endif %}"
-                                                       value="{{ form2.email.value | default_if_none:"" }}"
-                                                       placeholder="email giriniz">
-                                                {% if form2.email.errors %}
-                                                    {% for error in form2.email.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-md-12">
-                                                <label for="subject">Konunuz</label>
-                                                <input type="text" name="subject"
-                                                       class="form-control {% if form2.last_name.errors %}border-danger-800{% endif %}"
-                                                       value="{{ form2.last_name.value | default_if_none:"" }}"
-                                                       placeholder="Konuyu başlığınız...">
-                                                {% if form2.last_name.errors %}
-                                                    {% for error in form2.last_name.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="message">Mesajınız</label>
-                                            <textarea type="text" name="message" required rows="5"
-                                                      class="form-control required"
-                                                      placeholder="Enter your Message"></textarea>
-                                        </div>
-
-                                        <button class="btn btn-primary" type="submit" id="form-submit"><i
-                                                class="fa fa-paper-plane"></i>&nbsp;Send message
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <!-- end: Content -->
-                {% endfor %}
-
-            {% endif %}
-        {% endblock page_content %}
-        <!-- /content area -->
-        <!-- Footer -->
-        <footer id="footer">
-            <div class="footer-content">
+                <!-- end: Google Map -->
+            </section>
+            <!-- end: Page title -->
+            <!-- CONTENT -->
+            <section>
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-4">
-                            <div id="logo">
-                                <a href="{% url 'home-page' %}">
+                        <div class="col-lg-6">
 
-                                    {% for hms in homes %}
+                            <div class="row m-t-40">
+                                <div class="col-lg-12">
+                                    <address>
+                                        <strong>Merkez Ofis Adress Bilgileri</strong><br>
+                                        <i class="fas fa-map-marker text-info mx-2"></i><span class="font-italic">{{ hm.central_address | default_if_none:'' }}</span><br>
+                                        <i class="fas fa-envelope-square text-danger mx-2"></i><span class="font-italic">{{ hm.mail | default_if_none:'' }}</span><br>
+                                        <i class="fas fa-phone text-success mx-2"></i><span class="font-italic">{{ hm.central_phone | default_if_none:'' }}</span><br>
 
-                                        <span class="logo-default mt-0"><img alt="" height="70" width="70"
-                                                                             src="{{ hms.get_logo_url | default_if_none:'' }}"></span>
-                                    {% endfor %}
+                                    </address>
+                                </div>
+                                <div class="col-lg-12">
+                                    <address>
+                                        <strong>Şube Adress Bilgileri</strong><br>
+                                        <i class="fas fa-map-marker text-info mx-2"></i><span class="font-italic">{{ hm.branch_adress | default_if_none:'' }}</span><br>
+                                        <i class="fas fa-envelope-square text-danger mx-2"></i><span class="font-italic">{{ hm.mail | default_if_none:'' }}</span><br>
+                                        <i class="fas fa-phone text-success mx-2"></i><span class="font-italic">{{ hm.branch_phone | default_if_none:'' }}</span><br>
 
-
-                                </a>
+                                    </address>
+                                </div>
+                            </div>
+                            <div class="social-icons m-t-30 social-icons-colored">
+                                <ul>
+                                    <li class="social-facebook"><a
+                                            href="{{ hm.facebook | default_if_none:'' }}"><i
+                                            class="fab fa-facebook-f"></i></a></li>
+                                    <li class="social-twitter"><a
+                                            href="{{ hm.twitter | default_if_none:'' }}"><i
+                                            class="fab fa-twitter"></i></a>
+                                    </li>
+                                    <li class="social-google"><a href="{{ hm.instagram | default_if_none:'' }}"><i
+                                            class="fab fa-instagram"></i></a></li>
+                                    </li>
+                                    <li class="social-google"><a
+                                            href="mailto:{{ hm.mail |default_if_none:'' }}"><i
+                                            class="fas fa-envelope-square"></i></a></li>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        <div class="col-lg-8">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="widget">
-                                        <div class="widget-title">Popüler Bağlantılar</div>
-                                        <ul class="list">
-                                            <li><a href="{% url 'home-philosophy' %}">FitnessMonitor Felsefesi</a></li>
-                                            <li><a href="{% url 'home-founder' %}">FitnessMonitor Kurucu</a></li>
-                                            <li><a href="{% url 'home-corpsolve' %}">Kurumsal Çözümler</a></li>
-                                        </ul>
+                        <div class="col-lg-6">
+                            <form method="post" enctype="multipart/form-data"
+                                  action="{% url 'contact-create' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="font-weight-bold">* Adınız:</label>
+                                        <input type="text" name="name_surname"
+                                               class="form-control {% if form2.first_name.errors %}border-danger-800{% endif %}"
+                                               value="{{ form2.first_name.value | default_if_none:"" }}"
+                                               placeholder="Adınızı ve Soyadınızı giriniz...">
+                                        {% if form2.first_name.errors %}
+                                            {% for error in form2.first_name.errors %}
+                                                <small class="text-danger-800">* {{ error }}</small><br/>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="font-weight-bold">* Email:</label>
+                                        <input type="email" name="mail"
+                                               class="form-control {% if form2.email.errors %}border-danger-800{% endif %}"
+                                               value="{{ form2.email.value | default_if_none:"" }}" required
+                                               placeholder="Email adresinizi giriniz...">
+                                        {% if form2.email.errors %}
+                                            {% for error in form2.email.errors %}
+                                                <small class="text-danger-800">* {{ error }}</small><br/>
+                                            {% endfor %}
+                                        {% endif %}
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="widget">
-                                        <div class="widget-title">Hızlı Linkler</div>
-                                        <ul class="list">
-                                            <li><a href="{% url 'home-page' %}">Anasayfa</a></li>
-                                            <li><a href="{% url 'home-about' %}">Hakkımızda</a></li>
-                                            <li><a href="{% url 'home-contact' %}">İletişim</a></li>
-                                        </ul>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="subject">Konunuz</label>
+                                        <input type="text" name="subject"
+                                               class="form-control {% if form2.last_name.errors %}border-danger-800{% endif %}"
+                                               value="{{ form2.last_name.value | default_if_none:"" }}"
+                                               placeholder="Konu başlığını giriniz...">
+                                        {% if form2.last_name.errors %}
+                                            {% for error in form2.last_name.errors %}
+                                                <small class="text-danger-800">* {{ error }}</small><br/>
+                                            {% endfor %}
+                                        {% endif %}
                                     </div>
                                 </div>
-                            </div>
+                                <div class="form-group">
+                                    <label for="message">Mesajınız</label>
+                                    <textarea type="text" name="message" required rows="5"
+                                              class="form-control required"
+                                              placeholder="Mesajınızı giriniz..."></textarea>
+                                </div>
+
+                                <button class="btn btn-primary" type="submit" id="form-submit"><i
+                                        class="fa fa-paper-plane"></i>&nbsp;Gönder
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="copyright-content">
-                <div class="container">
-                    <div class="copyright-text text-center">&copy; <a class="mx-2" id="demo"></a> FitnessMonitor - Bütün
-                        Hakları Saklıdır.
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- end: Footer -->
-        <!-- /main content -->
-        <!-- /page content -->
-    </div>
-    <a id="scrollTop"><i class="fas fa-chevron-up"></i><i class="fas fa-chevron-up"></i></a>
-    <script>
-        const d = new Date();
-        document.getElementById("demo").innerHTML = d.getFullYear();
-    </script>
-{% endblock body %}
+            </section>
+            <!-- end: Content -->
+        {% endfor %}
+
+    {% endif %}
+
+{% endblock page_content %}

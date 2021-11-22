@@ -1,4 +1,5 @@
 import os
+from tempfile import template
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -39,7 +40,8 @@ class Corporate(models.Model):
     def authorized_image_admin(self):
         if self.authorized_image:
             return mark_safe(
-                '<img src="{}" width="70" height="70" style=" border-radius: 50%;" />'.format(self.authorized_image.url))
+                '<img src="{}" width="70" height="70" style=" border-radius: 50%;" />'.format(
+                    self.authorized_image.url))
         return ""
 
     def corporate_avatar_path(instance, avatar):
@@ -106,11 +108,6 @@ class Trainer(models.Model):
     graduation_year = models.DateField(verbose_name="Mezuniyet Yılı", null=True, blank=True)
     old_institution = models.CharField(verbose_name="Önceden Çalıştığı Kurum", max_length=150, null=True, blank=True)
     experience = models.CharField(verbose_name="Tecrübe", max_length=2, blank=True, null=True)
-    cv = models.FileField(upload_to='cv_pdf', verbose_name="Cv", max_length=255, blank=True, null=True)
-    trainer_document = models.FileField(upload_to='document_pdf', verbose_name="Antrenörlük Belgesi", max_length=255,
-                                        blank=True, null=True)
-    certificate = models.FileField(upload_to='certificate_pdf', verbose_name="Sertifika", max_length=255, blank=True,
-                                   null=True)
     contract = models.TextField(verbose_name="Sözleşme", blank=True, null=True)
     contract_start_date = models.DateField(verbose_name='Sözleşme Başlangıç tarihi', null=True, blank=True)
     contract_end_date = models.DateField(verbose_name='Sözleşme Başlangıç tarihi', null=True, blank=True)
@@ -121,7 +118,6 @@ class Trainer(models.Model):
             return self.avatar.url
         else:
             return "/static/home_static/static_img/personal/user.png"
-
 
     def trainer_avatar_path(instance, avatar):
         trainer_instance = Trainer.objects.get(pk=instance.pk)
@@ -147,6 +143,51 @@ class Trainer(models.Model):
     class Meta:
         verbose_name = "Antrenör Kayıt"
         verbose_name_plural = 'Antrenör Kayıtları'
+
+
+class CV_upload(models.Model):
+    trainer = models.ForeignKey(to=Trainer, verbose_name="Antrenör", on_delete=models.CASCADE, blank=True, null=True)
+    cv_name = models.CharField(verbose_name='Cv Adı', max_length=100, blank=True, null=True)
+    cv_path = models.FileField(upload_to='cv_pdf', verbose_name="Cv", max_length=255, blank=True, null=True)
+
+    def trainer_avatar_path(instance):
+        cv_instance = Trainer.objects.get(pk=instance.pk)
+        if cv_instance.cv_path:
+            cv_path = cv_instance.cv_path
+            if cv_path.file:
+                if os.path.isfile(cv_path.path):
+                    cv_path.file.close()
+                    os.remove(cv_path.path)
+
+    def get_delete_url(self):
+        return reverse('cv-delete', kwargs={'id': self.id})
+
+    class Meta:
+        verbose_name = "CV Yükleme"
+        verbose_name_plural = 'CV Yükleme'
+
+
+class TrainerDokumantations(models.Model):
+    trainer = models.ForeignKey(to=Trainer, verbose_name="Antrenör", on_delete=models.CASCADE, blank=True, null=True)
+    doc_name = models.CharField(verbose_name='Belge Adı', max_length=150, blank=True, null=True)
+    trainer_document = models.FileField(upload_to='document_pdf', verbose_name="Antrenörlük Belgesi", max_length=255,
+                                        blank=True, null=True)
+
+    def trainer_avatar_path(instance, avatar):
+        doc_instance = Trainer.objects.get(pk=instance.pk)
+        if doc_instance.trainer_document:
+            trainer_document = doc_instance.trainer_document
+            if trainer_document.file:
+                if os.path.isfile(trainer_document.path):
+                    trainer_document.file.close()
+                    os.remove(trainer_document.path)
+
+    def get_delete_url(self):
+        return reverse('doc-delete', kwargs={'id': self.id})
+
+    class Meta:
+        verbose_name = "Belge Yükleme"
+        verbose_name_plural = 'Belge Yükleme'
 
 
 # Start Medical inputs model
@@ -216,8 +257,10 @@ class Personal(models.Model):
         tmp = self.gender
         if tmp == 'male':
             return 'Erkek'
-        else:
+        elif tmp == 'female':
             return 'Kadın'
+        else:
+            return ''
 
     class Meta:
         verbose_name = "Bireysel Kayıt"

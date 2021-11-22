@@ -3,14 +3,21 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView, PasswordResetView
+from django.db.models import Count, Max
 from django.shortcuts import render, get_object_or_404, redirect
-
+from django.core.mail import send_mail
 # Create your views here.
 from django.urls import reverse_lazy
+from django.utils.baseconv import base64
+from cryptography.fernet import Fernet
+import base64 as b64
 
+
+from MedicalEgzersiz import settings
+from MedicalEgzersiz.settings import base
 from registration.forms import PersonalForm, CorporateForm, CustomUserRegistrationForm, CustomUserChangeForm, \
-    TrainerForm
-from registration.models import Personal, Corporate, Trainer
+    TrainerForm, CvUploadForm, TrainerDokumantationsForms
+from registration.models import Personal, Corporate, Trainer, CV_upload, TrainerDokumantations
 
 personal_template_path = 'registration/personal/'
 corporate_template_path = 'registration/corporate/'
@@ -85,6 +92,10 @@ def trainer_personal_home(request):
 
 
 # Trainer personal creat
+
+
+
+
 def trainer_personal_create(request):
     user = request.user
     user_control_data = user_checking(user.id)
@@ -99,6 +110,15 @@ def trainer_personal_create(request):
             personal.trainer_id = trainer_id
             personal.user = user
             personal.save()
+            # pers_pass=personal.user.password
+            # txt = b64.urlsafe_b64decode(pers_pass)
+            # cipher_suite = Fernet(base.ENCRYPT_KEY)
+            # decoded_text = cipher_suite.decrypt(txt).decode("ascii")
+            # return decoded_text
+            send_mail(personal.trainer.user.first_name + ' ' + personal.trainer.user.last_name +
+                      ' tarafından Hesabınız oluşturlmuştur',
+                      'Kullanıcı adınız ve şifreniz aşağıda blirtidiği gibidir\n\n' + 'Kullanıcı Adınız:' + personal.user.username + '\n Şifreniz:' +   + '\n Lütfen Şifrenizi kimseyle paylaşmayınız.',
+                      personal.trainer.user.email, [personal.user.email])
             messages.success(request, message='Kayıt Başarılı')
             return redirect('trainer-personal-home')
         else:
@@ -489,6 +509,8 @@ def trainer_settings(request, id):
     template = 'registration/settings/trainer_settings/trainer_setting.html'
     trainer_id = user_control_data['trainer_info'].id
     trainer_data = Trainer.objects.filter(id=id)
+    cv_data = CV_upload.objects.filter(trainer_id=trainer_id)
+    doc_data = TrainerDokumantations.objects.filter(trainer_id=trainer_id)
     trainer_setting = get_object_or_404(Trainer, user_id=id)
     if request.method == 'POST':
         trainer_setting_form = TrainerForm(request.POST, request.FILES, instance=trainer_setting)
@@ -507,12 +529,77 @@ def trainer_settings(request, id):
         'model_id': id,
         'action': 'update',
         'trainers': trainer_data,
+        'trainers_obj': trainer_setting,
         'form_tr_setting': trainer_setting_form,
         'form2': user_profil_form,
         'user_control_data': user_control_data,
         'trainer_id': trainer_id,
+        'cv_uploads': cv_data,
+        'doc_data': doc_data,
     }
     return render(request=request, template_name=template, context=context)
+
+
+# Start Interview form CRUD
+def cv_uplaod_view(request, id):
+    user = request.user
+    user_control_data = user_checking(user.id)
+    trainer = user_control_data['trainer_info']
+    print('-------------------************Başlangıç*******--------------------------')
+    if request.method == 'POST':
+        cv_form = CvUploadForm(request.POST, request.FILES)
+        if cv_form.is_valid():
+            cv = cv_form.save(commit=False)
+            cv.trainer = trainer
+            cv.save()
+            messages.success(request, message='Kayıt Başarılı')
+            print('--------------------************Başarılı*******--------------------------')
+        else:
+            messages.warning(request, 'İşlem Başarısız')
+            print('--------------- ----************Başarısız*******--------------------------')
+            print(cv_form.errors)
+
+    return redirect('trainer-settings', id=id)
+
+
+def cv_delete(request, id):
+    user = request.user
+    cv = get_object_or_404(CV_upload, id=id)
+    if cv.cv_path:
+        cv.cv_path.delete()
+    cv.delete()
+    return redirect('trainer-settings', id=user.id)
+
+
+# Start Interview form CRUD
+def documantations_upload_view(request, id):
+    user = request.user
+    user_control_data = user_checking(user.id)
+    trainer = user_control_data['trainer_info']
+    print('-------------------************Başlangıç*******--------------------------')
+    if request.method == 'POST':
+        doc_form = TrainerDokumantationsForms(request.POST, request.FILES)
+        if doc_form.is_valid():
+            doc = doc_form.save(commit=False)
+            doc.trainer = trainer
+            doc.save()
+            messages.success(request, message='Kayıt Başarılı')
+            print('--------------------************Başarılı*******--------------------------')
+        else:
+            messages.warning(request, 'İşlem Başarısız')
+            print('--------------- ----************Başarısız*******--------------------------')
+            print(doc_form.errors)
+
+    return redirect('trainer-settings', id=id)
+
+
+def doc_delete(request, id):
+    user = request.user
+    doc = get_object_or_404(TrainerDokumantations, id=id)
+    if doc.trainer_document:
+        doc.trainer_document.delete()
+    doc.delete()
+    return redirect('trainer-settings', id=user.id)
 
 
 def corporate_settings(request, id):
@@ -520,6 +607,10 @@ def corporate_settings(request, id):
     template = 'registration/settings/corporate_settings/corp_settings.html'
     corporate_profil = get_object_or_404(Corporate, user_id=id)
     user_control = user_checking(user.id)
+    corporate_id = user_control['corporate_info'].id
+    trainer_data = Trainer.objects.filter(corporate_id=corporate_id)
+    trainer_ids = [trainers.id for trainers in trainer_data]
+    personal_data = Personal.objects.filter(trainer_id__in=trainer_ids)
     if request.method == 'POST':
         corporate_profil_form = CorporateForm(request.POST, request.FILES, instance=corporate_profil)
         user_profil_form = CustomUserChangeForm(request.POST, instance=corporate_profil.user)
@@ -539,6 +630,8 @@ def corporate_settings(request, id):
         'form': corporate_profil_form,
         'form2': user_profil_form,
         'user_control_data': user_control,
+        'trainers_count': trainer_data.count(),
+        'personals_count': personal_data.count(),
     }
     return render(request=request, template_name=template, context=context)
 

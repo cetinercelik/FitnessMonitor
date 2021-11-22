@@ -15,6 +15,16 @@
     <script src="{% static 'global_assets/js/demo_pages/form_wizard.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/uploaders/fileinput/fileinput.min.js' %}"></script>
     <script src="{% static 'global_assets/js/demo_pages/uploader_bootstrap.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/datatables.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/buttons.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_extension_buttons_html5.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_data_sources.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_sorting.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_buttons.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_advanced.js' %}"></script>
     <!-- /theme JS files -->
 
 
@@ -93,378 +103,473 @@
         <!-- Inner container -->
         <div class="d-flex align-items-start flex-column flex-md-row">
             <!-- Left content -->
-            <div class="tab-content w-100 order-2 order-md-1">
-                <div class="tab-pane fade" id="activity">
-                    <div class="timeline timeline-left">
-                        <div class="timeline-container">
+            <div class="row">
+                <div class="tab-content w-100 order-2 order-md-1 col-lg-12">
+                    <div class="tab-pane fade" id="activity">
+                        <div class="timeline timeline-left">
+                            <div class="timeline-container">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade active show" id="settings">
-                    <div class="content bg-white">
-                        <!-- Kişisel Bilgiler  -->
-                        <form method="post" enctype="multipart/form-data"
-                              action="{% url 'trainer-settings' id=user.id %}">
-                            {% csrf_token %}
-                            <div class="card">
-                                <div class="card-header header-elements-inline  bg-danger">
-                                    <h6 class="font-weight-bold"><i class="icon-reading mr-2"></i> Kişisel
-                                        Bilgileriniz</h6>
-                                    <div class="header-elements">
-                                        <div class="list-icons">
-                                            <a class="list-icons-item" data-action="collapse"></a>
-                                            <a class="list-icons-item" data-action="reload"></a>
-                                            <a class="list-icons-item" data-action="remove"></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-sm-12">
-                                                <label class="font-weight-bold">* Adınız:</label>
-                                                <input type="text" name="first_name"
-                                                       class="form-control {% if form2.first_name.errors %}border-danger-800{% endif %}"
-                                                       value="{{ form2.first_name.value | default_if_none:"" }}"
-                                                       placeholder="adınızı giriniz">
-                                                {% if form2.first_name.errors %}
-                                                    {% for error in form2.first_name.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </div>
-                                            <div class="col-lg-6 col-sm-12">
-                                                <label class="font-weight-bold">* Soyad:</label>
-                                                <input type="text" name="last_name"
-                                                       class="form-control {% if form2.last_name.errors %}border-danger-800{% endif %}"
-                                                       value="{{ form2.last_name.value | default_if_none:"" }}"
-                                                       placeholder="soyadınızı giriniz">
-                                                {% if form2.last_name.errors %}
-                                                    {% for error in form2.last_name.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
+                    <div class="tab-pane fade active show" id="settings">
+                        <div class="content bg-white">
+                            <!-- Kişisel Bilgiler  -->
+                            <form method="post" enctype="multipart/form-data"
+                                  action="{% url 'trainer-settings' id=user.id %}">
+                                {% csrf_token %}
+                                <div class="card">
+                                    <div class="card-header header-elements-inline  bg-danger">
+                                        <h6 class="font-weight-bold"><i class="icon-reading mr-2"></i> Kişisel
+                                            Bilgileriniz</h6>
+                                        <div class="header-elements">
+                                            <div class="list-icons">
+                                                <a class="list-icons-item" data-action="collapse"></a>
+                                                <a class="list-icons-item" data-action="reload"></a>
+                                                <a class="list-icons-item" data-action="remove"></a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group my-4">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-sm-12">
-                                                <label class="font-weight-bold">Kullanıcı Adı:</label>
-                                                <input type="text" name="username"
-                                                       class="form-control {% if form2.username.errors %}border-danger-800{% endif %}"
-                                                       value="{{ form2.username.value | default_if_none:"" }}"
-                                                       placeholder="kullanıcı adı giriniz">
-                                                {% if form2.username.errors %}
-                                                    {% for error in form2.username.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </div>
-                                            <div class="col-lg-6 col-sm-12">
-                                                <label class="font-weight-bold">Email:</label>
-                                                <input type="text" name="email"
-                                                       class="form-control {% if form2.email.errors %}border-danger-800{% endif %}"
-                                                       value="{{ form2.email.value | default_if_none:"" }}"
-                                                       placeholder="email giriniz">
-                                                {% if form2.email.errors %}
-                                                    {% for error in form2.email.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div class="card-body">
 
-                                    <div class="form-group my-4">
-                                        <div class="row">
-                                            <div class="form-group mb-3 mb-md-2 col-lg-6 col-sm-12">
-                                                <label class="d-block font-weight-bold">Cinsiyet:</label>
-                                                <div class="custom-control  custom-radio custom-control-inline">
-                                                    <input type="radio" class="custom-control-input"
-                                                           name="trainer_gender" id="custom_radio_inline_unchecked"
-                                                           value="male"
-                                                           {% if form_tr_setting.trainer_gender.value == "male" %}checked="checked"{% endif %}>
-                                                    <label class="custom-control-label"
-                                                           for="custom_radio_inline_unchecked">Erkek</label>
-                                                </div>
-
-                                                <div class="custom-control custom-radio custom-control-inline  mx-4">
-                                                    <input type="radio" class="custom-control-input"
-                                                           name="trainer_gender" id="custom_radio_inline_checked"
-                                                           value="female"
-                                                           {% if form_tr_setting.trainer_gender.value == "female" %}checked="checked"{% endif %}>
-                                                    <label class="custom-control-label "
-                                                           for="custom_radio_inline_checked">Kadın</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="font-weight-bold">Yaş:</label>
-                                                <input type="number" name="age"
-                                                       class="form-control {% if form_tr_setting.age.errors %}border-danger-800{% endif %}"
-                                                       value="{{ form_tr_setting.age.value | default_if_none:"" }}"
-                                                       placeholder="Yaş alanını doldurunuz.">
-                                                {% if form_tr_setting.age.errors %}
-                                                    {% for error in form_tr_setting.age.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group my-4">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-sm-12">
-                                                <label class="font-weight-bold">Telefon:</label>
-                                                <input type="text" name="phone"
-                                                       class="form-control {% if form_tr_setting.phone.errors %}border-danger-800{% endif %}"
-                                                       value="{{ form_tr_setting.phone.value | default_if_none:"" }}"
-                                                       placeholder="Telefon numaranızı giriniz">
-                                                {% if form_tr_setting.phone.errors %}
-                                                    {% for error in form_tr_setting.phone.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <label class="font-weight-bold">IBAN NUMARASI:</label>
-                                                <input type="text" name="iban"
-                                                       class="form-control {% if form_tr_setting.iban.errors %}border-danger-800{% endif %}"
-                                                       value="{{ form_tr_setting.iban.value | default_if_none:"" }}"
-                                                       placeholder="IBAN alanını doldurunuz.">
-                                                {% if form_tr_setting.iban.errors %}
-                                                    {% for error in form_tr_setting.iban.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group my-4">
-                                        <div class="col-md-12 mt-4">
-                                            <fieldset>
-                                                <legend class="font-weight-semibold"><i class="icon-book mr-2"></i>
-                                                    Adres
-                                                    bilgileri
-                                                </legend>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label class="font-weight-bold">Tam Adres:</label>
-                                                            <input type="text" name="address"
-                                                                   class="form-control {% if form.address.errors %}border-danger-800{% endif %}"
-                                                                   value="{{ form_tr_setting.address.value | default_if_none:"" }}">
-                                                            {% if form_tr_setting.address.errors %}
-                                                                {% for error in form_tr_setting.address.errors %}
-                                                                    <small class="text-danger-800">* {{ error }}</small>
-                                                                    <br/>
-                                                                {% endfor %}
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                    <div class="form-group my-4">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-sm-12">
-                                                <fieldset>
-                                                    <legend class="font-weight-semibold"><i
-                                                            class="icon-camera mr-2"></i>
-                                                        Profil Fotoğrafı
-                                                    </legend>
-
-                                                    <input type="file" name="avatar" multiple="multiple"
-                                                           class="file-input-custom {% if form_tr_setting.avatar.errors %}border-danger-800{% endif %}"
-                                                           accept="image/*"
-                                                           data-fouc>
-                                                    <span class="form-text text-muted">Kabul edilen formatlar: görüntü/*. Max boyut 2Mb</span>
-                                                    {% if form_tr_setting.avatar.errors %}
-                                                        {% for error in form_tr_setting.avatar.errors %}
-                                                            <small class="text-danger-800">* {{ error }}</small>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <label class="font-weight-bold">* Adınız:</label>
+                                                    <input type="text" name="first_name"
+                                                           class="form-control {% if form2.first_name.errors %}border-danger-800{% endif %}"
+                                                           value="{{ form2.first_name.value | default_if_none:"" }}"
+                                                           placeholder="adınızı giriniz">
+                                                    {% if form2.first_name.errors %}
+                                                        {% for error in form2.first_name.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small><br/>
                                                         {% endfor %}
                                                     {% endif %}
+                                                </div>
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <label class="font-weight-bold">* Soyad:</label>
+                                                    <input type="text" name="last_name"
+                                                           class="form-control {% if form2.last_name.errors %}border-danger-800{% endif %}"
+                                                           value="{{ form2.last_name.value | default_if_none:"" }}"
+                                                           placeholder="soyadınızı giriniz">
+                                                    {% if form2.last_name.errors %}
+                                                        {% for error in form2.last_name.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small><br/>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group my-4">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <label class="font-weight-bold">Kullanıcı Adı:</label>
+                                                    <input type="text" name="username"
+                                                           class="form-control {% if form2.username.errors %}border-danger-800{% endif %}"
+                                                           value="{{ form2.username.value | default_if_none:"" }}"
+                                                           placeholder="kullanıcı adı giriniz">
+                                                    {% if form2.username.errors %}
+                                                        {% for error in form2.username.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small><br/>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <label class="font-weight-bold">Email:</label>
+                                                    <input type="text" name="email"
+                                                           class="form-control {% if form2.email.errors %}border-danger-800{% endif %}"
+                                                           value="{{ form2.email.value | default_if_none:"" }}"
+                                                           placeholder="email giriniz">
+                                                    {% if form2.email.errors %}
+                                                        {% for error in form2.email.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small><br/>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group my-4">
+                                            <div class="row">
+                                                <div class="form-group mb-3 mb-md-2 col-lg-6 col-sm-12">
+                                                    <label class="d-block font-weight-bold">Cinsiyet:</label>
+                                                    <div class="custom-control  custom-radio custom-control-inline">
+                                                        <input type="radio" class="custom-control-input"
+                                                               name="trainer_gender" id="custom_radio_inline_unchecked"
+                                                               value="male"
+                                                               {% if form_tr_setting.trainer_gender.value == "male" %}checked="checked"{% endif %}>
+                                                        <label class="custom-control-label"
+                                                               for="custom_radio_inline_unchecked">Erkek</label>
+                                                    </div>
+
+                                                    <div class="custom-control custom-radio custom-control-inline  mx-4">
+                                                        <input type="radio" class="custom-control-input"
+                                                               name="trainer_gender" id="custom_radio_inline_checked"
+                                                               value="female"
+                                                               {% if form_tr_setting.trainer_gender.value == "female" %}checked="checked"{% endif %}>
+                                                        <label class="custom-control-label "
+                                                               for="custom_radio_inline_checked">Kadın</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="font-weight-bold">Yaş:</label>
+                                                    <input type="number" name="age"
+                                                           class="form-control {% if form_tr_setting.age.errors %}border-danger-800{% endif %}"
+                                                           value="{{ form_tr_setting.age.value | default_if_none:"" }}"
+                                                           placeholder="Yaş alanını doldurunuz.">
+                                                    {% if form_tr_setting.age.errors %}
+                                                        {% for error in form_tr_setting.age.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small><br/>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group my-4">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <label class="font-weight-bold">Telefon:</label>
+                                                    <input type="text" name="phone"
+                                                           class="form-control {% if form_tr_setting.phone.errors %}border-danger-800{% endif %}"
+                                                           value="{{ form_tr_setting.phone.value | default_if_none:"" }}"
+                                                           placeholder="Telefon numaranızı giriniz">
+                                                    {% if form_tr_setting.phone.errors %}
+                                                        {% for error in form_tr_setting.phone.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small><br/>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label class="font-weight-bold">IBAN NUMARASI:</label>
+                                                    <input type="text" name="iban"
+                                                           class="form-control {% if form_tr_setting.iban.errors %}border-danger-800{% endif %}"
+                                                           value="{{ form_tr_setting.iban.value | default_if_none:"" }}"
+                                                           placeholder="IBAN alanını doldurunuz.">
+                                                    {% if form_tr_setting.iban.errors %}
+                                                        {% for error in form_tr_setting.iban.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small><br/>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+
+                                            <div class="row">
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <label class="font-weight-bold">Mezun Olduğunuz Okul:</label>
+                                                    <input type="text" name="school"
+                                                           class="form-control {% if form_tr_setting.school.errors %}border-danger-800{% endif %}"
+                                                           value="{{ form_tr_setting.school.value | default_if_none:"" }}"
+                                                           placeholder="Alanı doldurunuz...">
+                                                    {% if form_tr_setting.school.errors %}
+                                                        {% for error in form_tr_setting.school.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small><br/>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <label class="font-weight-bold">Mezuniyet Yılınız:</label>
+                                                    <input class="form-control {% if form_tr_setting.graduation_year.errors %} border-danger-800{% endif %}"
+                                                           type="date" name="graduation_year"
+                                                           value="{{ form_tr_setting.graduation_year.value | date:"Y-m-d" }}">
+                                                    {% if form_tr_setting.last_name.errors %}
+                                                        {% for error in form_tr_setting.last_name.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small><br/>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group my-4">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <label class="font-weight-bold">Önceden Çalıştığınız Kurum:</label>
+                                                    <input type="text" name="old_institution"
+                                                           class="form-control {% if form_tr_setting.old_institution.errors %} border-danger-800 {% endif %}"
+                                                           value="{{ form_tr_setting.old_institution.value | default_if_none:"" }}"
+                                                           placeholder="Önceden Çalıştığınız kurum">
+                                                    {% if form_tr_setting.old_institution.errors %}
+                                                        {% for error in form_tr_setting.old_institution.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small><br/>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <label class="font-weight-bold">Tecrübeniz :</label>
+                                                    <input type="number" name="experience"
+                                                           class="form-control {% if form_tr_setting.experience.errors %}border-danger-800{% endif %}"
+                                                           value="{{ form_tr_setting.experience.value |default_if_none:"" }}"
+                                                           placeholder="Toplam tecrübe yılını giriniz">
+                                                    {% if form_tr_setting.experience.errors %}
+                                                        {% for error in form_tr_setting.experience.errors %}
+                                                            <small class="text-danger-800">* {{ error }}</small><br/>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group my-4">
+                                            <div class="col-md-12 mt-4">
+                                                <fieldset>
+                                                    <legend class="font-weight-semibold"><i class="icon-book mr-2"></i>
+                                                        Adres
+                                                        bilgileri
+                                                    </legend>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="font-weight-bold">Tam Adres:</label>
+                                                                <input type="text" name="address"
+                                                                       class="form-control {% if form.address.errors %}border-danger-800{% endif %}"
+                                                                       value="{{ form_tr_setting.address.value | default_if_none:"" }}">
+                                                                {% if form_tr_setting.address.errors %}
+                                                                    {% for error in form_tr_setting.address.errors %}
+                                                                        <small class="text-danger-800">* {{ error }}</small>
+                                                                        <br/>
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
                                                 </fieldset>
                                             </div>
                                         </div>
+
+
+                                        <div class="form-group my-4">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-sm-12">
+                                                    <fieldset>
+                                                        <legend class="font-weight-semibold"><i
+                                                                class="icon-camera mr-2"></i>
+                                                            Profil Fotoğrafı
+                                                        </legend>
+
+                                                        <input type="file" name="avatar" multiple="multiple"
+                                                               class="file-input-custom {% if form_tr_setting.avatar.errors %}border-danger-800{% endif %}"
+                                                               accept="image/*"
+                                                               data-fouc>
+                                                        <span class="form-text text-muted">Kabul edilen formatlar: görüntü/*. Max boyut 2Mb</span>
+                                                        {% if form_tr_setting.avatar.errors %}
+                                                            {% for error in form_tr_setting.avatar.errors %}
+                                                                <small class="text-danger-800">* {{ error }}</small>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
                                     </div>
-
-
                                 </div>
+                                <!-- /Kişisel Bilgiler -->
+
+
+                                <div class="text-right">
+
+                                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!--/Belgeler ve sertifikalar-->
+                    </div>
+
+                </div>
+                <!-- Left content -->
+                <div class="tab-content w-100 my-3 order-2 order-md-1 col-lg-12">
+                    <div class="tab-pane fade" id="activity">
+                        <div class="timeline timeline-left">
+                            <div class="timeline-container">
                             </div>
-                            <!-- /Kişisel Bilgiler -->
+                        </div>
+                    </div>
+                    <div class="tab-pane fade active show" id="settings">
+                        <div class="content bg-white">
+                            <!-- Kişisel Bilgiler  -->
+                            <form method="post" enctype="multipart/form-data"
+                                  action="{% url 'cv-upload-view'  id=user.id %}">
+                                {% csrf_token %}
 
-                            <!--Eğitim ve çalışma hayatı-->
-                            <div class="card">
-                                <div class="card-header header-elements-inline bg-success">
-                                    <h6 class="font-weight-bold"><i class="icon-book mr-2"></i>Eğitim ve
-                                        Çalışma Hayatınız</h6>
-                                    <div class="header-elements">
-                                        <div class="list-icons">
-                                            <a class="list-icons-item" data-action="collapse"></a>
-                                            <a class="list-icons-item" data-action="reload"></a>
-                                            <a class="list-icons-item" data-action="remove"></a>
+                                <!--Eğitim ve çalışma hayatı-->
+                                <div class="card">
+                                    <div class="card-header header-elements-inline bg-success">
+                                        <h6 class="font-weight-bold"><i class="icon-book mr-2"></i>CV</h6>
+                                        <div class="header-elements">
+                                            <div class="list-icons">
+                                                <a class="list-icons-item" data-action="collapse"></a>
+                                                <a class="list-icons-item" data-action="reload"></a>
+                                                <a class="list-icons-item" data-action="remove"></a>
+                                            </div>
                                         </div>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="form-group my-4">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <fieldset>
+                                                        <legend class="font-weight-bold"><i
+                                                                class="icon-file-upload2 mx-2"></i>Sistemdeki Cvleriniz
+                                                        </legend>
+
+                                                        <table class="table table-bordered table-hover datatable-highlight ">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>CV</th>
+                                                                <th class="text-center">İşlemler</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            {% for cv in cv_uploads %}
+                                                                <tr>
+                                                                    <td>
+                                                                        {{ cv.cv_path | default_if_none:"" }}
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="{{ cv.get_delete_url }}"
+                                                                           class="text-dark"><i
+                                                                                class="fas fa-trash text-danger"></i>
+                                                                            Sil</a>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </fieldset>
+
+                                                </div>
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <fieldset>
+                                                        <legend class="font-weight-bold"><i
+                                                                class="icon-file-upload2 mx-2"></i> CV Yükleme Alanı
+                                                        </legend>
+
+                                                        <input type="file" name="cv_path" multiple="multiple"
+                                                               class="file-input "
+                                                               accept="pdf/*"
+                                                               data-fouc>
+                                                        <span class="form-text text-muted">Kabul edilen formatlar: .pdf/*. Max boyut 2Mb</span>
+                                                    </fieldset>
+                                                </div>
+                                                <div></div>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 </div>
-                                <div class="card-body">
+                                <!--/Eğitim ve çalışma hayatı-->
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!--/Belgeler ve sertifikalar-->
+                    </div>
 
-                                    <div class="form-group">
-
-
-                                        <div class="row">
-                                            <div class="col-lg-6 col-sm-12">
-                                                <label class="font-weight-bold">Mezun Olduğunuz Okul:</label>
-                                                <input type="text" name="school"
-                                                       class="form-control {% if form_tr_setting.school.errors %}border-danger-800{% endif %}"
-                                                       value="{{ form_tr_setting.school.value | default_if_none:"" }}"
-                                                       placeholder="Alanı doldurunuz...">
-                                                {% if form_tr_setting.school.errors %}
-                                                    {% for error in form_tr_setting.school.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </div>
-                                            <div class="col-lg-6 col-sm-12">
-                                                <label class="font-weight-bold">Mezuniyet Yılınız:</label>
-                                                <input class="form-control {% if form_tr_setting.graduation_year.errors %} border-danger-800{% endif %}"
-                                                       type="date" name="graduation_year"
-                                                       value="{{ form_tr_setting.graduation_year.value | date:"Y-m-d" }}">
-                                                {% if form_tr_setting.last_name.errors %}
-                                                    {% for error in form_tr_setting.last_name.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="form-group my-4">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-sm-12">
-                                                <label class="font-weight-bold">Önceden Çalıştığınız Kurum:</label>
-                                                <input type="text" name="old_institution"
-                                                       class="form-control {% if form_tr_setting.old_institution.errors %} border-danger-800 {% endif %}"
-                                                       value="{{ form_tr_setting.old_institution.value | default_if_none:"" }}"
-                                                       placeholder="Önceden Çalıştığınız kurum">
-                                                {% if form_tr_setting.old_institution.errors %}
-                                                    {% for error in form_tr_setting.old_institution.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </div>
-                                            <div class="col-lg-6 col-sm-12">
-                                                <label class="font-weight-bold">Tecrübeniz :</label>
-                                                <input type="number" name="experience"
-                                                       class="form-control {% if form_tr_setting.experience.errors %}border-danger-800{% endif %}"
-                                                       value="{{ form_tr_setting.experience.value |default_if_none:"" }}"
-                                                       placeholder="Toplam tecrübe yılını giriniz">
-                                                {% if form_tr_setting.experience.errors %}
-                                                    {% for error in form_tr_setting.experience.errors %}
-                                                        <small class="text-danger-800">* {{ error }}</small><br/>
-                                                    {% endfor %}
-                                                {% endif %}
+                </div>
+                <!-- Left content -->
+                <div class="tab-content w-100 my-3 order-2 order-md-1 col-lg-12">
+                    <div class="tab-pane fade" id="activity">
+                        <div class="timeline timeline-left">
+                            <div class="timeline-container">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade active show" id="settings">
+                        <div class="content bg-white">
+                            <!-- Kişisel Bilgiler  -->
+                            <form method="post" enctype="multipart/form-data"
+                                  action="{% url 'documantation-upload-view' id=user.id %}">
+                                {% csrf_token %}
+                                <!--Belgeler ve sertifikalar-->
+                                <div class="card bg-light">
+                                    <div class="card-header header-elements-inline bg-primary">
+                                        <h6 class="font-weight-bold collapsed"><i class="icon-files-empty2 mr-2"></i>Belge
+                                            ve
+                                            Sertifikalarınız</h6>
+                                        <div class="header-elements">
+                                            <div class="list-icons">
+                                                <a class="list-icons-item" data-action="collapse"></a>
+                                                <a class="list-icons-item" data-action="fullscreen"></a>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="card-body">
 
-                                    <div class="form-group my-4">
                                         <div class="row">
-                                            <div class="col-lg-12 col-sm-12">
+                                            <div class="col-lg-6">
                                                 <fieldset>
                                                     <legend class="font-weight-bold"><i
-                                                            class="icon-file-upload2 mx-2"></i> CV Yükleme Alanı
+                                                            class="icon-file-upload2 mx-2"></i>Sistemdeki Cvleriniz
                                                     </legend>
-                                                    {% for cv in trainers %}
-                                                        <p>{{ cv.cv.url }}</p>
-                                                    {% endfor %}
 
-                                                    <input type="file" name="cv" multiple="multiple"
-                                                           class="file-input {% if form_tr_setting.cv.errors %}border-danger-800{% endif %}"
+                                                    <table class="table table-bordered table-hover datatable-highlight ">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>CV</th>
+                                                            <th class="text-center">İşlemler</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        {% for docs in doc_data %}
+                                                            <tr>
+                                                                <td>
+                                                                    {{ docs.doc_name | default_if_none:"" }}
+                                                                </td>
+                                                                <td>
+                                                                    <a href="{{ docs.get_delete_url }}"
+                                                                       class="text-dark"><i
+                                                                            class="fas fa-trash text-danger"></i>
+                                                                        Sil</a>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </fieldset>
+
+                                            </div>
+                                            <div class="col-lg-6 col-sm-12">
+                                                <fieldset>
+                                                    <legend class="font-weight-bold"><i
+                                                            class="icon-file-upload2 mx-2"></i> Belge Ve Sertifika Yükleme Alanı
+                                                    </legend>
+                                                    <label for="" class="font-weight-bold"><span class="text-danger">*</span>Belge ve Sertifika Adı</label>
+                                                    <input type="text" class="form-control mb-2" name="doc_name" placeholder="Lütfen Sertifika ve Belgelerinizin Adını giriniz" required>
+                                                    <input type="file" name="trainer_document" multiple="multiple"
+                                                           class="file-input"
                                                            accept="pdf/*"
                                                            data-fouc>
                                                     <span class="form-text text-muted">Kabul edilen formatlar: .pdf/*. Max boyut 2Mb</span>
-                                                    {% if form_tr_setting.cv.errors %}
-                                                        {% for error in form_tr_setting.cv.errors %}
-                                                            <small class="text-danger-800">* {{ error }}</small>
-                                                        {% endfor %}
-                                                    {% endif %}
                                                 </fieldset>
                                             </div>
                                             <div></div>
                                         </div>
-                                    </div>
 
-
-                                </div>
-                            </div>
-                            <!--/Eğitim ve çalışma hayatı-->
-
-                            <!--Belgeler ve sertifikalar-->
-                            <div class="card bg-light">
-                                <div class="card-header header-elements-inline bg-primary">
-                                    <h6 class="font-weight-bold collapsed"><i class="icon-files-empty2 mr-2"></i>Belge
-                                        ve
-                                        Sertifikalarınız</h6>
-                                    <div class="header-elements">
-                                        <div class="list-icons">
-                                            <a class="list-icons-item" data-action="collapse"></a>
-                                            <a class="list-icons-item" data-action="fullscreen"></a>
-                                        </div>
                                     </div>
                                 </div>
-                                <div class="card-body">
-
-                                    <div class="form-group">
-                                        <div class="form-group col-lg-12 col-sm-12 my-3">
-                                            <label class="d-block">Antrenör Belgesi:</label>
-                                            <input type="file" name="trainer_document" multiple="multiple"
-                                                   class="file-input {% if form_tr_setting.trainer_document.errors %}border-danger-800{% endif %}"
-                                                   accept="pdf/*"
-                                                   data-fouc>
-                                            <span class="form-text text-muted">Kabul edilen formatlar: .pdf/*. Max boyut 2Mb</span>
-                                            {% if form_tr_setting.trainer_document.errors %}
-                                                {% for error in form_tr_setting.trainer_document.errors %}
-                                                    <small class="text-danger-800">* {{ error }}</small><br/>
-                                                {% endfor %}
-                                            {% endif %}
-                                        </div>
-
-                                        <div class="form-group col-lg-12 col-sm-12">
-                                            <label class="d-block">Sertifikalar:</label>
-                                            <input type="file" name="certificate" multiple="multiple"
-                                                   class="file-input {% if form_tr_setting.certificate.errors %}border-danger-800{% endif %}"
-                                                   accept="pdf/*"
-                                                   data-fouc>
-                                            <span class="form-text text-muted">Kabul edilen formatlar: .pdf/*. Max boyut 2Mb</span>
-                                            {% if form_tr_setting.certificate.errors %}
-                                                {% for error in form_tr_setting.certificate.errors %}
-                                                    <small class="text-danger-800">* {{ error }}</small><br/>
-                                                {% endfor %}
-                                            {% endif %}
-                                        </div>
-                                    </div>
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Kaydet</button>
                                 </div>
-                            </div>
-                            <div class="text-right">
-                                <a class="mx-3" href="{% url 'change-password' %}">Şifreyi değiştir </a>
-                                <button type="submit" class="btn btn-primary">Kaydet</button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
+                        <!--/Belgeler ve sertifikalar-->
                     </div>
-                    <!--/Belgeler ve sertifikalar-->
-                </div>
 
+                </div>
+                <!-- /left content -->
             </div>
-            <!-- /left content -->
             <!-- Right sidebar component -->
             <div class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-right wmin-300 border-0 shadow-0 order-1 order-md-2 sidebar-expand-md">
                 <!-- Sidebar content -->
@@ -535,6 +640,12 @@
                                     <a href="#" class="nav-link">
                                         <i class="icon-cog3"></i>
                                         Hesap Ayarları
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'change-password' %}" class="nav-link">
+                                        <i class="icon-compass4"></i>
+                                        Şifreyi Değiştir
                                     </a>
                                 </li>
                             </ul>

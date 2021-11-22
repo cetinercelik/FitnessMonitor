@@ -1599,7 +1599,6 @@ def personal_measurements_fitness_pdf_view(request, id):
 
 # Personal Medical Model Pdf Makers
 def personal_measurements_medical_pdf_view(request, id):
-    # fitness = FitnessInputs.objects.filter(id=id).all()
     medicalmes = get_object_or_404(MedicalInputModel1, id=id)
     template_path = personal_content_template_path + 'reporting_analysis/measurements/measurements_pdf.html'
     response = HttpResponse(content_type='application/pdf')

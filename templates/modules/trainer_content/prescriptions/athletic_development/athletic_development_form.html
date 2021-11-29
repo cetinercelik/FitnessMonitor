@@ -1,10 +1,234 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends './athletic_development_base.html' %}
+{% block title %}
+    Atletik Performans Gelişim Programı
+{% endblock title %}
+{% load static %}
 
-</body>
-</html>
+{% block javascript %}
+    <script src="{% static 'global_assets/js/plugins/forms/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/tables/datatables/extensions/buttons.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_extension_buttons_html5.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_data_sources.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_sorting.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_buttons.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/datatables_advanced.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_select2.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/extensions/jquery_ui/interactions.min.js' %}"></script>
+
+    <!-- Theme JS files -->
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switchery.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switch.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/form_checkboxes_radios.js' %}"></script>
+
+    <!-- Theme JS files -->
+    <script src="{% static 'global_assets/js/plugins/sliders/ion_rangeslider.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/ui/moment/moment_locales.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/extra_sliders_ion.js' %}"></script>
+    <!-- /theme JS files -->
+
+
+{% endblock javascript %}
+
+{% block page_header %}
+    <div class="page-header page-header-light">
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="{% url 'trainer-home' %}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>
+                        Anasayfa</a>
+                    <a href="{% url 'trainer-athletic-development-home' %}" class="breadcrumb-item">
+                        Atletik Performans Gelişim Program Yönetimi</a>
+                    <span class="breadcrumb-item active">Atletik Performans Gelişim Programı </span>
+
+                </div>
+
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h5><i class="mr-1"></i><span class="font-weight-semibold"><a style="color: black"
+                                                                              href="{% url 'trainer-athletic-development-home' %}"><i
+                        class="icon-arrow-left52 fa-2x mr-2"></i></a>Atletik Performans Gelişim Programı - </span>Manuel
+                    Program
+                    Hazırlama
+                </h5>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+            <div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header %}
+
+
+{% block page_content %}
+    <!-- Corporate Table -->
+    <div class="row">
+        <div class="col-lg-12">
+
+
+            <div class="card">
+
+                <div class="card-header header-elements-inline">
+                    <div class="form-group col-md-4 " data-select2-id="265">
+                        <label class="font-weight-bold">Danışan Seç</label>
+                        <select class="form-control select select2-hidden-accessible"
+                                data-container-css-class="border-primary text-primary-700"
+                                data-dropdown-css-class="border-primary" data-fouc="" data-select2-id="22"
+                                tabindex="-1" aria-hidden="true" name="personal">
+                            <optgroup label="Danışanlarınız" data-select2-id="266">
+                                {% for personal in  personals %}
+                                    {% if personal_info.personal.id == personal.id %}
+                                        <option value="{{ personal.id }}"
+                                                selected>{{ personal.user.first_name }} {{ personal.user.last_name }}</option>
+                                    {% else %}
+                                        <option class="perId"
+                                                value="{{ personal.id }}">{{ personal.user.first_name }} {{ personal.user.last_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+
+                    </div>
+                    <div class="header-elements">
+                        <div class="list-icons">
+                            <a class="list-icons-item" data-action="collapse"></a>
+                            <a class="list-icons-item" data-action="reload"></a>
+                            <a class="list-icons-item" data-action="remove"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% for mains in maintitles %}
+                        <div class="card">
+                            <div class="card-header bg-warning-600 header-elements-inline">
+                                <h6 class="card-title">
+                                    <a data-toggle="collapse" class="text-white collapsed"
+                                       href="#collapsible-styled-group{{ mains.id }}" aria-expanded="false"><i
+                                            class="icon-arrow-down15 mr-2"></i>{{ mains.title }}</a>
+                                </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="fullscreen"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapsible-styled-group{{ mains.id }}" class="collapse" style="">
+                                <div class="card-body">
+                                    <div class="row">
+                                        {% for subs in subtitles %}
+                                            {% if mains.id == subs.maintitle_id %}
+
+                                                <div class="card col-lg-12">
+                                                    <form method="post" enctype="multipart/form-data"
+                                                          class="form-nonref col-lg-12"
+                                                          action="{% url 'trainer-athletic-development-create' %}">
+                                                        {% csrf_token %}
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">
+                                                                <a class="text-primary collapsed font-weight-bold"
+                                                                   data-toggle="collapse"
+                                                                   href="#collapsible-control-group{{ subs.id }}"
+                                                                   aria-expanded="false"><i
+                                                                        class="icon-arrow-down15 text-primary mr-3"></i>
+                                                                    {{ subs.sub_title }}</a>
+                                                                {#                                                             <input class="sub_id" value="{{ subs.id }}" type="text" style="display: none">#}
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapsible-control-group{{ subs.id }}"
+                                                             class="collapse" style="">
+                                                            <div class="card-body">
+
+                                                                <fieldset>
+                                                                    <legend></legend>
+                                                                    <div class="row mx-1">
+                                                                        {% for inpts in athinputs %}
+                                                                            {% if subs.id == inpts.subtitle_id %}
+                                                                                <div class="form-check col-lg-6 col-md-12 col-sm-12 ">
+                                                                                    <label class="form-check-label">
+                                                                                        <input class="sub_id"
+                                                                                               value="{{ subs.id }}"
+                                                                                               type="text"
+                                                                                               style="display: none">
+                                                                                        <input type="{{ inpts.inputs_type }}"
+                                                                                               name="stringArr"
+                                                                                               value="{{ inpts.inputs_title | default_if_none:'' }}"
+                                                                                               class="form-check-input-styled-primary inputs-class"
+                                                                                               data-fouc>
+                                                                                        {{ inpts.inputs_title }}
+                                                                                    </label>
+                                                                                </div>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+
+                                                                    </div>
+                                                                </fieldset>
+
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <button type="submit" name="_save" value="_save"
+                                                                    class="btn bg-primary">KAYDET
+                                                                <i class="icon-paperplane ml-2"></i></button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+
+                                            {% endif %}
+
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('.ion-basic').ionRangeSlider({
+            min: 1,
+            max: 20,
+        });
+
+        $('.ion-basic1').ionRangeSlider({
+            min: 1,
+            max: 50,
+        });
+        $(document).on('submit', '.form-nonref', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/athletic_development/trainer/athletic_development/create',
+                data: {
+                    personal_id: $('.perId').val(),
+                    sub_id: $('.sub_id').val(),
+                    inputsname: $('.inputs-class').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function () {
+
+                }
+            });
+        });
+
+    </script>
+    <!-- /corporate table -->
+{% endblock page_content %}
